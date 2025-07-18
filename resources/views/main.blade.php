@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> Project</title>
+    <title> Project baru</title>
     <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
     <meta name="Author" content="Spruko Technologies Private Limited">
 	<meta name="keywords" content="template dashboard, dashboard admin template, admin panel, dashboard admin, bootstrap admin dashboard, bootstrap admin panel, template admin, dashboard, html css, html css js, template css and html, bootstrap 5 admin template, admin dashboard ui, admin, html and css template">
