@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 
 
 Route::get('/', function () {
@@ -25,3 +26,9 @@ Route::get('/dashboard', function () {
     return view('pages.dashboard/dashboard');
 
 })->middleware(['auth', 'verified', 'prevent-back-history'])->name('dashboard');
+
+Route::middleware(['auth', 'prevent-back-history'])->group(function () {
+
+    Route::get('/logout', [LogoutController::class, 'Logout'])->name('page.logout');
+
+});

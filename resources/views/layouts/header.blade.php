@@ -202,7 +202,7 @@
                         <li><a class="dropdown-item d-flex align-items-center" href="mail.html"><i class="ti ti-inbox fs-18 me-2 text-gray fw-normal"></i>Mail Inbox <span class="badge bg-success ms-auto">06</span></a></li>
                         <li><a class="dropdown-item d-flex align-items-center" href="mail-settings.html"><i class="ti ti-adjustments-horizontal fs-18 me-2 text-gray fw-normal"></i>Account Settings</a></li>
                         <li> <hr class="dropdown-divider"> </li>
-                        <li><a class="dropdown-item d-flex align-items-center" href="sign-in-cover.html"><i class="ti ti-logout fs-18 me-2 text-gray fw-normal"></i>Sign Out</a></li>
+                        <li><a class="dropdown-item d-flex align-items-center" href="{{ route('page.logout') }}"><i class="ti ti-logout fs-18 me-2 text-gray fw-normal"></i>Logout</a></li>
                     </ul>
                 </div>
             </div>
