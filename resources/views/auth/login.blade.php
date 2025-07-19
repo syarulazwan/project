@@ -26,6 +26,13 @@
                                     <img src="{{ asset('../assets/images/authentication/6.png') }}" alt="" class="img-fluid ms-4">
                                 </div>
                                 <div class="mt-3">
+                                    @if(session('success'))
+                                        <div class="alert alert-success" role="alert">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="mt-3">
                                     @error('error_message')
                                         <div class="text-danger text-center small">
                                             {{ $message }}
@@ -37,7 +44,8 @@
                                     <div class="row gy-3">
                                         <div class="col-xl-12">
                                             <label class="form-label text-default" for="signin-email">Email Address<sup class="fs-12 text-danger">*</sup></label>
-                                            <input class="form-control signin-email-input @error('email') is-invalid @enderror" id="signin-email" name="email" placeholder="Enter your email address" type="email" value="{{ session('email_value') }}">
+                                            <input class="form-control signin-email-input @error('email') is-invalid @enderror" id="signin-email" name="email" placeholder="Enter your email address" type="email" value="{{ old('email', session('email_value')) }}">
+                                        
                                             <div>
                                                 @error('email')
                                                     <div class="text-danger small">{{ $message }}</div>
@@ -47,7 +55,7 @@
                                         <div class="col-xl-12">
                                             <label class="form-label text-default" for="signin-password">Password<sup class="fs-12 text-danger">*</sup></label>
                                             <div class="input-group"> 
-                                                <input class="form-control signin-password-input @error('password') is-invalid @enderror" id="signin-password" name="password" placeholder="Enter your password" type="password" value="{{ session('password_value') }}">
+                                                <input class="form-control signin-password-input @error('password') is-invalid @enderror" id="signin-password" name="password" placeholder="Enter your password" type="password" value="{{ old('password',session('password_value')) }}">
                                                 <button class="btn btn-primary-light show-password-button" type="button" onclick="createpassword('signin-password', this)">
                                                     <i class="ri-eye-off-line align-middle"></i>
                                                 </button>
@@ -77,7 +85,7 @@
                                     </div>
                                 </form>
                                 <div class="text-center">
-                                    <p class="text-muted mt-3 mb-0">Don't have an account? <a class="text-primary fw-medium text-decoration-underline" href="sign-up-basic.html">Sign Up</a></p>
+                                    <p class="text-muted mt-3 mb-0">Don't have an account? <a class="text-primary fw-medium text-decoration-underline" href="{{ route('sign-up.form') }}">Sign Up</a></p>
                                 </div>
                             </div>
                         </div>

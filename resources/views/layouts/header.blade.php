@@ -190,12 +190,12 @@
                         data-bs-auto-close="outside" 
                         aria-expanded="false">
                         <span class="avatar avatar-sm avatar-rounded position-relative">
-                            <img src="../assets/images/faces/14.jpg" alt="Profile Picture" class="img-fluid rounded-circle">
+                            <img src="{{ asset('../assets/images/faces/14.jpg') }}" alt="Profile Picture" class="img-fluid rounded-circle">
                             <span class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-white" style="width:10px; height:10px;"></span>
                         </span>
                         <div class="d-none d-md-block">
                             <p class="mb-0 fw-semibold lh-1 text-truncate" style="max-width: 150px;">
-                                {{ Auth::user()->name ?? '' }}
+                                {{ Auth::user()->email ?? '' }}
                             </p>
                         </div>
                     </a>

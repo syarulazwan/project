@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegistrationController;
 
 
 Route::get('/', function () {
@@ -18,6 +19,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/login', [LoginController::class, 'index'])->name('login.form'); 
     Route::post('/login', [LoginController::class, 'store'])->name('login');
+
+    Route::get('/register', [RegistrationController::class, 'index'])->name('sign-up.form'); 
+    Route::post('/register', [RegistrationController::class, 'store'])->name('register'); 
 
 });
 
