@@ -1308,10 +1308,26 @@ function doubleClickFn() {
 }
 // double-menu click toggle end
 
-window.addEventListener("unload", () => {
+// window.addEventListener("unload", () => {
+//   let mainContent = document.querySelector(".main-content");
+//   mainContent.removeEventListener("click", clearNavDropdown);
+//   window.removeEventListener("resize", ResizeMenu);
+//   let sidemenulink = document.querySelectorAll(
+//     ".main-menu li > .side-menu__item"
+//   );
+//   sidemenulink.forEach((ele) =>
+//     ele.removeEventListener("click", doubleClickFn)
+//   );
+// });
+
+window.addEventListener("pagehide", () => {
   let mainContent = document.querySelector(".main-content");
-  mainContent.removeEventListener("click", clearNavDropdown);
+  if (mainContent) {
+    mainContent.removeEventListener("click", clearNavDropdown);
+  }
+
   window.removeEventListener("resize", ResizeMenu);
+
   let sidemenulink = document.querySelectorAll(
     ".main-menu li > .side-menu__item"
   );
@@ -1319,6 +1335,7 @@ window.addEventListener("unload", () => {
     ele.removeEventListener("click", doubleClickFn)
   );
 });
+
 
 // for menu scroll to top active page
 let customScrollTop = () => {
