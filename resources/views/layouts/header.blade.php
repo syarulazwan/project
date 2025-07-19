@@ -31,7 +31,7 @@
                         </span>
                     </a>
                 </div>
-                <div class="header-element notifications-dropdown dropdown">
+                {{-- <div class="header-element notifications-dropdown dropdown">
                     <a href="javascript:void(0);" class="header-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" id="messageDropdown" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" class="header-link-icon" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/></svg>
                         <span class="header-icon-pulse bg-secondary rounded pulse pulse-secondary"></span>
@@ -175,7 +175,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="header-element header-fullscreen">
                     <a onclick="openFullscreen();" href="javascript:void(0);" class="header-link">
                         <svg xmlns="http://www.w3.org/2000/svg" class="full-screen-open header-link-icon" height="24px" viewBox="0 0 24 24" width="24px" fill="#5f6368"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
@@ -183,21 +183,23 @@
                     </a>
                 </div>
                 <div class="header-element dropdown">
-                    <a href="javascript:void(0);" class="header-link dropdown-toggle" id="mainHeaderProfile" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        <span class="avatar avatar-sm avatar-rounded">
-                            <img src="../assets/images/faces/14.jpg" alt="img" class="img-fluid">
+                   <a href="javascript:void(0);" 
+                        class="header-link dropdown-toggle d-flex align-items-center gap-2" 
+                        id="mainHeaderProfile" 
+                        data-bs-toggle="dropdown" 
+                        data-bs-auto-close="outside" 
+                        aria-expanded="false">
+                        <span class="avatar avatar-sm avatar-rounded position-relative">
+                            <img src="../assets/images/faces/14.jpg" alt="Profile Picture" class="img-fluid rounded-circle">
+                            <span class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-white" style="width:10px; height:10px;"></span>
                         </span>
+                        <div class="d-none d-md-block">
+                            <p class="mb-0 fw-semibold lh-1 text-truncate" style="max-width: 150px;">
+                                {{ Auth::user()->name ?? '' }}
+                            </p>
+                        </div>
                     </a>
                     <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                        <li class="p-3 bg-light bg-opacity-75 border-bottom">
-                            <div class="d-flex align-items-center justify-content-between gap-4">
-                                <div>
-                                    <p class="mb-0 fw-semibold lh-1">Ashwin Seth</p>
-                                    <span class="fs-11 text-muted">ashwinseth@mail.com</span>
-                                </div>
-                                <span class="badge bg-pink align-self-end mb-1">Pro</span>
-                            </div>
-                        </li>
                         <li><a class="dropdown-item d-flex align-items-center" href="profile.html"><i class="ti ti-user-circle fs-18 me-2 text-gray fw-normal"></i>My Profile</a></li>
                         <li> <hr class="dropdown-divider"> </li>
                         <li><a class="dropdown-item d-flex align-items-center" href="{{ route('page.logout') }}"><i class="ti ti-logout fs-18 me-2 text-gray fw-normal"></i>Logout</a></li>
