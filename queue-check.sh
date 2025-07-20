@@ -9,7 +9,7 @@ PROJECT_DIR="/home2/syarulaz/public_html/project"
 # Command artisan untuk dipantau
 COMMAND="artisan queue:work"
 
-# Log file (untuk debug / audit)
+# Log file (untuk git debug / audit)
 LOG_FILE="$PROJECT_DIR/storage/logs/queue-monitor.log"
 
 # Semak jika queue:work sedang hidup
