@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# PHP 8.2 binary path
-PHP="/usr/local/bin/ea-php82"
+# Path PHP berdasarkan output: which php
+PHP="/usr/local/bin/php"
 
-# Laravel project directory
+# Lokasi projek Laravel
 PROJECT_DIR="/home2/syarulaz/public_html/project"
 
-# Artisan command to monitor
+# Command artisan untuk dipantau
 COMMAND="artisan queue:work"
 
-# Log file location
+# Log file (untuk debug / audit)
 LOG_FILE="$PROJECT_DIR/storage/logs/queue-monitor.log"
 
-# Check if queue:work is running
+# Semak jika queue:work sedang hidup
 if pgrep -f "$COMMAND" > /dev/null
 then
     echo "$(date '+%Y-%m-%d %H:%M:%S') - queue:work is running." >> $LOG_FILE
