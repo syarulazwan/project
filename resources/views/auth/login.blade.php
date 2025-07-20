@@ -16,7 +16,7 @@
     </head>
     <body>
         <div class="row authentication authentication-cover-main mx-0">
-            <div class="col-xxl-5 col-xl-7">
+            <div class="col-xxl-6 col-xl-7">
                 <div class="row justify-content-center align-items-center h-100">
                     <div class="col-xxl-7 col-xl-9 col-lg-6 col-md-6 col-sm-8 col-12">
                         <div class="card custom-card my-auto border authentication-cover-right">
@@ -92,7 +92,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xxl-7 col-xl-5 col-lg-12 d-xl-block d-none px-0">
+            <div class="col-xxl-6 col-xl-5 col-lg-12 d-xl-block d-none px-0">
                 <div class="authentication-cover overflow-hidden">
                     <div class="aunthentication-cover-content d-flex align-items-center justify-content-center">
                         <div>
