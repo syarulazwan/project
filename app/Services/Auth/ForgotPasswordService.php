@@ -2,15 +2,24 @@
 
 namespace App\Services\Auth;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordService
 {
-    public function sendResetLink(array $credentials): bool
+   public function resetPassword(array $credentials): bool
     {
-        $status = Password::sendResetLink($credentials);
+        $user = User::where('email', $credentials['email'])->first();
 
-        return $status === Password::RESET_LINK_SENT;
+        if (!$user) {
+            return false;
+        }
+
+        $user->password = Hash::make($credentials['password']);
+        $user->save();
+
+        return true;
     }
 }

@@ -25,7 +25,7 @@ class ForgotPasswordController extends Controller
 
     public function store(ForgotPasswordRequest $request) {
 
-        $resetPassword = $this->service->sendResetLink($request->validated());
+        $resetPassword = $this->service->resetPassword($request->validated());
 
         if (!$resetPassword) {
             return back()
