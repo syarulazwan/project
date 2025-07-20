@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Path PHP berdasarkan output: which php
+## Path PHP berdasarkan output: which php
 PHP="/usr/local/bin/php"
 
 # Lokasi projek Laravel
