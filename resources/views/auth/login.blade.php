@@ -74,7 +74,7 @@
                                                         Remember me
                                                     </label>
                                                 </div>
-                                                <a href="reset-password-basic.html" class="text-success fw-medium fs-12">Forgot Password?</a>
+                                                <a href="{{ route('forgot.form') }}" class="text-success fw-medium fs-12">Forgot Password?</a>
                                             </div>
                                         </div>
                                     </div>

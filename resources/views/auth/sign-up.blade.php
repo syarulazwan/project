@@ -30,11 +30,12 @@
                             </div>
                             <div class="mt-3">
                                 @error('error_message')
-                                    <div class="text-danger text-center small">
+                                    <div class="alert alert-danger" role="alert">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
+                            <br>
                             <form method="POST" action="{{ route('register') }}">
                                 @csrf
                                 <div class="row gy-3">

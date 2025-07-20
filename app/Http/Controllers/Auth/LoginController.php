@@ -36,9 +36,7 @@ class LoginController extends Controller
         if (!$token) {
             return redirect()->back()
                 ->withErrors([
-                    'error_message' => 'Invalid credentials',
-                    'email' => 'Invalid',
-                    'password' => 'Invalid'
+                    'error_message' => 'Invalid credentials'
                 ])
                 ->withInput() 
                 ->with([

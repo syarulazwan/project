@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
 Route::get('/', function () {
@@ -22,6 +23,9 @@ Route::middleware('guest')->group(function () {
 
     Route::get('/register', [RegistrationController::class, 'index'])->name('sign-up.form'); 
     Route::post('/register', [RegistrationController::class, 'store'])->name('register'); 
+
+    Route::get('/forgot', [ForgotPasswordController::class, 'index'])->name('forgot.form'); 
+    Route::post('/forgot', [ForgotPasswordController::class, 'store'])->name('forgot'); 
 
 });
 
