@@ -23,4 +23,6 @@ jobs:
           script: |
             cd public_html/project
             git pull origin development
+            composer clear-cache
+            composer update
             exit
