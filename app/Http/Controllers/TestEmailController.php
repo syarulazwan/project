@@ -23,15 +23,25 @@ class TestEmailController extends Controller
 
      public function send()
     {
-        $mailer = new Mailer();
-        $result = $mailer->send(
-            'syarulazwan.sa@gmail.com',
-            'Ujian dari PHPMailer Class',
-            '<b>Ini dari reusable Mailer class</b>'
-        );
+       $tests = [
+            ['host' => 'mail.zanko.com.my', 'port' => 587],
+            ['host' => 'mail.zanko.com.my', 'port' => 465],
+            ['host' => 'mail.zanko.com.my', 'port' => 25],
+            ['host' => 'smtp.gmail.com', 'port' => 587],
+        ];
 
-        return is_bool($result) && $result === true
-            ? 'Berjaya hantar emel!'
-            : 'Gagal hantar emel: ' . $result;
+        $output = '';
+        foreach ($tests as $test) {
+            $output .= "⏳ Testing {$test['host']}:{$test['port']}...<br>";
+            $conn = @fsockopen($test['host'], $test['port'], $errno, $errstr, 10);
+            if ($conn) {
+                $output .= "✅ Connected to {$test['host']}:{$test['port']}<br><br>";
+                fclose($conn);
+            } else {
+                $output .= "❌ FAILED to connect: ($errno) $errstr<br><br>";
+            }
+        }
+
+        return response($output);
     }
 }
