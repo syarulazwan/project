@@ -439,6 +439,8 @@ class ChatController extends Controller
 
     public function ask(Request $request)
     {
+        dd(env('OPENAI_API_KEY'));
+        
         $request->validate([
             'question' => 'required|string|max:500',
             'mode' => 'required|in:general,document',
