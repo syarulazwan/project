@@ -1,13 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestEmailController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Project\ChatController;
+
+use App\Http\Controllers\Project\DocumentController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-
-use App\Http\Controllers\Project\ChatController;
-use App\Http\Controllers\Project\DocumentController;
 
 Route::get('/', function () {
 
@@ -60,3 +61,6 @@ Route::prefix('zara')->group(function () {
 Route::get('/documents/list', function () {
     return \App\Models\Document::select('id', 'title')->get();
 })->name('documents.list');
+
+
+Route::get('/test-email', [TestEmailController::class, 'send']);
