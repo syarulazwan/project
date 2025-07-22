@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
+use App\Http\Controllers\Project\ChatController;
+use App\Http\Controllers\Project\DocumentController;
 
 Route::get('/', function () {
 
@@ -40,3 +42,21 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::get('/logout', [LogoutController::class, 'Logout'])->name('page.logout');
 
 });
+
+Route::prefix('zara')->group(function () {
+
+    Route::controller(ChatController::class)->group(function () {
+        Route::get('/', 'index')->name('zara.chat.index');
+        Route::post('/ask', 'ask')->name('zara.chat.ask');
+    });
+
+    Route::prefix('pdf')->controller(DocumentController::class)->group(function () {
+        Route::get('/', 'index')->name('zara.pdf.index');
+        Route::post('/upload', 'upload')->name('zara.pdf.upload');
+    });
+
+});
+
+Route::get('/documents/list', function () {
+    return \App\Models\Document::select('id', 'title')->get();
+})->name('documents.list');
