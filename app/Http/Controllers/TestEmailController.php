@@ -11,9 +11,19 @@ class TestEmailController extends Controller
     public function send()
     {
 
-        echo ini_get('disable_functions');
+        $errno = null;
+    $errstr = null;
+    $timeout = 10;
 
-        
+    $fp = stream_socket_client("tcp://mail.syarulazwan.com:587", $errno, $errstr, $timeout);
+    if (!$fp) {
+        return "❌ Gagal sambung: [$errno] $errstr";
+    } else {
+        fclose($fp);
+        return "✅ Sambungan berjaya ke mail.syarulazwan.com:587";
+    }
+
+
         // $subject = 'Ujian Emel Laravel';
         // $body = "Hai Syarul Azwan,\n\nIni adalah ujian emel dari sistem Laravel.\n\nTerima kasih.";
 
