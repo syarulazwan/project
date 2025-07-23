@@ -11,28 +11,28 @@ class TestEmailController extends Controller
     public function send()
     {
 
-        $errno = null;
-    $errstr = null;
-    $timeout = 10;
+    //     $errno = null;
+    // $errstr = null;
+    // $timeout = 10;
 
-    $fp = stream_socket_client("tcp://mail.syarulazwan.com:587", $errno, $errstr, $timeout);
-    if (!$fp) {
-        return "❌ Gagal sambung: [$errno] $errstr";
-    } else {
-        fclose($fp);
-        return "✅ Sambungan berjaya ke mail.syarulazwan.com:587";
-    }
+    // $fp = stream_socket_client("tcp://mail.syarulazwan.com:587", $errno, $errstr, $timeout);
+    // if (!$fp) {
+    //     return "❌ Gagal sambung: [$errno] $errstr";
+    // } else {
+    //     fclose($fp);
+    //     return "✅ Sambungan berjaya ke mail.syarulazwan.com:587";
+    // }
 
 
-        // $subject = 'Ujian Emel Laravel';
-        // $body = "Hai Syarul Azwan,\n\nIni adalah ujian emel dari sistem Laravel.\n\nTerima kasih.";
+        $subject = 'Ujian Emel Laravel';
+        $body = "Hai Syarul Azwan,\n\nIni adalah ujian emel dari sistem Laravel.\n\nTerima kasih.";
 
-        // Mail::raw($body, function ($message) use ($subject) {
-        //     $message->to('syarulazwan.sa@gmail.com')
-        //             ->subject($subject);
-        // });
+        Mail::raw($body, function ($message) use ($subject) {
+            $message->to('syarulazwan.sa@gmail.com')
+                    ->subject($subject);
+        });
 
-        // return 'Emel telah dihantar ke syarulazwan.sa@gmail.com';
+        return 'Emel telah dihantar ke syarulazwan.sa@gmail.com';
     }
 
     //  public function send()
