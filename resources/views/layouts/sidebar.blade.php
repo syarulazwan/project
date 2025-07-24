@@ -99,6 +99,34 @@
                                 </ul>
                             </li>
                             <li class="slide side-menu__label1">
+                                <a href="javascript:void(0)">Organization Management</a>
+                            </li>
+                            <li class="slide has-sub">
+                                <a href="javascript:void(0);" class="side-menu__item">
+                                    Organization Management <i class="ri-arrow-right-s-line side-menu__angle"></i>
+                                </a>
+                                <ul class="slide-menu child2">
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Company</a>
+                                    </li>
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Branch</a>
+                                    </li>
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Department</a>
+                                    </li>
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Unit</a>
+                                    </li>
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Job Grade</a>
+                                    </li>
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Designation</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="slide side-menu__label1">
                                 <a href="javascript:void(0)">Access Management</a>
                             </li>
                             <li class="slide has-sub">
