@@ -22,22 +22,44 @@
                         </a>
                     </li>
 
-                    <li class="slide has-sub">
+                     <li class="slide has-sub">
                         <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="ri-user-line side-menu__icon"></i>
+                            <i class="ri-settings-3-line side-menu__icon"></i>
                             <span class="side-menu__label">Profile</span>
                             <i class="ri-arrow-right-s-line side-menu__angle"></i>
                         </a>
                         <ul class="slide-menu child1">
                             <li class="slide side-menu__label1">
-                                <a href="javascript:void(0)">My Profile</a>
+                                <a href="javascript:void(0)">Profile</a>
                             </li>
                             <li class="slide">
                                 <a href="401-error.html" class="side-menu__item">My Profile</a>
                             </li>
+                            <li class="slide has-sub">
+                                <a href="javascript:void(0);" class="side-menu__item">
+                                    Request Access to document<i class="ri-arrow-right-s-line side-menu__angle"></i>
+                                </a>
+                                <ul class="slide-menu child2">
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">User</a>
+                                    </li>
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Approver</a>
+                                    </li>
+                                </ul>
+                            </li>
+                             <li class="slide has-sub">
+                                <a href="javascript:void(0);" class="side-menu__item">
+                                    Existing Access<i class="ri-arrow-right-s-line side-menu__angle"></i>
+                                </a>
+                                <ul class="slide-menu child2">
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">List of Documents</a>
+                                    </li>
+                                </ul>
+                            </li>
                         </ul>
                     </li>
-
                     <li class="slide has-sub">
                         <a href="javascript:void(0);" class="side-menu__item">
                             <i class="ri-folder-line side-menu__icon"></i>
@@ -50,6 +72,9 @@
                             </li>
                             <li class="slide">
                                 <a href="401-error.html" class="side-menu__item">My Project</a>
+                            </li>
+                            <li class="slide">
+                                <a href="401-error.html" class="side-menu__item">List Of Project</a>
                             </li>
                         </ul>
                     </li>
