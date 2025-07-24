@@ -78,7 +78,6 @@
                             </li>
                         </ul>
                     </li>
-
                     <li class="slide has-sub">
                         <a href="javascript:void(0);" class="side-menu__item">
                             <i class="ri-settings-3-line side-menu__icon"></i>
@@ -99,7 +98,6 @@
                                     </li>
                                 </ul>
                             </li>
-
                             <li class="slide side-menu__label1">
                                 <a href="javascript:void(0)">Access Management</a>
                             </li>
@@ -116,6 +114,19 @@
                                     </li>
                                     <li class="slide">
                                         <a href="blog.html" class="side-menu__item">Permission</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="slide has-sub">
+                                <a href="javascript:void(0);" class="side-menu__item">
+                                    Audit Management <i class="ri-arrow-right-s-line side-menu__angle"></i>
+                                </a>
+                                <ul class="slide-menu child2">
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">Access Log</a>
+                                    </li>
+                                    <li class="slide">
+                                        <a href="blog.html" class="side-menu__item">General Log</a>
                                     </li>
                                 </ul>
                             </li>
