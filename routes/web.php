@@ -5,10 +5,14 @@ use App\Http\Controllers\TestEmailController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Project\ChatController;
-
 use App\Http\Controllers\Project\DocumentController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Administration\Access\Menu\MenuController;
+use App\Http\Controllers\Administration\Access\Role\RoleController;
+use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
+use App\Http\Controllers\Administration\UserManagemenet\User\UserController;
+use App\Http\Controllers\Administration\Access\Permission\PermissionController;
 
 Route::get('/', function () {
 
@@ -42,7 +46,43 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
     Route::get('/logout', [LogoutController::class, 'Logout'])->name('page.logout');
 
+    Route::post('/switch-role', [SwitchRoleController::class, 'switch'])->name('switch.role');
+
+    Route::prefix('administration')->group(function () {
+
+        Route::prefix('user-management')->group(function () {
+            Route::prefix('user')->controller(UserController::class)->group(function () {
+                Route::get('/', 'index')->name('user-management.user.index');
+                Route::get('/ajax', 'getUserAjax')->name('user-management.user.ajax');
+            });
+        });
+
+        Route::prefix('access-management')->group(function () {
+
+            Route::prefix('menu')->controller(MenuController::class)->group(function () {
+                Route::get('/', 'index')->name('access-management.menu.index');
+                Route::get('/ajax', 'getMenuAjax')->name('access-management.menu.ajax');
+            });
+
+            Route::prefix('role')->controller(RoleController::class)->group(function () {
+                Route::get('/', 'index')->name('access-management.role.index');
+                Route::get('/ajax', 'getRoleAjax')->name('access-management.role.ajax');
+            });
+
+            Route::prefix('permission')->controller(PermissionController::class)->group(function () {
+                Route::get('/', 'index')->name('access-management.permission.index');
+                Route::get('/ajax', 'getPermissionAjax')->name('access-management.permission.ajax');
+            });
+
+        });
+
+    });
+
 });
+
+
+
+
 
 Route::prefix('zara')->group(function () {
 
