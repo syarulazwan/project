@@ -13,16 +13,8 @@ return new class extends Migration
     {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('idp0')->nullable();
-            $table->unsignedBigInteger('idp1')->nullable();
-            $table->unsignedBigInteger('idp2')->nullable();
-            $table->unsignedBigInteger('idp3')->nullable();
-            $table->string('name');
-            $table->string('code');
-            $table->string('url');
-            $table->string('route')->nullable(); 
-            $table->string('icon')->nullable();
-            $table->integer('priority')->default(0);
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
             $table->unsignedBigInteger('created_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
