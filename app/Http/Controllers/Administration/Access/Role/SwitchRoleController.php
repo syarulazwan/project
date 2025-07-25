@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Administration\Access\Role;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\Administration\Access\Role\RoleService;
 
 class SwitchRoleController extends Controller
 {

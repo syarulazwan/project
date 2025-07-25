@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Role extends Model
 {
     use SoftDeletes;
+
+    public function permissions()
+    {
+        return $this->hasMany(Permission::class);
+    }
 }
