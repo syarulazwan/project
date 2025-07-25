@@ -1,4 +1,68 @@
 
+@php
+
+    $path = Request::path(); 
+    use Illuminate\Support\Str;
+
+    function renderSidebarMenu($items, $path, $level = 1)
+    {
+        $currentPath = trim($path, '/');
+
+        foreach ($items as $item) {
+            $menu = $item['menu'];
+            $children = $item['children'] ?? [];
+            $hasChildren = count($children) > 0;
+
+            $menuPath = trim($menu->url, '/');
+            $isActive = $menuPath !== '' && Str::startsWith($currentPath, $menuPath) ? 'active' : '';
+
+            $liClass = 'slide' . ($hasChildren ? ' has-sub' : '');
+
+            // If this is a label section (i.e. just a label, not clickable, maybe use `route` or `type` to differentiate)
+            if ($menu->route === 'label') {
+                echo '<li class="slide side-menu__label1">';
+                echo '<a href="javascript:void(0)">' . $menu->name . '</a>';
+                echo '</li>';
+                continue;
+            }
+
+            echo '<li class="' . $liClass . '">';
+
+            $url = $hasChildren ? 'javascript:void(0);' : url('/' . ltrim($menu->url, '/'));
+            echo '<a href="' . $url . '" class="side-menu__item ' . $isActive . '">';
+
+            if ($level === 1) {
+                // Show icon and label only for top-level menu
+                echo '<i class="' . ($menu->icon ?? 'ri-folder-line') . ' side-menu__icon"></i>';
+                echo '<span class="side-menu__label">' . $menu->name . '</span>';
+            } else {
+                // For children, label only
+                echo $menu->name;
+            }
+
+            if ($hasChildren) {
+                echo '<i class="ri-arrow-right-s-line side-menu__angle"></i>';
+            }
+
+            echo '</a>';
+
+            if ($hasChildren) {
+                echo '<ul class="slide-menu child' . $level . '">';
+
+                foreach ($children as $child) {
+                    renderSidebarMenu([$child], $path, $level + 1);
+                }
+
+                echo '</ul>';
+            }
+
+            echo '</li>';
+        }
+    }
+
+
+
+@endphp
 
 <aside class="app-sidebar sticky" id="sidebar">
         <div class="main-sidebar-header">
@@ -15,151 +79,13 @@
                     <svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path> </svg>
                 </div>
                 <ul class="main-menu">
-                    <li class="slide">
-                        <a href="widgets.html" class="side-menu__item active">
-                            <i class="ri-dashboard-line side-menu__icon"></i>
-                            <span class="side-menu__label">Dashboard</span>
-                        </a>
-                    </li>
+                    @php
+                        $menuTree = buildMenuTree($menuTree);
+                        $allowedMenuIds = session('allowed_menu_ids', []);
+                        $filteredMenuTree = filterMenuTree($menuTree, $allowedMenuIds);
+                        renderSidebarMenu($filteredMenuTree, $path); 
+                    @endphp
 
-                     <li class="slide has-sub">
-                        <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="ri-user-3-line side-menu__icon"></i>
-                            <span class="side-menu__label">Profile</span>
-                            <i class="ri-arrow-right-s-line side-menu__angle"></i>
-                        </a>
-                        <ul class="slide-menu child1">
-                            <li class="slide side-menu__label1">
-                                <a href="javascript:void(0)">Profile</a>
-                            </li>
-                            <li class="slide">
-                                <a href="401-error.html" class="side-menu__item">My Profile</a>
-                            </li>
-                            <li class="slide has-sub">
-                                <a href="javascript:void(0);" class="side-menu__item">
-                                    Request Access to document<i class="ri-arrow-right-s-line side-menu__angle"></i>
-                                </a>
-                                <ul class="slide-menu child2">
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">User</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Approver</a>
-                                    </li>
-                                </ul>
-                            </li>
-                             <li class="slide has-sub">
-                                <a href="javascript:void(0);" class="side-menu__item">
-                                    Existing Access<i class="ri-arrow-right-s-line side-menu__angle"></i>
-                                </a>
-                                <ul class="slide-menu child2">
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">List of Documents</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="slide has-sub">
-                        <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="ri-folder-line side-menu__icon"></i>
-                            <span class="side-menu__label">Project</span>
-                            <i class="ri-arrow-right-s-line side-menu__angle"></i>
-                        </a>
-                        <ul class="slide-menu child1">
-                            <li class="slide side-menu__label1">
-                                <a href="javascript:void(0)">My Project</a>
-                            </li>
-                            <li class="slide">
-                                <a href="401-error.html" class="side-menu__item">My Project</a>
-                            </li>
-                            <li class="slide">
-                                <a href="401-error.html" class="side-menu__item">List Of Project</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="slide has-sub">
-                        <a href="javascript:void(0);" class="side-menu__item">
-                            <i class="ri-settings-3-line side-menu__icon"></i>
-                            <span class="side-menu__label">Administration</span>
-                            <i class="ri-arrow-right-s-line side-menu__angle"></i>
-                        </a>
-                        <ul class="slide-menu child1">
-                            <li class="slide side-menu__label1">
-                                <a href="javascript:void(0)">User Management</a>
-                            </li>
-                            <li class="slide has-sub">
-                                <a href="javascript:void(0);" class="side-menu__item">
-                                    User Management <i class="ri-arrow-right-s-line side-menu__angle"></i>
-                                </a>
-                                <ul class="slide-menu child2">
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">User</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="slide side-menu__label1">
-                                <a href="javascript:void(0)">Organization Management</a>
-                            </li>
-                            <li class="slide has-sub">
-                                <a href="javascript:void(0);" class="side-menu__item">
-                                    Organization Management <i class="ri-arrow-right-s-line side-menu__angle"></i>
-                                </a>
-                                <ul class="slide-menu child2">
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Company</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Branch</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Department</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Unit</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Job Grade</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Designation</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="slide side-menu__label1">
-                                <a href="javascript:void(0)">Access Management</a>
-                            </li>
-                            <li class="slide has-sub">
-                                <a href="javascript:void(0);" class="side-menu__item">
-                                    Access Management <i class="ri-arrow-right-s-line side-menu__angle"></i>
-                                </a>
-                                <ul class="slide-menu child2">
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Role</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Menu</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Permission</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="slide has-sub">
-                                <a href="javascript:void(0);" class="side-menu__item">
-                                    Audit Management <i class="ri-arrow-right-s-line side-menu__angle"></i>
-                                </a>
-                                <ul class="slide-menu child2">
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">Access Log</a>
-                                    </li>
-                                    <li class="slide">
-                                        <a href="blog.html" class="side-menu__item">General Log</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
                 </ul>
                 <div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#7b8191" width="24" height="24" viewBox="0 0 24 24"> <path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path> </svg></div>
             </nav>
