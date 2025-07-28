@@ -39,11 +39,11 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    <div class="card-header">
+                    {{-- <div class="card-header">
                         <div class="card-title">
                             Filter Datatable
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                     </div>
                 </div>
@@ -52,11 +52,11 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    <div class="card-header">
+                    {{-- <div class="card-header">
                         <div class="card-title">
                             Basic Datatable
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tableuser" class="table table-bordered text-nowrap w-100">
