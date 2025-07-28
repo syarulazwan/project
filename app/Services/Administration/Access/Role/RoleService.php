@@ -7,7 +7,7 @@ class RoleService
 {
     public function getRole()
     {
-        return Role::select('id', 'name')->get();
+        return Role::select('id', 'name', 'created_id', 'created_at', 'updated_at')->get();
     }
 
     public function getRoleIdByName(string $roleName): ?int
