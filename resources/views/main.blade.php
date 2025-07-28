@@ -70,6 +70,7 @@
     {{-- <script src="{{ asset('assets/js/sales-dashboard.js') }}"></script> --}}
     <script src="{{ asset('assets/js/custom_full.js') }}"></script>
     <script src="{{ asset('assets/js/custom-switcher.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     @stack('scripts')
 </body>
 
