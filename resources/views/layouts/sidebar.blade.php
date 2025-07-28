@@ -1,8 +1,26 @@
 
 @php
-
-    $path = Request::path(); 
     use Illuminate\Support\Str;
+
+    $path = Request::path();
+
+    function hasActiveChild($children, $currentPath)
+    {
+        foreach ($children as $child) {
+            $menuPath = trim($child['menu']->url, '/');
+            if ($menuPath !== '' && Str::startsWith($currentPath, $menuPath)) {
+                return true;
+            }
+
+            if (!empty($child['children'])) {
+                if (hasActiveChild($child['children'], $currentPath)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     function renderSidebarMenu($items, $path, $level = 1)
     {
@@ -14,11 +32,14 @@
             $hasChildren = count($children) > 0;
 
             $menuPath = trim($menu->url, '/');
-            $isActive = $menuPath !== '' && Str::startsWith($currentPath, $menuPath) ? 'active' : '';
+            $isActive = $menuPath !== '' && Str::startsWith($currentPath, $menuPath);
+            $hasActiveChild = $hasChildren && hasActiveChild($children, $currentPath);
 
-            $liClass = 'slide' . ($hasChildren ? ' has-sub' : '');
+            $liClass = 'slide';
+            if ($hasChildren) $liClass .= ' has-sub';
+            if ($isActive || $hasActiveChild) $liClass .= ' open';
 
-            // If this is a label section (i.e. just a label, not clickable, maybe use `route` or `type` to differentiate)
+            // Label menu
             if ($menu->route === 'label') {
                 echo '<li class="slide side-menu__label1">';
                 echo '<a href="javascript:void(0)">' . $menu->name . '</a>';
@@ -29,14 +50,13 @@
             echo '<li class="' . $liClass . '">';
 
             $url = $hasChildren ? 'javascript:void(0);' : url('/' . ltrim($menu->url, '/'));
-            echo '<a href="' . $url . '" class="side-menu__item ' . $isActive . '">';
+            $aClass = 'side-menu__item' . ($isActive ? ' active' : '');
+            echo '<a href="' . $url . '" class="' . $aClass . '">';
 
             if ($level === 1) {
-                // Show icon and label only for top-level menu
                 echo '<i class="' . ($menu->icon ?? 'ri-folder-line') . ' side-menu__icon"></i>';
                 echo '<span class="side-menu__label">' . $menu->name . '</span>';
             } else {
-                // For children, label only
                 echo $menu->name;
             }
 
@@ -47,7 +67,8 @@
             echo '</a>';
 
             if ($hasChildren) {
-                echo '<ul class="slide-menu child' . $level . '">';
+                $ulStyle = ($isActive || $hasActiveChild) ? 'style="display: block;"' : '';
+                echo '<ul class="slide-menu child' . $level . '" ' . $ulStyle . '>';
 
                 foreach ($children as $child) {
                     renderSidebarMenu([$child], $path, $level + 1);
@@ -59,8 +80,8 @@
             echo '</li>';
         }
     }
-
 @endphp
+
 
 <aside class="app-sidebar sticky" id="sidebar">
     <div class="main-sidebar-header">
