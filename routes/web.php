@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Administration\Access\Menu\MenuController;
 use App\Http\Controllers\Administration\Access\Role\RoleController;
 use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
-use App\Http\Controllers\Administration\UserManagemenet\User\UserController;
+use App\Http\Controllers\Administration\UserManagement\User\UserController;
 use App\Http\Controllers\Administration\Access\Permission\PermissionController;
 
 Route::get('/', function () {

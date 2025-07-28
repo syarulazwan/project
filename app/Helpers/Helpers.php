@@ -1,4 +1,5 @@
 <?php
+use Carbon\Carbon;
 
 if (!function_exists('pr')) {
     function pr($data)
@@ -149,6 +150,26 @@ if (!function_exists('filterMenuTree')) {
         }
 
         return $filtered;
+    }
+}
+
+if (!function_exists('format_date')) {
+    function format_date($date, $format = 'd-m-Y H:i:s', $fallback = '-')
+    {
+        try {
+            if (empty($date)) {
+                return $fallback;
+            }
+
+            if ($date instanceof Carbon) {
+                return $date->format($format);
+            }
+
+            return Carbon::parse($date)->format($format);
+
+        } catch (\Exception $e) {
+            return $fallback;
+        }
     }
 }
 
