@@ -84,7 +84,7 @@
                         <a class="nav-item">
                             <span class="nav-link d-flex align-items-center justify-content-center px-3 py-2 text-white"
                                 style="background-color: #410681; border-radius: 6px; font-size: 12px;">
-                                <i class="lang-txt fa fa-check-square-o me-2"></i>
+                                <i class="lang-txt fa fa-check-square-o"></i>
                                 <span class="text-uppercase">{{ $main }}</span>
                             </span>
                         </a>
