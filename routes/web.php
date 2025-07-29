@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Administration\Access\Menu\MenuController;
 use App\Http\Controllers\Administration\Access\Role\RoleController;
+use App\Http\Controllers\Administration\Organization\BranchController;
 use App\Http\Controllers\Administration\Organization\CompanyController;
 use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
 use App\Http\Controllers\Administration\UserManagement\User\UserController;
@@ -82,6 +83,11 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('company')->controller(CompanyController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.company.index');
                 Route::get('/ajax', 'getCompanyAjax')->name('organization-management.company.ajax');
+            });
+
+            Route::prefix('branch')->controller(BranchController::class)->group(function () {
+                Route::get('/', 'index')->name('organization-management.branch.index');
+                Route::get('/ajax', 'getBranchAjax')->name('organization-management.branch.ajax');
             });
 
         });
