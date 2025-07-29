@@ -11,16 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('pdf_sections', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->timestamps();
-        // });
-
-        Schema::create('pdf_sections', function (Blueprint $table) {
+        Schema::create('document_chunks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('document_id')->constrained();
-            $table->integer('page');
-            $table->text('content');
+            $table->foreignId('document_id')->constrained()->onDelete('cascade');
+            $table->longText('content')->charset('utf8mb4')->collation('utf8mb4_unicode_ci');
+            $table->json('embedding');
             $table->timestamps();
         });
     }
@@ -30,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pdf_sections');
+        Schema::dropIfExists('document_chunks');
     }
 };

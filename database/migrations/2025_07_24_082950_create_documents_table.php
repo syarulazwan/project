@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('pdf_sections', function (Blueprint $table) {
-            $table->json('embedding')->nullable(); // simpan vector
+        Schema::create('documents', function (Blueprint $table) {
+            $table->id();
+            $table->string('title');
+            $table->string('file_path');
+            $table->string('status')->default('pending');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('pdf_sections', function (Blueprint $table) {
-            $table->dropColumn('embedding');
-        });
+        Schema::dropIfExists('documents');
     }
 };

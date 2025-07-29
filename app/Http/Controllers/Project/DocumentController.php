@@ -2,51 +2,55 @@
 
 namespace App\Http\Controllers\Project;
 
+
 use Illuminate\Http\Request;
 use App\Models\Document;
-use App\Models\PdfSection;
+use App\Models\DocumentChunk;
+use App\Services\OpenAIService;
 use Smalot\PdfParser\Parser;
-use \Illuminate\Support\Facades\Artisan;
-use App\Jobs\VectorizePdfSectionsJob;
+use App\Jobs\ProcessPdfJob;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 
 class DocumentController extends Controller
 {
-    public function index()
+    public function uploadPage()
     {
-        return view('admin.pdf');
+        $documents = Document::latest()->get();
+        return view('chatai.upload', compact('documents'));
     }
 
     public function upload(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'pdf' => 'required|mimes:pdf',
+            'pdf' => 'required|mimes:pdf|max:51200',
         ]);
 
         $file = $request->file('pdf');
-        $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-        $file->storeAs('/pdfs', $filename);
+        $path = $file->store('public/pdfs');
 
-        $document = Document::create([
-            'title' => $request->title,
-            'filename' => $filename,
+        $doc = Document::create([
+            'title' => $file->getClientOriginalName(),
+            'file_path' => $path,
+            'status' => 'pending'
         ]);
-
-        $parser = new Parser();
-        $pdf = $parser->parseFile(storage_path('app/private/pdfs/' . $filename));
-        $pages = $pdf->getPages();
-
-        foreach ($pages as $index => $page) {
-            PdfSection::create([
-                'document_id' => $document->id,
-                'page' => $index + 1,
-                'content' => $page->getText(),
-            ]);
+        if (!$doc || !$doc->id) {
+            throw new \Exception("Failed to save document before dispatching job.");
         }
-        // Artisan::call('vectorize:pdf');
-        VectorizePdfSectionsJob::dispatch();
+        ProcessPdfJob::dispatch($doc->id); // Background processing
 
-        return back()->with('success', 'PDF berjaya dimuat naik dan diproses!');
+        return redirect('zara/pdf/')->with('status', 'File uploaded. Processing in background.');
+    }
+
+    public function destroy(Document $document)
+    {
+        // Optional: delete the file from storage
+        if (Storage::exists($document->file_path)) {
+            Storage::delete($document->file_path);
+        }
+
+        $document->delete();
+
+        return redirect()->back()->with('success', 'PDF deleted successfully.');
     }
 }

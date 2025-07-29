@@ -9,21 +9,14 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    // public function up(): void
-    // {
-    //     Schema::create('chats', function (Blueprint $table) {
-    //         $table->id();
-    //         $table->timestamps();
-    //     });
-    // }
-
-    public function up()
+    public function up(): void
     {
-        Schema::create('chats', function (Blueprint $table) {
+        Schema::create('chat_histories', function (Blueprint $table) {
             $table->id();
+            $table->enum('chat_type', ['general', 'specific']);
+            $table->foreignId('document_id')->nullable()->constrained('documents')->onDelete('cascade');
             $table->text('question');
-            $table->text('answer')->nullable();
-            $table->json('metadata')->nullable()->change();
+            $table->longText('answer');
             $table->timestamps();
         });
     }
@@ -33,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chats');
+        Schema::dropIfExists('chat_histories');
     }
 };

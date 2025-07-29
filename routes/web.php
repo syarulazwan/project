@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Project\DIDController;
 use App\Http\Controllers\TestEmailController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
@@ -121,27 +122,23 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
 });
 
-
-
-
-
 Route::prefix('zara')->group(function () {
 
+    // Chat routes
     Route::controller(ChatController::class)->group(function () {
-        Route::get('/', 'index')->name('zara.chat.index');
-        Route::post('/ask', 'ask')->name('zara.chat.ask');
+        Route::get('/chat', 'main')->name('chatai.chat.index');
+        Route::post('/chat/ask', 'ask')->name('chatai.chat.ask');
     });
 
+    // PDF upload routes
     Route::prefix('pdf')->controller(DocumentController::class)->group(function () {
-        Route::get('/', 'index')->name('zara.pdf.index');
-        Route::post('/upload', 'upload')->name('zara.pdf.upload');
+        Route::get('/', 'uploadPage')->name('chatai.pdf.index');
+        Route::post('/upload', 'upload')->name('chatai.pdf.upload');
+        Route::delete('/{document}', 'destroy')->name('chatai.pdf.delete');
     });
 
+    // D-ID video route
+    Route::get('/api/did/video/{id}', [DIDController::class, 'getVideo'])->name('chatai.did.video');
 });
-
-Route::get('/documents/list', function () {
-    return \App\Models\Document::select('id', 'title')->get();
-})->name('documents.list');
-
 
 Route::get('/test-email', [TestEmailController::class, 'send']);
