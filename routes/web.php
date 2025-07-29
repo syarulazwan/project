@@ -13,6 +13,7 @@ use App\Http\Controllers\Administration\Access\Role\RoleController;
 use App\Http\Controllers\Administration\Organization\BranchController;
 use App\Http\Controllers\Administration\Organization\CompanyController;
 use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
+use App\Http\Controllers\Administration\Orgnization\DepartmentController;
 use App\Http\Controllers\Administration\UserManagement\User\UserController;
 use App\Http\Controllers\Administration\Access\Permission\PermissionController;
 
@@ -88,6 +89,11 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('branch')->controller(BranchController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.branch.index');
                 Route::get('/ajax', 'getBranchAjax')->name('organization-management.branch.ajax');
+            });
+
+            Route::prefix('department')->controller(DepartmentController::class)->group(function () {
+                Route::get('/', 'index')->name('organization-management.department.index');
+                Route::get('/ajax', 'getDepartmentAjax')->name('organization-management.department.ajax');
             });
 
         });
