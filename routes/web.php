@@ -16,6 +16,7 @@ use App\Http\Controllers\Administration\Organization\CompanyController;
 use App\Http\Controllers\Administration\Organization\JobGradeController;
 use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
 use App\Http\Controllers\Administration\Orgnization\DepartmentController;
+use App\Http\Controllers\Administration\Organization\DesignationController;
 use App\Http\Controllers\Administration\UserManagement\User\UserController;
 use App\Http\Controllers\Administration\Access\Permission\PermissionController;
 
@@ -106,6 +107,11 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('job-grade')->controller(JobGradeController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.job-grade.index');
                 Route::get('/ajax', 'getJobGradeAjax')->name('organization-management.job-grade.ajax');
+            });
+
+            Route::prefix('designation')->controller(DesignationController::class)->group(function () {
+                Route::get('/', 'index')->name('organization-management.designation.index');
+                Route::get('/ajax', 'getDesignationAjax')->name('organization-management.designation.ajax');
             });
 
 

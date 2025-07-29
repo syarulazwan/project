@@ -29,7 +29,7 @@ INSERT INTO `menus` (`id`, `idp0`, `idp1`, `idp2`, `idp3`, `name`, `code`, `url`
 (17,11,14,0,0,'Department','D1230','administration/organization-management/department',NULL,NULL,17,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
 (18,11,14,0,0,'Unit','D1240','administration/organization-management/unit',NULL,NULL,18,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
 (19,11,14,0,0,'Job Grade','D1250','administration/organization-management/job-grade',NULL,NULL,19,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
-(20,11,14,0,0,'Designation','D1260','administration/organization-management/department',NULL,NULL,20,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
+(20,11,14,0,0,'Designation','D1260','administration/organization-management/designation',NULL,NULL,20,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
 (21,11,0,0,0,'Access Management','D1300','administration/access-management',NULL,NULL,21,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
 (22,11,21,0,0,'Role','D1310','administration/access-management/role',NULL,NULL,22,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
 (23,11,21,0,0,'Menu','D1320','administration/access-management/menu',NULL,NULL,23,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
