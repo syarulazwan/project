@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Project\DIDController;
 use App\Http\Controllers\TestEmailController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Project\DIDController;
 use App\Http\Controllers\Project\ChatController;
 use App\Http\Controllers\Project\DocumentController;
 use App\Http\Controllers\Auth\RegistrationController;
@@ -16,7 +16,7 @@ use App\Http\Controllers\Administration\Organization\BranchController;
 use App\Http\Controllers\Administration\Organization\CompanyController;
 use App\Http\Controllers\Administration\Organization\JobGradeController;
 use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
-use App\Http\Controllers\Administration\Orgnization\DepartmentController;
+use App\Http\Controllers\Administration\Organization\DepartmentController;
 use App\Http\Controllers\Administration\Organization\DesignationController;
 use App\Http\Controllers\Administration\UserManagement\User\UserController;
 use App\Http\Controllers\Administration\Access\Permission\PermissionController;
