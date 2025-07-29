@@ -27,7 +27,7 @@ class DocumentController extends Controller
         ]);
 
         $file = $request->file('pdf');
-        $path = $file->store('pdfs');
+        $path = $file->storeAs('/pdfs', $file);
 
         $doc = Document::create([
             'title' => $file->getClientOriginalName(),
