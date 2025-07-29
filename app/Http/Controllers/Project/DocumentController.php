@@ -27,7 +27,7 @@ class DocumentController extends Controller
         ]);
 
         $file = $request->file('pdf');
-        $path = $file->store('public/pdfs');
+        $path = $file->store('private/public/pdfs');
 
         $doc = Document::create([
             'title' => $file->getClientOriginalName(),
