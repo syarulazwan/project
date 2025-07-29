@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Administration\Access\Menu\MenuController;
 use App\Http\Controllers\Administration\Access\Role\RoleController;
+use App\Http\Controllers\Administration\Organization\UnitController;
 use App\Http\Controllers\Administration\Organization\BranchController;
 use App\Http\Controllers\Administration\Organization\CompanyController;
 use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
@@ -95,6 +96,12 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
                 Route::get('/', 'index')->name('organization-management.department.index');
                 Route::get('/ajax', 'getDepartmentAjax')->name('organization-management.department.ajax');
             });
+
+            Route::prefix('unit')->controller(UnitController::class)->group(function () {
+                Route::get('/', 'index')->name('organization-management.unit.index');
+                Route::get('/ajax', 'getUnitAjax')->name('organization-management.unit.ajax');
+            });
+
 
         });
 
