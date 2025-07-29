@@ -115,15 +115,15 @@
                         width: '5%' 
                     },
                      {
-                        targets: 3,
+                        targets: 6,
                         className: 'text-center',
                     },
                     {
-                        targets: 4,
+                        targets: 7,
                         className: 'text-center',
                     },
                     {
-                        targets: 5,
+                        targets: 8,
                         className: 'text-center',
                         width: '20%' 
                     }
