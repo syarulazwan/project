@@ -27,20 +27,24 @@ class DocumentController extends Controller
         ]);
 
         $file = $request->file('pdf');
-        $path = $file->storeAs('/pdfs', $file);
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $path = $file->storeAs('pdfs', $filename);
 
         $doc = Document::create([
             'title' => $file->getClientOriginalName(),
             'file_path' => $path,
             'status' => 'pending'
         ]);
+
         if (!$doc || !$doc->id) {
             throw new \Exception("Failed to save document before dispatching job.");
         }
+
         ProcessPdfJob::dispatch($doc->id); // Background processing
 
         return redirect('zara/pdf/')->with('status', 'File uploaded. Processing in background.');
     }
+
 
     public function destroy(Document $document)
     {
