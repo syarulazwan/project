@@ -15,7 +15,7 @@ class ChatController extends Controller
     public function main()
     {
         $documents = Document::all();
-        return view('chatai.chat_main', compact('documents'));
+        return view('pages.project.zara.chat.chat', compact('documents'));
     }
 
     public function ask(Request $request)

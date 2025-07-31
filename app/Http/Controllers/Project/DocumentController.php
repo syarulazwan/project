@@ -17,7 +17,7 @@ class DocumentController extends Controller
     public function uploadPage()
     {
         $documents = Document::latest()->get();
-        return view('chatai.upload', compact('documents'));
+        return view('pages.project.zara.pdf.pdf', compact('documents'));
     }
 
     public function upload(Request $request)
