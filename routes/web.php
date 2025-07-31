@@ -8,7 +8,12 @@ use App\Http\Controllers\Project\DIDController;
 use App\Http\Controllers\Project\ChatController;
 use App\Http\Controllers\Project\DocumentController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Project\MyProjectController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Project\ListProjectController;
+use App\Http\Controllers\Profile\RequestAccessController;
+use App\Http\Controllers\Profile\ExistingAccessController;
+use App\Http\Controllers\Profile\RequestAccessApproverController;
 use App\Http\Controllers\Administration\Access\Menu\MenuController;
 use App\Http\Controllers\Administration\Access\Role\RoleController;
 use App\Http\Controllers\Administration\Organization\UnitController;
@@ -139,26 +144,42 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::prefix('profile')->group(function () {
 
         Route::prefix('request-access-to-document')->group(function () {
-            Route::prefix('user')->controller(UserController::class)->group(function () {
+            Route::prefix('user')->controller(RequestAccessController::class)->group(function () {
                 Route::get('/', 'index')->name('profile.request-access-to-document.index');
                 Route::get('/ajax', 'getUserAjax')->name('profile.request-access-to-document.ajax');
             });
 
-            // Route::prefix('approver')->controller(UserController::class)->group(function () {
-            //     Route::get('/', 'index')->name('user-management.user.index');
-            //     Route::get('/ajax', 'getUserAjax')->name('user-management.user.ajax');
-            // });
+            Route::prefix('approver')->controller(RequestAccessApproverController::class)->group(function () {
+                Route::get('/', 'index')->name('user-management.user.index');
+                Route::get('/ajax', 'getUserAjax')->name('user-management.user.ajax');
+            });
 
         });
 
-        // Route::prefix('existing-access')->group(function () {
+        Route::prefix('existing-access')->group(function () {
 
-        //     Route::prefix('list-of-documents')->controller(MenuController::class)->group(function () {
-        //         Route::get('/', 'index')->name('access-management.menu.index');
-        //         Route::get('/ajax', 'getMenuAjax')->name('access-management.menu.ajax');
-        //     });
+            Route::prefix('list-of-documents')->controller(ExistingAccessController::class)->group(function () {
+                Route::get('/', 'index')->name('access-management.menu.index');
+                Route::get('/ajax', 'getMenuAjax')->name('access-management.menu.ajax');
+            });
 
-        // });
+        });
+
+    });
+
+    Route::prefix('project')->group(function () {
+
+        Route::prefix('my-project')->controller(MyProjectController::class)->group(function () {
+            Route::get('/', 'index')->name('project.my-project.index');
+            Route::get('/ajax', 'getUserAjax')->name('project.my-project.ajax');
+        });
+
+        Route::prefix('list-of-project')->controller(ListProjectController::class)->group(function () {
+            Route::get('/', 'index')->name('project.list-project.index');
+            Route::get('/ajax', 'getUserAjax')->name('project.list-project.ajax');
+        });
+
+      
 
     });
 
@@ -185,4 +206,3 @@ Route::prefix('zara')->group(function () {
     Route::get('/api/did/video/{id}', [DIDController::class, 'getVideo'])->name('chatai.did.video');
 });
 
-Route::get('/test-email', [TestEmailController::class, 'send']);
