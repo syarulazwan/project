@@ -150,8 +150,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             });
 
             Route::prefix('approver')->controller(RequestAccessApproverController::class)->group(function () {
-                Route::get('/', 'index')->name('user-management.user.index');
-                Route::get('/ajax', 'getUserAjax')->name('user-management.user.ajax');
+                Route::get('/', 'index')->name('profile.approver.index');
+                Route::get('/ajax', 'getUserAjax')->name('profile.approver.ajax');
             });
 
         });
@@ -159,8 +159,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::prefix('existing-access')->group(function () {
 
             Route::prefix('list-of-documents')->controller(ExistingAccessController::class)->group(function () {
-                Route::get('/', 'index')->name('access-management.menu.index');
-                Route::get('/ajax', 'getMenuAjax')->name('access-management.menu.ajax');
+                Route::get('/', 'index')->name('existing-access.list-of-documents.index');
+                Route::get('/ajax', 'getMenuAjax')->name('existing-access.list-of-documents.ajax');
             });
 
         });
