@@ -136,6 +136,34 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
     });
 
+    Route::prefix('profile')->group(function () {
+
+        Route::prefix('request-access-to-document')->group(function () {
+            Route::prefix('user')->controller(UserController::class)->group(function () {
+                Route::get('/', 'index')->name('profile.request-access-to-document.index');
+                Route::get('/ajax', 'getUserAjax')->name('profile.request-access-to-document.ajax');
+            });
+
+            // Route::prefix('approver')->controller(UserController::class)->group(function () {
+            //     Route::get('/', 'index')->name('user-management.user.index');
+            //     Route::get('/ajax', 'getUserAjax')->name('user-management.user.ajax');
+            // });
+
+        });
+
+        // Route::prefix('existing-access')->group(function () {
+
+        //     Route::prefix('list-of-documents')->controller(MenuController::class)->group(function () {
+        //         Route::get('/', 'index')->name('access-management.menu.index');
+        //         Route::get('/ajax', 'getMenuAjax')->name('access-management.menu.ajax');
+        //     });
+
+        // });
+
+    });
+
+
+
 });
 
 Route::prefix('zara')->group(function () {
