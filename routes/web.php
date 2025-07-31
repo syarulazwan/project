@@ -179,6 +179,25 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::get('/ajax', 'getUserAjax')->name('project.list-project.ajax');
         });
 
+        Route::prefix('zara')->group(function () {
+
+            // Chat routes
+            Route::controller(ChatController::class)->group(function () {
+                Route::get('/chat', 'main')->name('chatai.chat.index');
+                Route::post('/chat/ask', 'ask')->name('chatai.chat.ask');
+            });
+
+            // PDF upload routes
+            Route::prefix('pdf')->controller(DocumentController::class)->group(function () {
+                Route::get('/', 'uploadPage')->name('chatai.pdf.index');
+                Route::post('/upload', 'upload')->name('chatai.pdf.upload');
+                Route::delete('/{document}', 'destroy')->name('chatai.pdf.delete');
+            });
+
+            // D-ID video route
+            Route::get('/api/did/video/{id}', [DIDController::class, 'getVideo'])->name('chatai.did.video');
+        });
+
       
 
     });
@@ -187,22 +206,5 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
 });
 
-Route::prefix('zara')->group(function () {
 
-    // Chat routes
-    Route::controller(ChatController::class)->group(function () {
-        Route::get('/chat', 'main')->name('chatai.chat.index');
-        Route::post('/chat/ask', 'ask')->name('chatai.chat.ask');
-    });
-
-    // PDF upload routes
-    Route::prefix('pdf')->controller(DocumentController::class)->group(function () {
-        Route::get('/', 'uploadPage')->name('chatai.pdf.index');
-        Route::post('/upload', 'upload')->name('chatai.pdf.upload');
-        Route::delete('/{document}', 'destroy')->name('chatai.pdf.delete');
-    });
-
-    // D-ID video route
-    Route::get('/api/did/video/{id}', [DIDController::class, 'getVideo'])->name('chatai.did.video');
-});
 
