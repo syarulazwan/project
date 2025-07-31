@@ -19,6 +19,7 @@ use App\Http\Controllers\Administration\Access\Role\SwitchRoleController;
 use App\Http\Controllers\Administration\Organization\DepartmentController;
 use App\Http\Controllers\Administration\Organization\DesignationController;
 use App\Http\Controllers\Administration\UserManagement\User\UserController;
+use App\Http\Controllers\Administration\AuditManagement\AccessLogController;
 use App\Http\Controllers\Administration\Access\Permission\PermissionController;
 
 Route::get('/', function () {
@@ -113,6 +114,15 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('designation')->controller(DesignationController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.designation.index');
                 Route::get('/ajax', 'getDesignationAjax')->name('organization-management.designation.ajax');
+            });
+
+        });
+
+        Route::prefix('audit-management')->group(function () {
+
+            Route::prefix('access-log')->controller(AccessLogController::class)->group(function () {
+                Route::get('/', 'index')->name('audit-management.access-log.index');
+                Route::get('/ajax', 'getAccessLogAjax')->name('audit-management.access-log.ajax');
             });
 
 
