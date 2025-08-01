@@ -64,14 +64,14 @@
 
         .wizard-sidebar li.current,
         .wizard-sidebar li:hover {
-        background: #410681;
+        background: #38487c;
         color: white;
         }
 
         .wizard-sidebar li.current span,
         .wizard-sidebar li:hover span {
         background: white;
-        color: #410681;
+        color: #38487c;
         }
 
         .wizard-form {
@@ -98,7 +98,7 @@
         button {
         padding: 10px 25px;
         border: none;
-        background: #410681;
+        background: #38487c;
         color: white;
         border-radius: 6px;
         font-weight: bold;
@@ -125,31 +125,29 @@
         }
 
         @media (max-width: 768px) {
-    .wizard-container {
-        flex-direction: column;
-    }
+            .wizard-container {
+                flex-direction: column;
+            }
 
-    .wizard-sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #ddd;
-    }
+            .wizard-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
 
-    .wizard-form {
-        padding: 20px;
-    }
+            .wizard-form {
+                padding: 20px;
+            }
 
-    .form-controls {
-        flex-direction: column;
-        gap: 10px;
-    }
+            .form-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
 
-    .form-controls button {
-        width: 100%;
-    }
-}
-
-
+            .form-controls button {
+                width: 100%;
+            }
+        }
 
 </style>
 
@@ -181,6 +179,26 @@
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-body">
+                        <div class="main-profile-cover text-fixed-white">
+                            <div class="p-xl-5 p-2 z-1">
+                                <div class="p-4 bg-black-transparent rounded-3 border border-opacity-10 border-white">
+                                    <div class="d-flex gap-3 align-items-center flex-wrap">
+                                        <div>
+                                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="" class="img-fluid rounded-circle p-2 bg-success bg-opacity-25 shadow">
+                                        </div>
+                                        <div>
+                                            <h4 class="text-fixed-white mb-1">Ashwin Seth </h4>
+                                            <p class="mb-1 op-6 fs-15"><i class="ri-briefcase-fill lh-1 align-middle me-2 d-inline-block"></i>Lead Product Designer</p>
+                                            <div class="d-flex gap-3 align-items-center flex-wrap">
+                                                <p class="mb-0 op-6 fs-15"><i class="ri-map-pin-line lh-1 align-middle me-2 d-inline-block"></i>settle, Usa</p>
+                                                <span class="op-3">|</span>
+                                                <p class="mb-0 op-6 fs-15"><i class="ri-mail-line lh-1 align-middle me-2 d-inline-block"></i>ashwinseth.mail.com</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -192,30 +210,40 @@
                         <div class="wizard-container">
                             <div class="wizard-sidebar">
                                 <ol id="steps">
-                                <li class="current" data-step="0"><span>1</span> Personal Info</li>
-                                <li data-step="1"><span>2</span> Address</li>
-                                <li data-step="2"><span>3</span> Documents</li>
-                                <li data-step="3"><span>4</span> Confirmation</li>
+                                <li class="current" data-step="0"><span>1</span> Staff Information</li>
+                                <li data-step="1"><span>2</span> Company Information</li>
+                                <li data-step="2"><span>3</span> Branch</li>
+                                <li data-step="3"><span>4</span> Unit</li>
+                                <li data-step="3"><span>5</span> Department</li>
+                                <li data-step="3"><span>6</span> Position</li>
                                 </ol>
                             </div>
                             <div class="wizard-form">
                                 <div class="step current">
-                                    <h4>Step 1: Personal Info</h4>
+                                    <h4>Step 1: Staff Information</h4>
                                     <input type="text" class="form-control mb-3" placeholder="Your Name" />
                                     <input type="email" class="form-control" placeholder="Your Email" />
                                 </div>
                                 <div class="step">
-                                    <h4>Step 2: Address</h4>
+                                    <h4>Step 2: Company Information</h4>
                                     <input type="text" class="form-control mb-3" placeholder="Street" />
                                     <input type="text" class="form-control" placeholder="City" />
                                 </div>
                                 <div class="step">
-                                    <h4>Step 3: Documents</h4>
+                                    <h4>Step 3: Branch</h4>
                                     <input type="file" class="form-control mb-3" />
                                 </div>
                                 <div class="step">
-                                    <h4>Step 4: Confirmation</h4>
-                                    <p>Thank you! Please confirm your information and submit.</p>
+                                    <h4>Step 4: Unit</h4>
+                                    <input type="file" class="form-control mb-3" />
+                                </div>
+                                <div class="step">
+                                    <h4>Step 5: Department</h4>
+                                    <input type="file" class="form-control mb-3" />
+                                </div>
+                                <div class="step">
+                                    <h4>Step 6: Position</h4>
+                                    <input type="file" class="form-control mb-3" />
                                 </div>
                                 <div class="form-controls">
                                     <button id="prevBtn" disabled>Previous</button>
@@ -251,7 +279,14 @@
         });
 
         prevBtn.disabled = currentStep === 0;
-        nextBtn.textContent = currentStep === steps.length - 1 ? 'Finish' : 'Next';
+        // nextBtn.textContent = currentStep === steps.length - 1 ? 'Finish' : 'Next';
+        if (currentStep === steps.length - 1) {
+            nextBtn.style.display = 'none';
+        } else {
+            nextBtn.style.display = 'inline-block'; 
+            nextBtn.textContent = 'Next';
+        }
+
         }
 
         nextBtn.addEventListener('click', () => {
