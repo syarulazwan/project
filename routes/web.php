@@ -17,6 +17,7 @@ use App\Http\Controllers\Profile\RequestAccessApproverController;
 use App\Http\Controllers\Administration\Access\Menu\MenuController;
 use App\Http\Controllers\Administration\Access\Role\RoleController;
 use App\Http\Controllers\Administration\Organization\UnitController;
+use App\Http\Controllers\Administration\Profile\MyProfileController;
 use App\Http\Controllers\Administration\Organization\BranchController;
 use App\Http\Controllers\Administration\Organization\CompanyController;
 use App\Http\Controllers\Administration\Organization\JobGradeController;
@@ -142,6 +143,11 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     });
 
     Route::prefix('profile')->group(function () {
+
+        Route::prefix('my-profile')->controller(MyProfileController::class)->group(function () {
+            Route::get('/', 'index')->name('profile.my-profile.index');
+            Route::get('/ajax', 'getUserAjax')->name('profile.my-profile.ajax');
+        });
 
         Route::prefix('request-access-to-document')->group(function () {
             Route::prefix('user')->controller(RequestAccessController::class)->group(function () {
