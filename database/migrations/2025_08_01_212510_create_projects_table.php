@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profile_attachments', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('profile_id');
-            $table->string('file_name');      
-            $table->string('file_path');     
-            $table->string('file_type')->nullable(); 
-            $table->string('description')->nullable();
-            $table->string('category')->nullable(); 
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->enum('status', ['active', 'completed', 'on_hold'])->default('active');
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->unsignedBigInteger('created_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profile_attachments');
+        Schema::dropIfExists('projects');
     }
 };

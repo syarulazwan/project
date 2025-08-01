@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profile_attachments', function (Blueprint $table) {
+        Schema::create('project_locations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('profile_id');
-            $table->string('file_name');      
-            $table->string('file_path');     
-            $table->string('file_type')->nullable(); 
-            $table->string('description')->nullable();
-            $table->string('category')->nullable(); 
+            $table->unsignedBigInteger('project_id');
+            $table->text('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+            $table->string('postcode')->nullable();
+            $table->string('country')->default('Malaysia');
             $table->unsignedBigInteger('created_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profile_attachments');
+        Schema::dropIfExists('project_locations');
     }
 };

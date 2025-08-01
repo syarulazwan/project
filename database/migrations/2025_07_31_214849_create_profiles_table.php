@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('address')->nullable();
             $table->string('marital_status')->nullable();
+            $table->unsignedBigInteger('created_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

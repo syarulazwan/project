@@ -25,6 +25,7 @@ return new class extends Migration
             $table->date('resign_date')->nullable();
             $table->string('employment_status')->default('active'); 
             $table->string('employment_type')->nullable();
+            $table->unsignedBigInteger('created_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
