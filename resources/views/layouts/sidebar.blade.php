@@ -85,11 +85,11 @@
 
 <aside class="app-sidebar sticky" id="sidebar">
     <div class="main-sidebar-header">
-        <a href="index.html" class="header-logo">
-            <img src="../assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
-            <img src="../assets/images/brand-logos/toggle-logo.png" alt="logo" class="toggle-logo">
-            <img src="../assets/images/brand-logos/desktop-white.png" alt="logo" class="desktop-white">
-            <img src="../assets/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
+        <a href="" class="header-logo">
+            <img src="{{ asset('../assets/images/brand-logos/desktop-logo.png') }}" alt="logo" class="desktop-logo">
+            <img src="{{ asset('../assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
+            <img src="{{ asset('../assets/images/brand-logos/desktop-white.png') }}" alt="logo" class="desktop-white">
+            <img src="{{ asset('../assets/images/brand-logos/toggle-white.png') }}" alt="logo" class="toggle-white">
         </a>
     </div>
     <div class="main-sidebar" id="sidebar-scroll">
