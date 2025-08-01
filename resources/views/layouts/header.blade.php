@@ -52,7 +52,7 @@
                             role="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
-                            style="background-color: #410681; border-radius: 6px; font-size: 12px;">
+                            style="background-color: #38487c; border-radius: 6px; font-size: 12px;">
                                 <i class="lang-txt fa fa-check-square-o"></i>
                                 <span class="text-uppercase">{{ $main }}</span>
                             </a>
@@ -83,7 +83,7 @@
 
                         <a class="nav-item">
                             <span class="nav-link d-flex align-items-center justify-content-center px-3 py-2 text-white"
-                                style="background-color: #410681; border-radius: 6px; font-size: 12px;">
+                                style="background-color: #38487c; border-radius: 6px; font-size: 12px;">
                                 <i class="lang-txt fa fa-check-square-o"></i>
                                 <span class="text-uppercase">{{ $main }}</span>
                             </span>
