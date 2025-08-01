@@ -39,7 +39,8 @@ INSERT INTO `menus` (`id`, `idp0`, `idp1`, `idp2`, `idp3`, `name`, `code`, `url`
 (27,22,25,0,0,'General Log','D1420','administration/audit-management/general-log',NULL,NULL,27,NULL,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
 (28,8,0,0,0,'ZARA','C1300','project/zara',NULL,NULL,28,NULL,NULL,'2025-07-24 18:23:51','2025-07-24 18:23:51'),
 (29,8,28,0,0,'Chat','C1310','project/zara/chat',NULL,NULL,29,NULL,NULL,'2025-07-24 18:23:51','2025-07-24 18:23:51'),
-(30,8,28,0,0,'PDF','C1320','project/zara/pdf',NULL,NULL,30,NULL,NULL,'2025-07-24 18:23:51','2025-07-24 18:23:51');
+(30,8,28,0,0,'PDF','C1320','project/zara/pdf',NULL,NULL,30,NULL,NULL,'2025-07-24 18:23:51','2025-07-24 18:23:51'),
+(31,2,0,0,0,'My Profile','B1300','profile/my-profile',NULL,NULL,2,NULL,NULL,'2025-07-24 18:23:51','2025-07-24 18:23:51');
 
 INSERT INTO `permissions` (`id`, `role_id`, `menu_id`, `is_menu`, `read_all`, `read_single`, `add`, `edit`, `delete`, `created_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1,1,1,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
@@ -71,4 +72,5 @@ INSERT INTO `permissions` (`id`, `role_id`, `menu_id`, `is_menu`, `read_all`, `r
 (27,1,27,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
 (28,1,28,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
 (29,1,29,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
-(30,1,30,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03');
+(30,1,30,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
+(31,1,31,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03');
