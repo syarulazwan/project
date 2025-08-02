@@ -93,6 +93,7 @@
                 </div>
             </div>
         </div>
+        <hr>
         <div class="row">
             <div>
                 <h5 class="page-title fw-semibold fs-14 mb-0">Project</h5>
@@ -187,6 +188,7 @@
                 </div>
             </div>
         </div>
+        <hr>
         <div class="row">
             <div>
                 <h5 class="page-title fw-semibold fs-14 mb-0">Administration</h5>
