@@ -10008,7 +10008,8 @@ caption {
   display: none;
 }
 .authentication .authentication-cover {
-  background-image: url("./3-JPJ4IGBC.jpg");
+  background-image: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+  background-color: #38487c;
   background-position: center;
   background-repeat: repeat;
   width: 100%;

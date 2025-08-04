@@ -98,8 +98,8 @@
                 <div class="authentication-cover overflow-hidden">
                     <div class="aunthentication-cover-content d-flex align-items-center justify-content-center">
                         <div>
-                            <a href="index.html"> 
-                                <img src="{{ asset('../assets/images/brand-logos/toggle-white.png') }}" alt="" class="authentication-brand toggle-white img-fluid mb-4"> 
+                            <a href=""> 
+                                <img src="{{ asset('../assets/images/brand-logos/zara1.svg') }}" alt="" class="authentication-brand toggle-white img-fluid mb-4"> 
                             </a> 
                             <h4 class="text-fixed-white mb-2 fw-medium">Welcome Back! <span class="text-secondary text-shadow">Sign In</span></h4>
                             <h6 class="text-fixed-white mb-3 fw-medium">Access Your Account</h6>
