@@ -26,7 +26,7 @@
                         <div class="card-body p-4">
                             <div class="text-center mb-4 bg-primary-transparent rounded border border-primary border-opacity-10 pt-2 position-relative overflow-hidden">
                                 <i class="ri-lock-2-line position-absolute lock-icon-auth"></i>
-                                <img src="../assets/images/authentication/6.png" alt="" class="img-fluid ms-4">
+                                <img src="../assets/images/authentication/image1.png" alt="" class="img-fluid">
                             </div>
                             <div class="mt-3">
                                 @error('error_message')
@@ -111,17 +111,6 @@
                         <h6 class="text-fixed-white mb-3 fw-medium">Create Your Account Now</h6>
                         <p class="text-fixed-white mb-1 op-6">Fill in the details below to get started with your new account.</p>
                         <p class="text-fixed-white op-6 mb-5">Ensure you use a valid email address and create a strong password. Use a mix of letters, numbers, and symbols to protect your account from unauthorized access.</p>
-                        <div class="d-flex mb-1 gap-2 flex-wrap flex-lg-nowrap">
-                            <button class="btn btn-icon rounded-circle btn-sm d-flex align-items-center justify-content-center btn-info">
-                                <i class="ri-twitter-x-line"></i>
-                            </button>
-                            <button class="btn btn-icon rounded-circle btn-sm d-flex align-items-center justify-content-center btn-pink">
-                                <i class="ri-google-line fs-16"></i>
-                            </button>
-                            <button class="btn btn-icon rounded-circle btn-sm d-flex align-items-center justify-content-center btn-primary">
-                                <i class="ri-facebook-line fs-16"></i>
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

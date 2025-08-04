@@ -23,7 +23,7 @@
                             <div class="card-body p-4">
                                 <div class="text-center mb-4 bg-primary-transparent rounded border border-primary border-opacity-10 pt-2 position-relative overflow-hidden">
                                     <i class="ri-lock-2-line position-absolute lock-icon-auth"></i>
-                                    <img src="../assets/images/authentication/6.png" alt="" class="img-fluid ms-4">
+                                    <img src="../assets/images/authentication/image1.png" alt="" class="img-fluid">
                                 </div>
                                 <div class="mt-3">
                                     @error('error_message')
