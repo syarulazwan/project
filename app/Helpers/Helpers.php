@@ -1,5 +1,7 @@
 <?php
 use Carbon\Carbon;
+use App\Models\AccessLog;
+use App\Models\GeneralLog;
 
 if (!function_exists('pr')) {
     function pr($data)
@@ -170,6 +172,64 @@ if (!function_exists('format_date')) {
         } catch (\Exception $e) {
             return $fallback;
         }
+    }
+}
+
+
+function log_access($action = 'login', $userId = null)
+{
+    $userId = $userId ?? auth()->id();
+
+    if ($action === 'login') {
+        AccessLog::create([
+            'user_id'    => $userId,
+            'role_id'    => optional(auth()->user())->role_id,
+            'action'     => 'login',
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+            'login_at'   => now(),
+        ]);
+    }
+
+    if ($action === 'logout') {
+        $latest = AccessLog::where('user_id', $userId)
+            ->where('action', 'login')
+            ->whereNull('logout_at')
+            ->latest()
+            ->first();
+
+        if ($latest) {
+            $latest->update([
+                'logout_at' => now(),
+            ]);
+        } else {
+            AccessLog::create([
+                'user_id'    => $userId,
+                'role_id'    => optional(auth()->user())->role_id,
+                'action'     => 'logout',
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+                'logout_at'  => now(),
+            ]);
+        }
+    }
+}
+
+
+
+if (!function_exists('log_general')) {
+    function log_general($type, $model, $before = null, $after = null)
+    {
+        GeneralLog::create([
+            'log_type'    => $type,
+            'model_type'  => get_class($model),
+            'model_id'    => $model->id,
+            'before'      => $before ? json_encode($before) : null,
+            'after'       => $after ? json_encode($after) : null,
+            'user_id'     => auth()->id(),
+            'ip_address'  => request()->ip(),
+            'user_agent'  => request()->userAgent(),
+        ]);
     }
 }
 

@@ -34,6 +34,8 @@ class LoginService
                 session(['allowed_menu_ids' => $allowedMenuIds]);
             }
 
+            log_access('login', $user->id);
+
             return true;
         }
 
