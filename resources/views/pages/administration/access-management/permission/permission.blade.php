@@ -1,11 +1,14 @@
 @push('styles')
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <style>
     #tablepermission thead th {
     text-align: center !important;
     vertical-align: middle !important;
     text-transform: uppercase;
 }
+
+
 
 </style>
 
@@ -101,6 +104,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
 
         $(document).ready(function () {
@@ -175,6 +179,11 @@
             $('#clearBtn').on('click', function () {
                 $('#role').val('');
                 $('#tablepermission').DataTable().ajax.reload();
+            });
+
+            $('#role').select2({
+                placeholder: "-- Select Role --",
+                width: '100%'
             });
 
         });
