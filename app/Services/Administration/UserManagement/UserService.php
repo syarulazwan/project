@@ -11,5 +11,23 @@ class UserService
 
     }
 
+    public function getUserFilter($data)
+    {
+        $user = User::select(
+                                'id', 
+                                'name', 
+                                'email', 
+                                'status', 
+                                'created_id', 
+                                'created_at', 
+                                'updated_at'
+                            )
+                ->where(array_filter($data))
+                ->get();
+
+        return $user;
+    }
+
+
 
 }

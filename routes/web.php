@@ -68,6 +68,11 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('user')->controller(UserController::class)->group(function () {
                 Route::get('/', 'index')->name('user-management.user.index');
                 Route::get('/ajax', 'getUserAjax')->name('user-management.user.ajax');
+                Route::get('/getRole', 'getRoleUserAjax')->name('user-management.getRole.ajax');
+                Route::get('/getUserRoles/{userId}', 'getUserRoles')->name('user-management.getUserRoles.ajax');
+                Route::post('/assignRoles', 'assignRoles')->name('user-management.assignRoles.ajax');
+
+                
             });
         });
 

@@ -39,12 +39,33 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Filter Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
+                        <div class="row mb-3 align-items-end">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="email" name="email">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="status" class="form-label">Status</label>
+                                    <input type="text" class="form-control" id="status" name="status">
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <div class="d-flex justify-content-end gap-2 mt-3">
+                                    <button type="button" class="btn btn-primary" id="searchBtn" title="Search">
+                                        <i class="fas fa-search"></i> 
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="clearBtn" title="Clear">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -52,11 +73,6 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Basic Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tableuser" class="table table-bordered text-nowrap w-100">
@@ -82,20 +98,31 @@
         </div>
     </div>
 
+    @include('pages.administration.user-management.user.modal.add-modal')
+
 @endsection
 
 @push('scripts')
+    <script>
+        const getUserRolesUrl = "{{ route('user-management.getUserRoles.ajax', ['userId' => '__id__']) }}";
+    </script>
     <script>
 
         $(document).ready(function () {
 
            $('#tableuser').DataTable({
-                responsive: true,
                 lengthMenu: [
                                 [10, 25, 50, -1],
                                 [10, 25, 50, 'All']
                             ],
-                ajax: '{{ route("user-management.user.ajax") }}',
+                ajax: {
+                    url: '{{ route("user-management.user.ajax") }}',
+                    data: function(d) {
+                        d.name = $('#name').val();
+                        d.email = $('#email').val();
+                        d.status = $('#status').val();
+                    }
+                },
                 columns: [
                     { data: 'no' },
                     { data: 'name' },
@@ -128,7 +155,140 @@
                 ]
             });
 
+            $('#searchBtn').on('click', function () {
+                $('#tableuser').DataTable().ajax.reload();
+            });
+
+            $('#clearBtn').on('click', function () {
+                $('#name').val('');
+                $('#email').val('');
+                $('#status').val('');
+                $('#tableuser').DataTable().ajax.reload();
+            });
+
         });
+
+        $(document).ready(function () {
+            let selectedRoles = [];
+
+            $('#exampleModalScrollable3').on('show.bs.modal', function (event) {
+                let button = $(event.relatedTarget);
+                let userId = button.data('id');
+                let url = getUserRolesUrl.replace('__id__', userId);
+
+                $('#user_id').val(userId);
+                selectedRoles = [];
+
+                $('#roleTable tbody').html('');
+                $('#role').html('<option value="">-- Select Role --</option>');
+
+                $.ajax({
+                    url: '{{ route("user-management.getRole.ajax") }}',
+                    method: 'GET',
+                    success: function (roles) {
+                        roles.forEach(function (role) {
+                            $('#role').append(`<option value="${role.id}">${role.name}</option>`);
+                        });
+
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: function (userRoles) {
+                                userRoles.forEach(function (role) {
+                                    selectedRoles.push(String(role.id));
+                                    $('#roleTable tbody').append(`
+                                        <tr data-role-id="${role.id}">
+                                            <td>${role.name}</td>
+                                            <td><button type="button" class="btn btn-danger btn-sm remove-role">Delete</button></td>
+                                        </tr>
+                                    `);
+                                    $('#role option[value="' + role.id + '"]').hide();
+                                });
+                            },
+                            error: function () {
+                                alert('Gagal ambil role user.');
+                            }
+                        });
+                    },
+                    error: function () {
+                        alert('Gagal ambil senarai role.');
+                    }
+                });
+            });
+
+            $('#addRoleBtn').on('click', function () {
+                let selectedOption = $('#role option:selected');
+                let roleId = selectedOption.val();
+                let roleName = selectedOption.text();
+
+                if (!roleId) {
+                    alert('Sila pilih role.');
+                    return;
+                }
+
+                if (selectedRoles.includes(roleId)) {
+                    alert('Role telah ditambah.');
+                    return;
+                }
+
+                selectedRoles.push(roleId);
+                $('#roleTable tbody').append(`
+                    <tr data-role-id="${roleId}">
+                        <td>${roleName}</td>
+                        <td><button type="button" class="btn btn-danger btn-sm remove-role">Delete</button></td>
+                    </tr>
+                `);
+
+                selectedOption.hide();
+                $('#role').val('');
+            });
+
+            $(document).on('click', '.remove-role', function () {
+                let row = $(this).closest('tr');
+                let roleId = row.data('role-id').toString();
+
+                selectedRoles = selectedRoles.filter(id => id !== roleId);
+                $('#role option[value="' + roleId + '"]').show();
+                row.remove();
+            });
+
+            $('#saveBtn').on('click', function (e) {
+                e.preventDefault();
+                let userId = $('#user_id').val();
+
+               $.ajax({
+                    url: '{{ route("user-management.assignRoles.ajax") }}',
+                    method: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        user_id: userId,
+                        roles: selectedRoles
+                    },
+                    success: function (response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berjaya!',
+                            text: response.message,
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#exampleModalScrollable3').modal('hide');
+                        });
+                    },
+                    error: function () {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Gagal!',
+                            text: 'Gagal simpan roles.',
+                            confirmButtonText: 'Cuba Lagi'
+                        });
+                    }
+                });
+
+            });
+        });
+
+
+
 
     </script>
     

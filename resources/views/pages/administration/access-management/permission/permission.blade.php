@@ -42,33 +42,29 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                  <div class="card-body">
-                    <div class="row mb-3 align-items-end">
-                        <!-- Dropdown on the left -->
-                        <div class="col-md-6">
-                            <label for="role" class="form-label">ROLE</label>
-                            <select class="form-select" id="role" name="role">
-                                <option value="">-- Select Role --</option>
-                                @foreach($roles as $role)
-                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Buttons on the right -->
-                        <div class="col-md-6 text-end">
-                            <div class="d-flex justify-content-end gap-2 mt-3">
-                                <button type="button" class="btn btn-primary" id="searchBtn" title="Search">
-                                    <i class="fas fa-search"></i> 
-                                </button>
-                                <button type="button" class="btn btn-danger" id="clearBtn" title="Clear">
-                                    <i class="fas fa-times"></i>
-                                </button>
+                    <div class="card-body">
+                        <div class="row mb-3 align-items-end">
+                            <div class="col-md-6">
+                                <label for="role" class="form-label">ROLE</label>
+                                <select class="form-select" id="role" name="role">
+                                    <option value="">-- Select Role --</option>
+                                    @foreach($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <div class="d-flex justify-content-end gap-2 mt-3">
+                                    <button type="button" class="btn btn-primary" id="searchBtn" title="Search">
+                                        <i class="fas fa-search"></i> 
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="clearBtn" title="Clear">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
                 </div>
             </div>
         </div>
