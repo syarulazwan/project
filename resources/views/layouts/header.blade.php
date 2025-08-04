@@ -5,10 +5,10 @@
             <div class="header-element">
                 <div class="horizontal-logo">
                     <a href="" class="header-logo">
-                        <img src="{{ asset('assets/images/brand-logos/desktop-logo.png') }}" alt="logo" class="desktop-logo">
-                        <img src="{{ asset('assets/images/brand-logos/toggle-logo.png') }}" alt="logo" class="toggle-logo">
-                        <img src="{{ asset('assets/images/brand-logos/desktop-white.png') }}" alt="logo" class="desktop-white">
-                        <img src="{{ asset('assets/images/brand-logos/toggle-white.png') }}" alt="logo" class="toggle-white">
+                        <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="desktop-logo">
+                        <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="toggle-logo">
+                        <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="desktop-white">
+                        <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="toggle-white">
                     </a>
                 </div>
             </div>
