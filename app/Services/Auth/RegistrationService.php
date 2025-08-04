@@ -15,11 +15,13 @@ class RegistrationService
             'name' => $credentials['name'],
             'email' => $credentials['email'],
             'password' => Hash::make($credentials['password']),
+            'status' => 'ACTIVE',
         ]);
 
         UserRole::create([
             'user_id' => $user->id,
             'role_id' => 2,
+            'created_id' => $user->id,
         ]);
                 
         return $user;
