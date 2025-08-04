@@ -10,7 +10,9 @@ class RegistrationService
 {
    public function register(array $credentials): ?string
     {
+        // pr($credentials);
         $user = User::create([
+            'name' => $credentials['name'],
             'email' => $credentials['email'],
             'password' => Hash::make($credentials['password']),
         ]);

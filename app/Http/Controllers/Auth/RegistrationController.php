@@ -32,6 +32,7 @@ class RegistrationController extends Controller
             return redirect()->back()
                 ->withErrors(['error_message' => 'Registration failed'])
                  ->with([
+                    'name_value' => $request->name,
                     'email_value' => $request->email,
                     'password_value' => $request->password,
                     'password_confirmation_value' => $request->password_confirmation,

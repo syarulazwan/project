@@ -22,6 +22,7 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'password_confirmation' => 'required|same:password',
@@ -31,6 +32,7 @@ class RegistrationRequest extends FormRequest
 
     public function messages(){
         return [
+            'name.required' => 'Field Required',
             'email.required' => 'Field Required',
             'email.email' => 'Invalid email format',
             'email.unique' => 'Email already taken',

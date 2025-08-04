@@ -40,6 +40,15 @@
                                 @csrf
                                 <div class="row gy-3">
                                     <div class="col-xl-12 mt-2">
+                                        <label class="form-label text-default" for="name">Name<sup class="fs-12 text-danger">*</sup></label>
+                                        <input class="form-control @error('email') is-invalid @enderror" id="name" placeholder="Enter your name" type="text" name="name" value="{{ old('name', session('name_value')) }}"> 
+                                        <div>
+                                            @error('name')
+                                                <div class="text-danger small">{{ $message }}</div>
+                                            @enderror 
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-12 mt-2">
                                         <label class="form-label text-default" for="signup-email">Email Address<sup class="fs-12 text-danger">*</sup></label>
                                         <input class="form-control signup-email-input @error('email') is-invalid @enderror" id="signup-email" placeholder="Enter your email address" type="email" name="email" value="{{ old('email', session('email_value')) }}"> 
                                         <div>
