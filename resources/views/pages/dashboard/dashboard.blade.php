@@ -37,7 +37,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Profile</p>
-                                <h4 class="fw-semibold mb-2">109</h4>
+                                <h4 class="fw-semibold mb-2">{{ $profile }}</h4>
                                 <div class="">
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Request Access</p>
-                                <h4 class="fw-semibold mb-2">65</h4>
+                                <h4 class="fw-semibold mb-2">{{ $request_access }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -78,7 +78,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Existing Access</p>
-                                <h4 class="fw-semibold mb-2">2,487</h4>
+                                <h4 class="fw-semibold mb-2">{{ $existing_access }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -106,7 +106,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Projects</p>
-                                <h4 class="fw-semibold mb-2">109</h4>
+                                <h4 class="fw-semibold mb-2">{{ $project }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -127,7 +127,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">List Project</p>
-                                <h4 class="fw-semibold mb-2">65</h4>
+                                <h4 class="fw-semibold mb-2">{{ $list_project }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -148,7 +148,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">ZARA chat</p>
-                                <h4 class="fw-semibold mb-2">2,487</h4>
+                                <h4 class="fw-semibold mb-2">{{ $zara_chat }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -169,7 +169,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">ZARA upload</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $zara_upload }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -197,7 +197,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">User</p>
-                                <h4 class="fw-semibold mb-2">109</h4>
+                                <h4 class="fw-semibold mb-2">{{ $user }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -218,7 +218,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Company</p>
-                                <h4 class="fw-semibold mb-2">65</h4>
+                                <h4 class="fw-semibold mb-2">{{ $company }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -239,7 +239,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Branch</p>
-                                <h4 class="fw-semibold mb-2">2,487</h4>
+                                <h4 class="fw-semibold mb-2">{{ $branch }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -260,7 +260,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Department</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $department }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -281,7 +281,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Unit</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $unit }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -302,7 +302,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Job Grade</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $job_grade }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -323,7 +323,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Designation</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $designation }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -344,7 +344,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Role</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $role }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -365,7 +365,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Menu</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $menu }}</h4>
                                 <div class="">
                                     
                                 </div>
@@ -386,7 +386,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Permission</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $permission }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -407,7 +407,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">Access Log</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $access_log }}</h4>
                                 <div class="">
                                    
                                 </div>
@@ -428,7 +428,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="mb-2 fs-14">General Log</p>
-                                <h4 class="fw-semibold mb-2">307</h4>
+                                <h4 class="fw-semibold mb-2">{{ $general_log }}</h4>
                                 <div class="">
                                     
                                 </div>
