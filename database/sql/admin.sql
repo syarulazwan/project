@@ -3,11 +3,13 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `st
 (1,'Admin','admin@gmail.com',NULL,'$2y$12$yoilS4pAUeDxo5phW5d4pObOeoiJ0Y6rPaEVxoVQtqCGYb7HEYiGe',NULL,NULL,NULL,NULL,'2025-07-25 02:24:40','2025-07-25 02:24:40');
 
 INSERT INTO `roles` (`id`, `name`, `created_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1,'Super Admin',1,NULL,NULL,NULL);
+(1,'Super Admin',1,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51'),
+(2,'STAFF',1,NULL,'2025-07-25 02:23:51','2025-07-25 02:23:51');
 
 
 INSERT INTO `user_roles` (`id`, `user_id`, `role_id`, `created_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
-(1,1,1,NULL,NULL,NULL,NULL);
+(1,1,1,NULL,NULL,NULL,NULL),
+(2,1,2,NULL,NULL,NULL,NULL);
 
 INSERT INTO `menus` (`id`, `idp0`, `idp1`, `idp2`, `idp3`, `name`, `code`, `url`, `route`, `icon`, `priority`, `created_id`, `deleted_at`, `created_at`, `updated_at`) VALUES
 (1,0,0,0,0,'Dashboard','A1000','dashboard',NULL,'ri-dashboard-line',1,NULL,NULL,NULL,NULL),
@@ -73,4 +75,5 @@ INSERT INTO `permissions` (`id`, `role_id`, `menu_id`, `is_menu`, `read_all`, `r
 (28,1,28,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
 (29,1,29,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
 (30,1,30,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
-(31,1,31,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03');
+(31,1,31,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03'),
+(32,2,1,1,0,0,0,0,0,1,NULL,'2025-07-25 04:54:03','2025-07-25 04:54:03');
