@@ -10,4 +10,10 @@ class PermissionService
         return Permission::all()->keyBy(fn($p) => $p->role_id . '-' . $p->menu_id);
         
     }
+
+    public function getPermissionsFilter($roleId) {
+
+        return Permission::where('role_id', $roleId)->get()->keyBy(fn($p) => $p->role_id . '-' . $p->menu_id);
+        
+    }
 }

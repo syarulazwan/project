@@ -39,31 +39,45 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Filter Datatable
+                  <div class="card-body">
+                    <div class="row mb-3 align-items-end">
+                        <!-- Dropdown on the left -->
+                        <div class="col-md-6">
+                            <label for="role" class="form-label">ROLE</label>
+                            <select class="form-select" id="role" name="role">
+                                <option value="">-- Select Role --</option>
+                                @foreach($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                    </div> --}}
-                    <div class="card-body">
+
+                        <!-- Buttons on the right -->
+                        <div class="col-md-6 text-end">
+                            <div class="d-flex justify-content-end gap-2 mt-3">
+                                <button type="button" class="btn btn-primary" id="searchBtn" title="Search">
+                                    <i class="fas fa-search"></i> 
+                                </button>
+                                <button type="button" class="btn btn-danger" id="clearBtn" title="Clear">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
+                </div>
+
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Basic Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tablepermission" class="table table-bordered text-nowrap w-100">
                                 <thead>
                                     <tr>
                                         <th>Bil</th>
-                                        <th>Name Role</th>
                                         <th>Name Menu</th>
                                         <th>Is Menu</th>
                                         <th>Read ALL</th>
@@ -93,13 +107,20 @@
 
             $('#tablepermission').DataTable({
 
+                // processing: true,
+                // serverSide: true,
+
                 paging: false,
                 searching: true, 
                 ordering: true, 
-                ajax: '{{ route("access-management.permission.ajax") }}',
+                ajax: {
+                    url: '{{ route("access-management.permission.ajax") }}',
+                    data: function(d) {
+                        d.role_id = $('#role').val();
+                    }
+                },
                 columns: [
                     { data: 'no' },
-                    { data: 'name_role'},
                     { data: 'name_menu'},
                     { data: 'is_menu'},
                     { data: 'read_all'},
@@ -114,6 +135,10 @@
                         targets: 0,
                         className: 'text-center',
                         width: '5%' 
+                    },
+                    {
+                        targets: 2,
+                        className: 'text-center',
                     },
                     {
                         targets: 3,
@@ -138,13 +163,18 @@
                     {
                         targets: 8,
                         className: 'text-center',
-                    },
-                    {
-                        targets: 9,
-                        className: 'text-center',
                         width: '20%' 
                     }
                 ]
+            });
+
+            $('#searchBtn').on('click', function () {
+                $('#tablepermission').DataTable().ajax.reload();
+            });
+
+            $('#clearBtn').on('click', function () {
+                $('#role').val('');
+                $('#tablepermission').DataTable().ajax.reload();
             });
 
         });
