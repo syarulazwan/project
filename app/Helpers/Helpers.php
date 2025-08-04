@@ -1,5 +1,6 @@
 <?php
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\AccessLog;
 use App\Models\GeneralLog;
 
@@ -233,6 +234,12 @@ if (!function_exists('log_general')) {
     }
 }
 
+if (! function_exists('get_user_creator')) {
+    function get_user_creator($userId) {
+        $user = User::find($userId);
+        return $user ? $user->name : '-';
+    }
+}
 
 
 

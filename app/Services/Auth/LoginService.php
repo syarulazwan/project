@@ -20,6 +20,7 @@ class LoginService
             $roleId = $user->roles()->first()->id ?? null;
 
             session([
+                'role_id' => $roleId,
                 'user_roles' => $roles,
                 'main_role' => $roles[0] ?? null,
             ]);

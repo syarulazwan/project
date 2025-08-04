@@ -81,6 +81,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('role')->controller(RoleController::class)->group(function () {
                 Route::get('/', 'index')->name('access-management.role.index');
                 Route::get('/ajax', 'getRoleAjax')->name('access-management.role.ajax');
+                Route::post('/store', 'store')->name('access-management.role.store');
             });
 
             Route::prefix('permission')->controller(PermissionController::class)->group(function () {

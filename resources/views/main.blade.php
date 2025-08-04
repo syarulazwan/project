@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title> Project</title>
     <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="Author" content="Spruko Technologies Private Limited">
 	<meta name="keywords" content="template dashboard, dashboard admin template, admin panel, dashboard admin, bootstrap admin dashboard, bootstrap admin panel, template admin, dashboard, html css, html css js, template css and html, bootstrap 5 admin template, admin dashboard ui, admin, html and css template">
     <link rel="icon" href="{{ asset('assets/images/brand-logos/zara2.svg') }}" type="image/x-icon">
@@ -83,6 +84,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @stack('scripts')
 </body>
 

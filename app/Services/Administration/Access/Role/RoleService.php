@@ -2,6 +2,7 @@
 
 namespace App\Services\Administration\Access\Role;
 use App\Models\Role;
+use Illuminate\Support\Facades\Session;
 
 class RoleService
 {
@@ -28,6 +29,18 @@ class RoleService
 
         return Role::pluck('name', 'id');
         
+    }
+
+    public function CreateRole($data){
+
+        $createdId = Session::get('role_id');
+
+        $role = Role::create([
+                    'name' => $data['name'],
+                    'created_id' => $createdId,
+                ]);
+
+        return $role;
     }
 
 }

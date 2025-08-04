@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Administration\Access\Role;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\Administration\Access\Role\RoleService;
+use App\Http\Requests\Administration\Access\Role\RoleRequest;
 
 class RoleController extends Controller
 {
@@ -31,7 +34,7 @@ class RoleController extends Controller
             $data[] = [
                 'no' => $counter++,
                 'name' => $role->name ?? '-',
-                'created_id' => $role->created_id ?? '-',
+                'created_id' => get_user_creator($role->created_id ?? null),
                 'created_at' => format_date($role->created_at ?? '-'),
                 'updated_at' => format_date($role->updated_at ?? '-'),
                 'action' => '<button class="btn btn-sm btn-primary rounded-circle d-inline-flex justify-content-center align-items-center"
@@ -45,5 +48,30 @@ class RoleController extends Controller
         return response()->json([
             'data' => $data
         ]);
+    }
+
+    public function store(RoleRequest $request){
+
+        $data = $request->validated();
+
+        DB::beginTransaction();
+
+        try {
+
+            $create = $this->roleService->CreateRole($data);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Role created successfully!'], 200);
+            
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            Log::error('Role creation failed: ' . $e->getMessage());
+
+            return response()->json(['message' => 'Role creation failed.'], 500);
+        }
+
     }
 }

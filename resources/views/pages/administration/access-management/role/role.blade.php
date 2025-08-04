@@ -58,6 +58,13 @@
                         </div>
                     </div> --}}
                     <div class="card-body">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalScrollable3">
+                                    Add
+                            </button>
+                        </div>
+                        <br>
                         <div class="table-responsive">
                             <table id="tablerole" class="table table-bordered text-nowrap w-100">
                                 <thead>
@@ -79,6 +86,7 @@
             </div>
         </div>
     </div>
+    @include('pages.administration.access-management.role.modal.add-modal')
 
 @endsection
 
@@ -93,7 +101,7 @@
                                 [10, 25, 50, -1],
                                 [10, 25, 50, 'All']
                             ],
-                ajax: '{{ route("user-management.user.ajax") }}',
+                ajax: '{{ route("access-management.role.ajax") }}',
                 columns: [
                     { data: 'no' },
                     { data: 'name' },
@@ -108,7 +116,11 @@
                         className: 'text-center',
                         width: '5%' 
                     },
-                     {
+                    {
+                        targets: 2,
+                        className: 'text-center',
+                    },
+                    {
                         targets: 3,
                         className: 'text-center',
                     },
@@ -123,6 +135,66 @@
                     }
                 ]
             });
+
+            $('#addRoleForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $('#roleName').removeClass('is-invalid');
+                $('#roleName').next('.invalid-feedback').remove();
+
+                let name = $('#roleName').val();
+
+                $.ajax({
+                    url: '{{ route("access-management.role.store") }}',
+                    method: 'POST',
+                    data: { name: name },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#addRoleForm')[0].reset();
+                            $('#exampleModalScrollable3').modal('hide');
+                            $('#tablerole').DataTable().ajax.reload(null, false);
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+
+                            if (errors.name) {
+                                $('#roleName').addClass('is-invalid');
+
+                                if (!$('#roleName').next('.invalid-feedback').length) {
+                                    $('#roleName').after(`<div class="invalid-feedback">${errors.name[0]}</div>`);
+                                }
+                            }
+                        } else {
+                            let message = 'Something went wrong!';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                message = xhr.responseJSON.message;
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    }
+                });
+            });
+
+
+
 
         });
 
