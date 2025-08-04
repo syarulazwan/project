@@ -58,6 +58,13 @@
                         </div>
                     </div> --}}
                     <div class="card-body">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalScrollable3">
+                                    Add
+                            </button>
+                        </div>
+                        <br>
                         <div class="table-responsive">
                             <table id="tablemenu" class="table table-bordered text-nowrap w-100">
                                 <thead>
@@ -81,6 +88,7 @@
             </div>
         </div>
     </div>
+    @include('pages.administration.access-management.menu.modal.add-modal')
 
 @endsection
 
@@ -128,7 +136,75 @@
                 ]
             });
 
+            $('#addMenuForm').on('submit', function(e) {
+                e.preventDefault();
 
+                $('#addMenuForm input, #addMenuForm select').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                let name = $('#name').val();
+                let code = $('#code').val();
+                let url = $('#url').val();
+                let route = $('#route').val();
+                let icon = $('#icon').val();
+                let priority = $('#priority').val();
+                let parent_id = $('#parent_id').val();
+
+                $.ajax({
+                    url: '{{ route("access-management.menu.store") }}',
+                    method: 'POST',
+                    data: {
+                        name: name,
+                        code: code,
+                        url: url,
+                        route: route,
+                        icon: icon,
+                        priority: priority,
+                        parent_id: parent_id
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#addMenuForm')[0].reset();
+                            $('#exampleModalScrollable3').modal('hide');
+                            location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+
+                            for (let field in errors) {
+                                let input = $(`#${field}`);
+                                input.addClass('is-invalid');
+                                input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                            }
+
+                        } else {
+                            let message = 'Something went wrong!';
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                message = xhr.responseJSON.message;
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    }
+                });
+            });
         });
 
     </script>

@@ -76,6 +76,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('menu')->controller(MenuController::class)->group(function () {
                 Route::get('/', 'index')->name('access-management.menu.index');
                 Route::get('/ajax', 'getMenuAjax')->name('access-management.menu.ajax');
+                Route::post('/store', 'store')->name('access-management.menu.store');
             });
 
             Route::prefix('role')->controller(RoleController::class)->group(function () {

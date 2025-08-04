@@ -2,6 +2,7 @@
 
 namespace App\Services\Administration\Access\Menu;
 use App\Models\Menu;
+use Illuminate\Support\Facades\Session;
 
 class MenuService
 {
@@ -48,6 +49,56 @@ class MenuService
 
         return $tree;
     }
+
+    public function CreateMenu($data)
+    {
+        // pr($data);
+        $createdId = Session::get('role_id');
+
+
+        $idp0 = 0;
+        $idp1 = 0;
+        $idp2 = 0;
+        $idp3 = 0;
+
+        if ($data['parent_id'] != 0) {
+            $parent = Menu::find($data['parent_id']);
+
+            if ($parent) {
+
+                $idp0 = $parent->idp0 ?? 0;
+                $idp1 = $parent->idp1 ?? 0;
+                $idp2 = $parent->idp2 ?? 0;
+
+                if ($idp0 == 0) {
+                    $idp0 = $parent->id;
+                } elseif ($idp1 == 0) {
+                    $idp1 = $parent->id;
+                } elseif ($idp2 == 0) {
+                    $idp2 = $parent->id;
+                } else {
+                    $idp3 = $parent->id;
+                }
+            }
+        }
+
+        $menu = Menu::create([
+            'name'       => $data['name'],
+            'code'       => $data['code'],
+            'url'        => $data['url'],
+            'route'      => $data['route'],
+            'icon'       => $data['icon'],
+            'priority'   => $data['priority'],
+            'idp0'       => $idp0,
+            'idp1'       => $idp1,
+            'idp2'       => $idp2,
+            'idp3'       => $idp3,
+            'created_id' => $createdId,
+        ]);
+
+        return $menu;
+    }
+
 
 
 }

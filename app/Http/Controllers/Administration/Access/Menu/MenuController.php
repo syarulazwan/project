@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Administration\Access\Menu;
 
+use App\Models\Menu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\Administration\Access\Menu\MenuService;
+use App\Http\Requests\Administration\Access\Menu\MenuRequest;
 
 class MenuController extends Controller
 {
@@ -14,10 +18,17 @@ class MenuController extends Controller
 
     }
 
-    public function index(){
+    public function index()
+    {
+        $menus = Menu::orderBy('priority')->get();
+        $tree = buildMenuTree($menus);
 
-        return view('pages/administration/access-management/menu/menu');
+        $data = [
+            'tree' => $tree, 
+            'menus' => $menus 
+        ];
 
+        return view('pages/administration/access-management/menu/menu', $data);
     }
 
     public function getMenuAjax() {
@@ -65,4 +76,29 @@ class MenuController extends Controller
             }
         }
     }
+
+   public function store(MenuRequest $request)
+    {
+        $data = $request->validated();
+        $data['route'] = $request->input('route', null);
+        $data['parent_id'] = $request->input('parent_id', 0); 
+
+        DB::beginTransaction();
+
+        try {
+            $create = $this->menuService->CreateMenu($data);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Menu created successfully!'], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            Log::error('Menu creation failed: ' . $e->getMessage());
+
+            return response()->json(['message' => 'Menu creation failed.'], 500);
+        }
+    }
+
 }
