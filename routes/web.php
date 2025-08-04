@@ -10,6 +10,7 @@ use App\Http\Controllers\Project\DocumentController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Project\MyProjectController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Project\ListProjectController;
 use App\Http\Controllers\Profile\RequestAccessController;
 use App\Http\Controllers\Profile\ExistingAccessController;
@@ -51,11 +52,9 @@ Route::middleware('guest')->group(function () {
 
 });
 
-Route::get('/dashboard', function () {
-
-    return view('pages.dashboard/dashboard');
-
-})->middleware(['auth', 'verified', 'prevent-back-history'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified', 'prevent-back-history'])
+    ->name('dashboard');
 
 Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
