@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\Administration\Access\Role\RoleService;
 use App\Http\Requests\Administration\Access\Role\RoleRequest;
+use App\Http\Requests\Administration\Access\Menu\UpdateRoleRequest;
 
 class RoleController extends Controller
 {
@@ -37,10 +38,16 @@ class RoleController extends Controller
                 'created_id' => get_user_creator($role->created_id ?? null),
                 'created_at' => format_date($role->created_at ?? '-'),
                 'updated_at' => format_date($role->updated_at ?? '-'),
-                'action' => '<button class="btn btn-sm btn-primary rounded-circle d-inline-flex justify-content-center align-items-center"
-                                    style="width: 40px; height: 40px;" title="Lihat">
-                                    <i class="fa fa-eye"></i>
-                            </button>',
+                'action' => ' <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
+                                    style="width: 40px; height: 40px;" 
+                                    title="Update"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateRoleModal"
+                                    data-id="' . $role->id . '" 
+                                    data-name="' . $role->name . '">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            '
             ];
 
         }
@@ -70,7 +77,39 @@ class RoleController extends Controller
 
             Log::error('Role creation failed: ' . $e->getMessage());
 
-            return response()->json(['message' => 'Role creation failed.'], 500);
+            return response()->json([
+                                        'message' => 'Role creation failed.',
+                                        'error' => $e->getMessage()
+                                    ], 500);
+        }
+
+    }
+
+    public function updateRole(UpdateRoleRequest $request){
+
+        $data = $request->validated();
+        $data['id'] = $request->input('id');
+
+        DB::beginTransaction();
+
+        try {
+
+            $create = $this->roleService->UpdateRole($data);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Role created successfully!'], 200);
+            
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            Log::error('Role creation failed: ' . $e->getMessage());
+
+            return response()->json([
+                                        'message' => 'Role creation failed.',
+                                        'error' => $e->getMessage()
+                                    ], 500);
         }
 
     }

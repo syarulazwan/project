@@ -43,4 +43,20 @@ class RoleService
         return $role;
     }
 
+    public function UpdateRole($data){
+
+        $user = Role::find($data['id']);
+
+        if (!$user) {
+            throw new \Exception('Role not found.');
+        }
+
+        $user->update([
+            'name' => $data['role_update'],
+        ]);
+
+        return $user;
+
+    }
+
 }

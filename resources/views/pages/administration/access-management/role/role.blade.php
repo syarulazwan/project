@@ -41,19 +41,6 @@
                 <div class="card custom-card">
                     {{-- <div class="card-header">
                         <div class="card-title">
-                            Filter Datatable
-                        </div>
-                    </div> --}}
-                    <div class="card-body">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
                             Basic Datatable
                         </div>
                     </div> --}}
@@ -87,10 +74,14 @@
         </div>
     </div>
     @include('pages.administration.access-management.role.modal.add-modal')
+    @include('pages.administration.access-management.role.modal.update-modal')
 
 @endsection
 
 @push('scripts')
+    <script>
+        const getUserUrl = "{{ route('access-management.updateRole.ajax', ['userId' => '__id__']) }}";
+    </script>
     <script>
 
         $(document).ready(function () {
@@ -193,8 +184,89 @@
                 });
             });
 
+        });
+
+        $(document).on('click', '[data-bs-target="#updateRoleModal"]', function () {
+            let button = $(this);
+
+            $('#role_update').val(button.data('name'));
+            $('#updateRoleForm').data('user-id', button.data('id'));
+        });
 
 
+        $(document).ready(function () {
+
+            $('#updateRoleForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let userId = $(this).data('user-id');
+
+                let url = getUserUrl.replace('__id__', userId);
+
+                let formData = {
+                    
+                    _token: '{{ csrf_token() }}',
+                    id: userId,
+                    role_update: $('#role_update').val(),
+                };
+
+                 $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#updateRoleForm')[0].reset();
+                            $('#updateRoleModal').modal('hide');
+                            $('#tablerole').DataTable().ajax.reload(null, false);
+                            // location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                           let errors = xhr.responseJSON.errors;
+
+                        for (let field in errors) {
+                            let input = $('#updateUserForm').find(`[name="${field}"]`);
+                            input.addClass('is-invalid');
+                            input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+
+                    }
+                });
+            });
 
         });
 
