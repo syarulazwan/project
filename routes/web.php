@@ -90,6 +90,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
                 Route::get('/ajax', 'getRoleAjax')->name('access-management.role.ajax');
                 Route::post('/store', 'store')->name('access-management.role.store');
                 Route::post('/updateRole/{userId}', 'updateRole')->name('access-management.updateRole.ajax');
+                Route::delete('/deleteRole/{userId}', 'deleteRole')->name('access-management.deleteRole.ajax');
             });
 
             Route::prefix('permission')->controller(PermissionController::class)->group(function () {

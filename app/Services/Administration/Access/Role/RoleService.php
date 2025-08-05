@@ -59,4 +59,17 @@ class RoleService
 
     }
 
+    public function deleteRoleById($userId)
+    {
+        $role = Role::find($userId);
+
+        if (!$role) {
+            throw new \Exception('Role not found.');
+        }
+
+        $role->delete();
+
+        return true;
+    }
+
 }

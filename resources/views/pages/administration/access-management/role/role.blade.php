@@ -81,6 +81,7 @@
 @push('scripts')
     <script>
         const getUserUrl = "{{ route('access-management.updateRole.ajax', ['userId' => '__id__']) }}";
+        const deleteUserUrl = "{{ route('access-management.deleteRole.ajax', ['userId' => '__id__']) }}";
     </script>
     <script>
 
@@ -264,6 +265,55 @@
                             });
                         }
 
+                    }
+                });
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.btn-delete', function () {
+                let userId = $(this).data('id');
+                let url = deleteUserUrl.replace('__id__', userId); 
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action will permanently delete the user!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berjaya!',
+                                    text: response.message,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    $('#tablerole').DataTable().ajax.reload(null, false);
+                                });
+                            },
+                            error: function (xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ralat!',
+                                    text: 'Tidak berjaya memadam pengguna.',
+                                    confirmButtonColor: '#d33'
+                                });
+                            }
+                        });
                     }
                 });
             });

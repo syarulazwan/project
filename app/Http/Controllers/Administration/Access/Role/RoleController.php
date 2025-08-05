@@ -38,14 +38,21 @@ class RoleController extends Controller
                 'created_id' => get_user_creator($role->created_id ?? null),
                 'created_at' => format_date($role->created_at ?? '-'),
                 'updated_at' => format_date($role->updated_at ?? '-'),
-                'action' => ' <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
-                                    style="width: 40px; height: 40px;" 
+                'action' => '   <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
+                                    style="width: 30px; height: 30px;" 
                                     title="Update"
                                     data-bs-toggle="modal" 
                                     data-bs-target="#updateRoleModal"
                                     data-id="' . $role->id . '" 
                                     data-name="' . $role->name . '">
                                     <i class="fa fa-edit"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-danger rounded-circle d-inline-flex justify-content-center align-items-center btn-delete"
+                                    style="width: 30px; height: 30px;" 
+                                    title="Delete"
+                                    data-id="' . $role->id . '">
+                                    <i class="fa fa-trash"></i>
                                 </button>
                             '
             ];
@@ -112,5 +119,28 @@ class RoleController extends Controller
                                     ], 500);
         }
 
+    }
+
+    public function deleteRole($userId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->roleService->deleteRoleById($userId);
+
+            DB::commit();
+
+            return response()->json(['message' => 'User deleted successfully!'], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('User deletion failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'User deletion failed.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 }
