@@ -149,6 +149,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('designation')->controller(DesignationController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.designation.index');
                 Route::get('/ajax', 'getDesignationAjax')->name('organization-management.designation.ajax');
+                Route::post('/store', 'store')->name('organization-management.designation.store');
+                Route::post('/update-designation/{userId}', 'updateDesignation')->name('organization-management.update-designation.ajax');
+                Route::delete('/delete-designation/{userId}', 'deleteDesignation')->name('organization-management.delete-designation.ajax');
             });
 
         });
