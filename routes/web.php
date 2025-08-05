@@ -73,8 +73,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
                 Route::post('/assignRoles', 'assignRoles')->name('user-management.assignRoles.ajax');
                 Route::post('/store', 'store')->name('user-management.store.ajax');
                 Route::post('/updateUser/{userId}', 'updateUser')->name('user-management.updateUser.ajax');
-
-                
+                Route::delete('/deleteUser/{userId}', 'deleteUser')->name('user-management.deleteUser.ajax');
             });
         });
 

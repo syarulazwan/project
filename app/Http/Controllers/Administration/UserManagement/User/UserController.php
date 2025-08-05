@@ -45,7 +45,7 @@ class UserController extends Controller
                 'updated_at' => format_date($user->updated_at ?? '-'),
                 'action' => '
                                 <button class="btn btn-sm btn-primary rounded-circle d-inline-flex justify-content-center align-items-center me-1"
-                                    style="width: 40px; height: 40px;" 
+                                    style="width: 30px; height: 30px;" 
                                     title="Lihat"
                                     data-bs-toggle="modal" 
                                     data-bs-target="#exampleModalScrollable3"
@@ -55,7 +55,7 @@ class UserController extends Controller
                                 </button>
 
                                 <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
-                                    style="width: 40px; height: 40px;" 
+                                    style="width: 30px; height: 30px;" 
                                     title="Update"
                                     data-bs-toggle="modal" 
                                     data-bs-target="#updateUserModal"
@@ -65,8 +65,15 @@ class UserController extends Controller
                                     data-status="' . $user->status . '">
                                     <i class="fa fa-edit"></i>
                                 </button>
-                            '
 
+                                <button class="btn btn-sm btn-danger rounded-circle d-inline-flex justify-content-center align-items-center btn-delete"
+                                    style="width: 30px; height: 30px;" 
+                                    title="Delete"
+                                    data-id="' . $user->id . '">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+
+                            '
             ];
 
         }
@@ -181,6 +188,31 @@ class UserController extends Controller
         }
         
     }
+
+    public function deleteUser($userId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->userService->deleteUserById($userId);
+
+            DB::commit();
+
+            return response()->json(['message' => 'User deleted successfully!'], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('User deletion failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'User deletion failed.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+   
 
     
 }

@@ -63,6 +63,19 @@ class UserService
         return $user;
     }
 
+    public function deleteUserById($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            throw new \Exception('User not found.');
+        }
+
+        $user->delete();
+
+        return true;
+    }
+
 
 
 
