@@ -31,7 +31,7 @@ class ProcessPdfJob implements ShouldQueue
             throw new \Exception("Document not found with ID: {$this->documentId}");
         }
 
-        $pdfPath = storage_path('app/' . $document->file_path);
+        $pdfPath = storage_path('app/private/' . $document->file_path);
 
         if (!file_exists($pdfPath)) {
             throw new \Exception("PDF file not found at: " . $pdfPath);
