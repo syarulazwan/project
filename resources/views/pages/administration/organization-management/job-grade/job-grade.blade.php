@@ -39,25 +39,14 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Filter Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Basic Datatable
+                        <div class="text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addJobGradeModal">
+                                    Add
+                            </button>
                         </div>
-                    </div> --}}
-                    <div class="card-body">
+                        <br>
                         <div class="table-responsive">
                             <table id="tablejobgrade" class="table table-bordered text-nowrap w-100">
                                 <thead>
@@ -83,9 +72,17 @@
         </div>
     </div>
 
+    @include('pages.administration.organization-management.job-grade.modal.add-modal')
+    @include('pages.administration.organization-management.job-grade.modal.update-modal')
+
 @endsection
 
 @push('scripts')
+
+    <script>
+        const getJobGradeUrl = "{{ route('organization-management.update-job-grade.ajax', ['userId' => '__id__']) }}";
+        const deleteJobGradeUrl = "{{ route('organization-management.delete-job-grade.ajax', ['userId' => '__id__']) }}";
+    </script>
     <script>
 
         $(document).ready(function () {
@@ -96,7 +93,7 @@
                                 [10, 25, 50, -1],
                                 [10, 25, 50, 'All']
                             ],
-                ajax: '{{ route("organization-management.unit.ajax") }}',
+                ajax: '{{ route("organization-management.job-grade.ajax") }}',
                 columns: [
                     { data: 'no' },
                     { data: 'name' },
@@ -131,6 +128,237 @@
             });
 
         });
+
+        $(document).ready(function () {
+
+          $('#addJobGradeForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $('#addJobGradeForm input, #addJobGradeForm select').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                let name = $('#name').val();
+                let code = $('#code').val();
+                let level = $('#level').val();
+                let seniority = $('#seniority').val();
+
+                $.ajax({
+                    url: '{{ route("organization-management.job-grade.store") }}',
+                    method: 'POST',
+                    data: {
+                        name: name,
+                        code: code,
+                        level: level,
+                        seniority: seniority,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#addJobGradeForm')[0].reset();
+                            $('#addJobGradeModal').modal('hide');
+                            $('#tablejobgrade').DataTable().ajax.reload(null, false);
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+
+                            for (let field in errors) {
+                                let input = $(`#${field}`);
+                                input.addClass('is-invalid');
+                                input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                            }
+
+                        } else {
+
+                            let message = 'Something went wrong!';
+
+                                if (xhr.responseJSON) {
+
+                                    if (xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    if (xhr.responseJSON.error) {
+                                        message += `\n\nError: ${xhr.responseJSON.error}`;
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops!',
+                                    text: message,
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Close'
+                                });
+                        }
+                    }
+                });
+            });
+        });
+
+        $(document).on('click', '[data-bs-target="#updateJobGradeModal"]', function () {
+            let button = $(this);
+
+
+            $('#name_update').val(button.data('name'));
+            $('#code_update').val(button.data('code'));
+            $('#level_update').val(button.data('level'));
+            $('#seniority_update').val(button.data('seniority'));
+            $('#updateJobGradeForm').data('user-id', button.data('id'));
+
+        });
+
+         $(document).ready(function () {
+
+            $('#updateJobGradeForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let userId = $(this).data('user-id');
+
+                let url = getJobGradeUrl.replace('__id__', userId);
+
+                let formData = {
+                    
+                    _token: '{{ csrf_token() }}',
+                    id: userId,
+                    name_update: $('#name_update').val(),
+                    code_update: $('#code_update').val(),
+                    level_update: $('#level_update').val(),
+                    seniority_update: $('#seniority_update').val(),
+                };
+
+                 $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#updateJobGradeForm')[0].reset();
+                            $('#updateJobGradeModal').modal('hide');
+                            $('#tablejobgrade').DataTable().ajax.reload(null, false);
+                            // location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                           let errors = xhr.responseJSON.errors;
+
+                        for (let field in errors) {
+                            let input = $('#updateJobGradeForm').find(`[name="${field}"]`);
+                            input.addClass('is-invalid');
+                            input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+
+                    }
+                });
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.btn-delete', function () {
+                let userId = $(this).data('id');
+                let url = deleteJobGradeUrl.replace('__id__', userId); 
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action will permanently delete the Job Grade!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berjaya!',
+                                    text: response.message,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    $('#tablejobgrade').DataTable().ajax.reload(null, false);
+                                });
+                            },
+                            error: function (xhr) {
+                                let message = 'Something went wrong!';
+
+                                if (xhr.responseJSON) {
+
+                                    if (xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    if (xhr.responseJSON.error) {
+                                        message += `\n\nError: ${xhr.responseJSON.error}`;
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops!',
+                                    text: message,
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Close'
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+
 
     </script>
     

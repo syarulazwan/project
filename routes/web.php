@@ -141,6 +141,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('job-grade')->controller(JobGradeController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.job-grade.index');
                 Route::get('/ajax', 'getJobGradeAjax')->name('organization-management.job-grade.ajax');
+                Route::post('/store', 'store')->name('organization-management.job-grade.store');
+                Route::post('/update-job-grade/{userId}', 'updateJobGrade')->name('organization-management.update-job-grade.ajax');
+                Route::delete('/delete-job-grade/{userId}', 'deleteJobGrade')->name('organization-management.delete-job-grade.ajax');
             });
 
             Route::prefix('designation')->controller(DesignationController::class)->group(function () {
