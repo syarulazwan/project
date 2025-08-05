@@ -29,6 +29,10 @@ class DocumentController extends Controller
         $file = $request->file('pdf');
         $filename = time() . '_' . $file->getClientOriginalName();
         $path = $file->storeAs('pdfs', $filename);
+        Storage::disk('public')->put(
+            'pdfs/' . $filename,
+            Storage::disk('local')->get('pdfs/' . $filename)
+        );
 
         $doc = Document::create([
             'title' => $file->getClientOriginalName(),
