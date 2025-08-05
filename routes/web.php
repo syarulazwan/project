@@ -133,6 +133,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('unit')->controller(UnitController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.unit.index');
                 Route::get('/ajax', 'getUnitAjax')->name('organization-management.unit.ajax');
+                Route::post('/store', 'store')->name('organization-management.unit.store');
+                Route::post('/updateunit/{userId}', 'updateUnit')->name('organization-management.updateunit.ajax');
+                Route::delete('/deleteunit/{userId}', 'deleteUnit')->name('organization-management.deleteunit.ajax');
             });
 
             Route::prefix('job-grade')->controller(JobGradeController::class)->group(function () {
