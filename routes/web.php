@@ -71,6 +71,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
                 Route::get('/getRole', 'getRoleUserAjax')->name('user-management.getRole.ajax');
                 Route::get('/getUserRoles/{userId}', 'getUserRoles')->name('user-management.getUserRoles.ajax');
                 Route::post('/assignRoles', 'assignRoles')->name('user-management.assignRoles.ajax');
+                Route::post('/store', 'store')->name('user-management.store.ajax');
+                Route::post('/updateUser/{userId}', 'updateUser')->name('user-management.updateUser.ajax');
 
                 
             });

@@ -74,6 +74,13 @@
             <div class="col-xl-12">
                 <div class="card custom-card">
                     <div class="card-body">
+                        <div class="text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addUserModal">
+                                    Add
+                            </button>
+                        </div>
+                        <br>
                         <div class="table-responsive">
                             <table id="tableuser" class="table table-bordered text-nowrap w-100">
                                 <thead>
@@ -99,12 +106,15 @@
     </div>
 
     @include('pages.administration.user-management.user.modal.add-modal')
+    @include('pages.administration.user-management.user.modal.add-user-modal')
+    @include('pages.administration.user-management.user.modal.update-user-modal')
 
 @endsection
 
 @push('scripts')
     <script>
         const getUserRolesUrl = "{{ route('user-management.getUserRoles.ajax', ['userId' => '__id__']) }}";
+        const getUserUrl = "{{ route('user-management.updateUser.ajax', ['userId' => '__id__']) }}";
     </script>
     <script>
 
@@ -286,6 +296,171 @@
 
             });
         });
+
+        $(document).ready(function () {
+         $('#addUserForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $('#addUserForm input, #addUserForm select').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                let name_add = $('#name_add').val();
+                let email_add = $('#email_add').val();
+                let password_add = $('#password_add').val();
+                let status_add = $('#status_add').val();
+
+                $.ajax({
+                    url: '{{ route("user-management.store.ajax") }}',
+                    method: 'POST',
+                    data: {
+                        name_add: name_add,
+                        email_add: email_add,
+                        password_add: password_add,
+                        status_add: status_add,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#addUserForm')[0].reset();
+                            $('#addUserModal').modal('hide');
+                            $('#tableuser').DataTable().ajax.reload(null, false);
+                            // location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                           let errors = xhr.responseJSON.errors;
+
+                        for (let field in errors) {
+                            let input = $('#addUserForm').find(`[name="${field}"]`);
+                            input.addClass('is-invalid');
+                            input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+
+                    }
+                });
+            });
+        });
+
+        $(document).on('click', '[data-bs-target="#updateUserModal"]', function () {
+            let button = $(this);
+
+            $('#name_update').val(button.data('name'));
+            $('#email_update').val(button.data('email'));
+            $('#status_update').val(button.data('status')).trigger('change');
+            $('#updateUserForm').data('user-id', button.data('id'));
+        });
+
+
+        $(document).ready(function () {
+
+            $('#updateUserForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let userId = $(this).data('user-id');
+
+                let url = getUserUrl.replace('__id__', userId);
+
+                let formData = {
+                    
+                    _token: '{{ csrf_token() }}',
+                    id: userId,
+                    name_update: $('#name_update').val(),
+                    email_update: $('#email_update').val(),
+                    status_update: $('#status_update').val()
+                };
+
+                 $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#updateUserForm')[0].reset();
+                            $('#updateUserForm').modal('hide');
+                            $('#tableuser').DataTable().ajax.reload(null, false);
+                            // location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                           let errors = xhr.responseJSON.errors;
+
+                        for (let field in errors) {
+                            let input = $('#updateUserForm').find(`[name="${field}"]`);
+                            input.addClass('is-invalid');
+                            input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+
+                    }
+                });
+            });
+
+        });
+
 
 
 
