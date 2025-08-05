@@ -91,6 +91,11 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="button" id="updateAllBtn" class="btn btn-success">
+                                <i class="fas fa-save"></i> Update All
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -172,7 +177,7 @@
             });
 
             $('#clearBtn').on('click', function () {
-                $('#role').val('');
+                $('#role').val(null).trigger('change');
                 $('#tablepermission').DataTable().ajax.reload();
             });
 
@@ -180,6 +185,177 @@
                 placeholder: "-- Select Role --",
                 width: '100%'
             });
+
+        });
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.update-permission', function () {
+
+                let roleId = $(this).data('role_id');
+                let menuId = $(this).data('menu_id');
+
+                if (!roleId) {
+                    Swal.fire('Warning', 'Please select a role first.', 'warning');
+                    return;
+                }
+
+                let row = $(this).closest('tr');
+
+                let formData = {
+                    role_id: roleId,
+                    menu_id: menuId,
+                    is_menu: row.find('input[type=checkbox]').eq(0).is(':checked') ? 1 : 0,
+                    read_all: row.find('input[type=checkbox]').eq(1).is(':checked') ? 1 : 0,
+                    read_single: row.find('input[type=checkbox]').eq(2).is(':checked') ? 1 : 0,
+                    add: row.find('input[type=checkbox]').eq(3).is(':checked') ? 1 : 0,
+                    edit: row.find('input[type=checkbox]').eq(4).is(':checked') ? 1 : 0,
+                    delete: row.find('input[type=checkbox]').eq(5).is(':checked') ? 1 : 0,
+                };
+
+                let url = '{{ route("access-management.updatePermission.ajax") }}';
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+       
+                            $('#tablepermission').DataTable().ajax.reload(null, false);
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            for (let field in errors) {
+
+                                console.log(`Validation error on ${field}: ${errors[field][0]}`);
+                            }
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    }
+                });
+            });
+
+
+
+        });
+
+         $(document).ready(function () {
+
+            $('#updateAllBtn').on('click', function () {
+
+                let roleId = $('#role').val();
+                if (!roleId) {
+                    Swal.fire('Warning', 'Please select a role first.', 'warning');
+                    return;
+                }
+
+                let permissions = [];
+                $('#tablepermission tbody tr').each(function () {
+                    let row = $(this);
+                    let menuId = row.find('.update-permission').data('menu_id');
+
+                    if (!menuId) return; // skip if no menu_id
+
+                    permissions.push({
+                        role_id: roleId,
+                        menu_id: menuId,
+                        is_menu: row.find('input[type=checkbox]').eq(0).is(':checked') ? 1 : 0,
+                        read_all: row.find('input[type=checkbox]').eq(1).is(':checked') ? 1 : 0,
+                        read_single: row.find('input[type=checkbox]').eq(2).is(':checked') ? 1 : 0,
+                        add: row.find('input[type=checkbox]').eq(3).is(':checked') ? 1 : 0,
+                        edit: row.find('input[type=checkbox]').eq(4).is(':checked') ? 1 : 0,
+                        delete: row.find('input[type=checkbox]').eq(5).is(':checked') ? 1 : 0,
+                    });
+                });
+
+                if (permissions.length === 0) {
+                    Swal.fire('Info', 'No permissions to update.', 'info');
+                    return;
+                }
+
+                let url = '{{ route("access-management.updatePermissionBulk.ajax") }}';
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                   data: {
+                            _token: '{{ csrf_token() }}',
+                            permissions: permissions
+                        },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+       
+                            $('#tablepermission').DataTable().ajax.reload(null, false);
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            for (let field in errors) {
+
+                                console.log(`Validation error on ${field}: ${errors[field][0]}`);
+                            }
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    }
+                });
+            });
+
+
 
         });
 

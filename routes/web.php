@@ -98,6 +98,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('permission')->controller(PermissionController::class)->group(function () {
                 Route::get('/', 'index')->name('access-management.permission.index');
                 Route::get('/ajax', 'getPermissionAjax')->name('access-management.permission.ajax');
+                Route::post('/updatePermission', 'updatePermission')->name('access-management.updatePermission.ajax');
+                Route::post('/updatePermissionBulk', 'updatePermissionBulk')->name('access-management.updatePermissionBulk.ajax');
             });
 
         });
