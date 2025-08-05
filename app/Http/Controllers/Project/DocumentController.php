@@ -42,7 +42,7 @@ class DocumentController extends Controller
 
         ProcessPdfJob::dispatch($doc->id); // Background processing
 
-        return redirect('zara/pdf/')->with('status', 'File uploaded. Processing in background.');
+        return redirect('project/zara/pdf/')->with('status', 'File uploaded. Processing in background.');
     }
 
 
