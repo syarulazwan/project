@@ -63,10 +63,10 @@
                         </td>
                         <td>{{ $doc->created_at->format('d M Y, H:i') }}</td>
                         <td>
-                            <a href="{{ asset('storage/' . $doc->file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <a href="{{ asset('storage/pdfs/' . $doc->file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
                                 <i class="bi bi-eye"></i> View
                             </a>
-                            <a href="{{ asset('storage/' . $doc->file_path) }}" download class="btn btn-sm btn-outline-success">
+                            <a href="{{ asset('storage/pdfs/' . $doc->file_path) }}" download class="btn btn-sm btn-outline-success">
                                 <i class="bi bi-download"></i> Download
                             </a>
                             <form action="{{ route('chatai.pdf.delete', $doc->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this PDF?');">
