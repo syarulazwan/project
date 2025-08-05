@@ -125,6 +125,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('department')->controller(DepartmentController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.department.index');
                 Route::get('/ajax', 'getDepartmentAjax')->name('organization-management.department.ajax');
+                Route::post('/store', 'store')->name('organization-management.department.store');
+                Route::post('/updatedepartment/{userId}', 'updateDepartment')->name('organization-management.updatedepartment.ajax');
+                Route::delete('/deletedepartment/{userId}', 'deleteDepartment')->name('organization-management.deletedepartment.ajax');
             });
 
             Route::prefix('unit')->controller(UnitController::class)->group(function () {

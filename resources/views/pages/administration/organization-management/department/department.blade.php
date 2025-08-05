@@ -39,25 +39,14 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Filter Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Basic Datatable
+                        <div class="text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addDepartmentModal">
+                                    Add
+                            </button>
                         </div>
-                    </div> --}}
-                    <div class="card-body">
+                        <br>
                         <div class="table-responsive">
                             <table id="tabledepartment" class="table table-bordered text-nowrap w-100">
                                 <thead>
@@ -80,9 +69,17 @@
         </div>
     </div>
 
+    @include('pages.administration.organization-management.department.modal.add-modal')
+    @include('pages.administration.organization-management.department.modal.update-modal')
+
 @endsection
 
 @push('scripts')
+
+    <script>
+        const getDepartmentUrl = "{{ route('organization-management.updatedepartment.ajax', ['userId' => '__id__']) }}";
+        const deleteDepartmentUrl = "{{ route('organization-management.deletedepartment.ajax', ['userId' => '__id__']) }}";
+    </script>
     <script>
 
         $(document).ready(function () {
@@ -125,6 +122,228 @@
             });
 
         });
+
+        $(document).ready(function () {
+
+          $('#addDepartmentForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $('#addDepartmentForm input, #addDepartmentForm select').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                let name = $('#name').val();
+
+                $.ajax({
+                    url: '{{ route("organization-management.department.store") }}',
+                    method: 'POST',
+                    data: {
+                        name: name,
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#addDepartmentForm')[0].reset();
+                            $('#addDepartmentModal').modal('hide');
+                            $('#tabledepartment').DataTable().ajax.reload(null, false);
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+
+                            for (let field in errors) {
+                                let input = $(`#${field}`);
+                                input.addClass('is-invalid');
+                                input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                            }
+
+                        } else {
+
+                            let message = 'Something went wrong!';
+
+                                if (xhr.responseJSON) {
+
+                                    if (xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    if (xhr.responseJSON.error) {
+                                        message += `\n\nError: ${xhr.responseJSON.error}`;
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops!',
+                                    text: message,
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Close'
+                                });
+                        }
+                    }
+                });
+            });
+        });
+
+        $(document).on('click', '[data-bs-target="#updateDepartmentModal"]', function () {
+            let button = $(this);
+
+
+            $('#name_update').val(button.data('name'));
+            $('#updateDepartmentForm').data('user-id', button.data('id'));
+
+        });
+
+        $(document).ready(function () {
+
+            $('#updateDepartmentForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let userId = $(this).data('user-id');
+
+                let url = getDepartmentUrl.replace('__id__', userId);
+
+                let formData = {
+                    
+                    _token: '{{ csrf_token() }}',
+                    id: userId,
+                    name_update: $('#name_update').val(),
+                };
+
+                 $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#updateDepartmentForm')[0].reset();
+                            $('#updateDepartmentModal').modal('hide');
+                            $('#tabledepartment').DataTable().ajax.reload(null, false);
+                            // location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                           let errors = xhr.responseJSON.errors;
+
+                        for (let field in errors) {
+                            let input = $('#updateDepartmentForm').find(`[name="${field}"]`);
+                            input.addClass('is-invalid');
+                            input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+
+                    }
+                });
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.btn-delete', function () {
+                let userId = $(this).data('id');
+                let url = deleteDepartmentUrl.replace('__id__', userId); 
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action will permanently delete the Department!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berjaya!',
+                                    text: response.message,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    $('#tabledepartment').DataTable().ajax.reload(null, false);
+                                });
+                            },
+                            error: function (xhr) {
+                                let message = 'Something went wrong!';
+
+                                if (xhr.responseJSON) {
+
+                                    if (xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    if (xhr.responseJSON.error) {
+                                        message += `\n\nError: ${xhr.responseJSON.error}`;
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops!',
+                                    text: message,
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Close'
+                                });
+                            }
+                        });
+                    }
+                });
+            });
+
+        });
+
+
+
+
 
     </script>
     
