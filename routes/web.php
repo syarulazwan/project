@@ -83,6 +83,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
                 Route::get('/', 'index')->name('access-management.menu.index');
                 Route::get('/ajax', 'getMenuAjax')->name('access-management.menu.ajax');
                 Route::post('/store', 'store')->name('access-management.menu.store');
+                Route::post('/updateMenu/{userId}', 'updateMenu')->name('access-management.updateMenu.ajax');
+                Route::delete('/deleteMenu/{userId}', 'deleteMenu')->name('access-management.deleteMenu.ajax');
             });
 
             Route::prefix('role')->controller(RoleController::class)->group(function () {

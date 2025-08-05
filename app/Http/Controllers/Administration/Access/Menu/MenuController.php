@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Services\Administration\Access\Menu\MenuService;
 use App\Http\Requests\Administration\Access\Menu\MenuRequest;
+use App\Http\Requests\Administration\Access\Menu\UpdateMenuRequest;
 
 class MenuController extends Controller
 {
@@ -42,6 +43,8 @@ class MenuController extends Controller
 
         $this->flattenMenuTree($menuTree, $data, 0, $counter);
 
+        // pr($data);
+
         return response()->json([
             'data' => $data
         ]);
@@ -60,10 +63,29 @@ class MenuController extends Controller
                 'url' => $menu->url ?? '-',
                 'icon' => $menu->icon ?? '-',
                 'priority' => $menu->priority ?? '-',
-                'action' => '<button class="btn btn-sm btn-primary rounded-circle d-inline-flex justify-content-center align-items-center"
-                                    style="width: 40px; height: 40px;" title="Lihat">
-                                    <i class="fa fa-eye"></i>
-                            </button>',
+                 'action' => '   <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
+                                    style="width: 30px; height: 30px;" 
+                                    title="Update"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#updateMenuModal"
+                                    data-id="' . $menu->id . '" 
+                                    data-name="' . $menu->name . '"
+                                    data-code="' . $menu->code . '" 
+                                    data-route="' . $menu->route . '" 
+                                    data-url="' . $menu->url . '" 
+                                    data-icon="' . $menu->icon . '" 
+                                    data-priority="' . $menu->priority . '">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-danger rounded-circle d-inline-flex justify-content-center align-items-center btn-delete"
+                                    style="width: 30px; height: 30px;" 
+                                    title="Delete"
+                                    data-id="' . $menu->id . '" 
+                                    data-name="' . $menu->name . '">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            '
             ];
 
             if (!empty($item['children'])) {
@@ -98,6 +120,59 @@ class MenuController extends Controller
             Log::error('Menu creation failed: ' . $e->getMessage());
 
             return response()->json(['message' => 'Menu creation failed.'], 500);
+        }
+    }
+
+    public function updateMenu(UpdateMenuRequest $request){
+
+        $data = $request->validated();
+        $data['id'] = $request->input('id');
+        $data['route_update'] = $request->input('route_update');
+
+        DB::beginTransaction();
+
+        try {
+
+            $create = $this->menuService->UpdateMenu($data);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Role created successfully!'], 200);
+            
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            Log::error('Role creation failed: ' . $e->getMessage());
+
+            return response()->json([
+                                        'message' => 'Role creation failed.',
+                                        'error' => $e->getMessage()
+                                    ], 500);
+        }
+
+    }
+
+    public function deleteMenu($userId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->menuService->deleteMenuById($userId);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Menu deleted successfully!'], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Menu deletion failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'Menu deletion failed.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

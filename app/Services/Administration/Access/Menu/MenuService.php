@@ -99,6 +99,41 @@ class MenuService
         return $menu;
     }
 
+     public function UpdateMenu($data){
+
+        $menu = Menu::find($data['id']);
+
+        if (!$menu) {
+            throw new \Exception('Role not found.');
+        }
+
+        $menu->update([
+            'name' => $data['name_update'],
+            'code' => $data['code_update'],
+            'route' => $data['route_update'],
+            'url' => $data['url_update'],
+            'icon' => $data['icon_update'],
+            'priority' => $data['priority_update'],
+        ]);
+
+        return $menu;
+
+    }
+
+    public function deleteMenuById($menuId)
+    {
+
+        $menu = Menu::find($menuId);
+
+        if (!$menu) {
+            throw new \Exception('Menu not found.');
+        }
+
+        $menu->delete();
+
+        return true;
+    }
+
 
 
 }
