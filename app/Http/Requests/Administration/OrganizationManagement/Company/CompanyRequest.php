@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Requests\Administration\OrganizationManagement\Company;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class CompanyRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules()
+    {
+        return [
+            'name' => 'required',
+            'email' => 'required',
+            'website' => 'required',
+        ];
+
+    }
+
+    public function messages(){
+        return [
+            'name.required'=> 'Field Required',
+            'email.required'=> 'Field Required',
+            'website.required'=> 'Field Required',
+        ];
+    }
+}

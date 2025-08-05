@@ -109,6 +109,8 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('company')->controller(CompanyController::class)->group(function () {
                 Route::get('/', 'index')->name('organization-management.company.index');
                 Route::get('/ajax', 'getCompanyAjax')->name('organization-management.company.ajax');
+                Route::post('/store', 'store')->name('organization-management.company.store');
+                Route::post('/updateCompany/{userId}', 'updateCompany')->name('organization-management.updateCompany.ajax');
             });
 
             Route::prefix('branch')->controller(BranchController::class)->group(function () {

@@ -39,25 +39,14 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Filter Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Basic Datatable
+                        <div class="text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#addCompanyModal">
+                                    Add
+                            </button>
                         </div>
-                    </div> --}}
-                    <div class="card-body">
+                        <br>
                         <div class="table-responsive">
                             <table id="tablecompany" class="table table-bordered text-nowrap w-100">
                                 <thead>
@@ -82,9 +71,16 @@
         </div>
     </div>
 
+    @include('pages.administration.organization-management.company.modal.add-modal')
+    @include('pages.administration.organization-management.company.modal.update-modal')
+
 @endsection
 
 @push('scripts')
+    <script>
+        const getCompanyUrl = "{{ route('organization-management.updateCompany.ajax', ['userId' => '__id__']) }}";
+        const deleteCompanyUrl = "{{ route('access-management.deleteMenu.ajax', ['userId' => '__id__']) }}";
+    </script>
     <script>
 
         $(document).ready(function () {
@@ -126,6 +122,169 @@
                         width: '20%' 
                     }
                 ]
+            });
+
+        });
+
+        $(document).ready(function () {
+
+          $('#addCompanyForm').on('submit', function(e) {
+                e.preventDefault();
+
+                $('#addCompanyForm input, #addCompanyForm select').removeClass('is-invalid');
+                $('.invalid-feedback').remove();
+
+                let name = $('#name').val();
+                let email = $('#email').val();
+                let website = $('#website').val();
+
+                $.ajax({
+                    url: '{{ route("organization-management.company.store") }}',
+                    method: 'POST',
+                    data: {
+                        name: name,
+                        email: email,
+                        website: website
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#addCompanyForm')[0].reset();
+                            $('#addCompanyModal').modal('hide');
+                            $('#tablecompany').DataTable().ajax.reload(null, false);
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+
+                            for (let field in errors) {
+                                let input = $(`#${field}`);
+                                input.addClass('is-invalid');
+                                input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                            }
+
+                        } else {
+
+                            let message = 'Something went wrong!';
+
+                                if (xhr.responseJSON) {
+
+                                    if (xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    if (xhr.responseJSON.error) {
+                                        message += `\n\nError: ${xhr.responseJSON.error}`;
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops!',
+                                    text: message,
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Close'
+                                });
+                        }
+                    }
+                });
+            });
+        });
+
+        $(document).on('click', '[data-bs-target="#updateCompanyModal"]', function () {
+            let button = $(this);
+
+
+            $('#name_update').val(button.data('name'));
+            $('#email_update').val(button.data('email'));
+            $('#website_update').val(button.data('website'));
+            $('#updateCompanyForm').data('user-id', button.data('id'));
+
+        });
+
+        $(document).ready(function () {
+
+            $('#updateCompanyForm').on('submit', function(e) {
+                e.preventDefault();
+
+                let userId = $(this).data('user-id');
+
+                let url = getCompanyUrl.replace('__id__', userId);
+
+                let formData = {
+                    
+                    _token: '{{ csrf_token() }}',
+                    id: userId,
+                    name_update: $('#name_update').val(),
+                    email_update: $('#email_update').val(),
+                    website_update: $('#website_update').val(),
+                };
+
+                 $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#updateCompanyForm')[0].reset();
+                            $('#updateCompanyModal').modal('hide');
+                            $('#tablecompany').DataTable().ajax.reload(null, false);
+                            // location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                           let errors = xhr.responseJSON.errors;
+
+                        for (let field in errors) {
+                            let input = $('#updateCompanyForm').find(`[name="${field}"]`);
+                            input.addClass('is-invalid');
+                            input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                        }
+
+                        } else {
+                            let message = 'Something went wrong!';
+
+                            if (xhr.responseJSON) {
+
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+
+                    }
+                });
             });
 
         });

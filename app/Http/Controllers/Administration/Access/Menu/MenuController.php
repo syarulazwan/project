@@ -63,7 +63,7 @@ class MenuController extends Controller
                 'url' => $menu->url ?? '-',
                 'icon' => $menu->icon ?? '-',
                 'priority' => $menu->priority ?? '-',
-                 'action' => '   <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
+                'action' => '   <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
                                     style="width: 30px; height: 30px;" 
                                     title="Update"
                                     data-bs-toggle="modal" 

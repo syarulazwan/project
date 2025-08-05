@@ -162,7 +162,7 @@
                         }).then(() => {
                             $('#addMenuForm')[0].reset();
                             $('#exampleModalScrollable3').modal('hide');
-                            location.reload();
+                            $('#tablemenu').DataTable().ajax.reload(null, false);
                         });
                     },
                     error: function(xhr) {
