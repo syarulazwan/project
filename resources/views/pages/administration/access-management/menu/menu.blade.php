@@ -162,7 +162,8 @@
                         }).then(() => {
                             $('#addMenuForm')[0].reset();
                             $('#exampleModalScrollable3').modal('hide');
-                            $('#tablemenu').DataTable().ajax.reload(null, false);
+                            // $('#tablemenu').DataTable().ajax.reload(null, false);
+                            location.reload();
                         });
                     },
                     error: function(xhr) {
@@ -246,8 +247,8 @@
                         }).then(() => {
                             $('#updateMenuForm')[0].reset();
                             $('#updateMenuModal').modal('hide');
-                            $('#tablemenu').DataTable().ajax.reload(null, false);
-                            // location.reload();
+                            // $('#tablemenu').DataTable().ajax.reload(null, false);
+                            location.reload();
                         });
                     },
                     error: function(xhr) {
@@ -320,7 +321,8 @@
                                     confirmButtonColor: '#3085d6',
                                     confirmButtonText: 'OK'
                                 }).then(() => {
-                                    $('#tablemenu').DataTable().ajax.reload(null, false);
+                                    location.reload();
+                                    // $('#tablemenu').DataTable().ajax.reload(null, false);
                                 });
                             },
                             error: function (xhr) {

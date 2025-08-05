@@ -64,53 +64,38 @@ if (!function_exists('mpr')) {
     }
 }
 
-
-// if (!function_exists('buildMenuTree')) {
-//     function buildMenuTree($menus)
-//     {
-//         $indexed = [];
-//         $tree = [];
-
-//         // Index all menus by id for easy access
-//         foreach ($menus as $menu) {
-//             $indexed[$menu->id] = ['menu' => $menu, 'children' => []];
-//         }
-
-//         foreach ($indexed as $id => &$item) {
-//             $menu = $item['menu'] ?? [];
-
-//             if (is_null($menu->idp0)) {
-//                 // Level 1 - root
-//                 $tree[$id] = &$item;
-//             } elseif (!is_null($menu->idp0) && is_null($menu->idp1)) {
-//                 // Level 2
-//                 $indexed[$menu->idp0]['children'][$id] = &$item;
-//             } elseif (!is_null($menu->idp1) && is_null($menu->idp2)) {
-//                 // Level 3
-//                 $indexed[$menu->idp1]['children'][$id] = &$item;
-//             } elseif (!is_null($menu->idp2) && is_null($menu->idp3)) {
-//                 // Level 4
-//                 $indexed[$menu->idp2]['children'][$id] = &$item;
-//             } elseif (!is_null($menu->idp3)) {
-//                 // Level 5
-//                 $indexed[$menu->idp3]['children'][$id] = &$item;
-//             }
-//         }
-
-//         return $tree;
-//     }
-// }
-
 if (!function_exists('buildMenuTree')) {
     function buildMenuTree($menus)
     {
         $indexed = [];
         $tree = [];
 
+        // Step 1: Index semua menu by ID
         foreach ($menus as $menu) {
             $indexed[$menu->id] = ['menu' => $menu, 'children' => []];
         }
 
+        // Step 2: Buang menu yang parent dia tak wujud
+        foreach ($indexed as $id => $item) {
+            $menu = $item['menu'];
+            $valid = true;
+
+            if (!empty($menu->idp0) && !isset($indexed[$menu->idp0])) {
+                $valid = false;
+            } elseif (!empty($menu->idp1) && !isset($indexed[$menu->idp1])) {
+                $valid = false;
+            } elseif (!empty($menu->idp2) && !isset($indexed[$menu->idp2])) {
+                $valid = false;
+            } elseif (!empty($menu->idp3) && !isset($indexed[$menu->idp3])) {
+                $valid = false;
+            }
+
+            if (!$valid) {
+                unset($indexed[$id]);
+            }
+        }
+
+        // Step 3: Bina tree
         foreach ($indexed as $id => &$item) {
             $menu = $item['menu'];
 
@@ -130,6 +115,7 @@ if (!function_exists('buildMenuTree')) {
         return $tree;
     }
 }
+
 
 if (!function_exists('filterMenuTree')) {
     function filterMenuTree($menuTree, $allowedMenuIds)

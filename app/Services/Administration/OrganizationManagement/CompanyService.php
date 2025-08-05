@@ -45,4 +45,19 @@ class CompanyService
         return $company;
 
     }
+
+    public function deleteCompanyById($companyId)
+    {
+
+        $company = Company::find($companyId);
+
+        if (!$company) {
+            throw new \Exception('Company not found.');
+        }
+
+        $company->delete();
+
+        return true;
+    }
+
 }

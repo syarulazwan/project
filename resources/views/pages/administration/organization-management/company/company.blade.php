@@ -79,7 +79,7 @@
 @push('scripts')
     <script>
         const getCompanyUrl = "{{ route('organization-management.updateCompany.ajax', ['userId' => '__id__']) }}";
-        const deleteCompanyUrl = "{{ route('access-management.deleteMenu.ajax', ['userId' => '__id__']) }}";
+        const deleteCompanyUrl = "{{ route('organization-management.deleteCompany.ajax', ['userId' => '__id__']) }}";
     </script>
     <script>
 
@@ -283,6 +283,69 @@
                             });
                         }
 
+                    }
+                });
+            });
+
+        });
+
+        $(document).ready(function () {
+
+            $(document).on('click', '.btn-delete', function () {
+                let userId = $(this).data('id');
+                let url = deleteCompanyUrl.replace('__id__', userId); 
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action will permanently delete the Company!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: {
+                                _token: '{{ csrf_token() }}'
+                            },
+                            success: function (response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berjaya!',
+                                    text: response.message,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK'
+                                }).then(() => {
+                                    $('#tablecompany').DataTable().ajax.reload(null, false);
+                                });
+                            },
+                            error: function (xhr) {
+                                let message = 'Something went wrong!';
+
+                                if (xhr.responseJSON) {
+
+                                    if (xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    if (xhr.responseJSON.error) {
+                                        message += `\n\nError: ${xhr.responseJSON.error}`;
+                                    }
+                                }
+
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops!',
+                                    text: message,
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Close'
+                                });
+                            }
+                        });
                     }
                 });
             });

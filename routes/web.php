@@ -111,6 +111,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
                 Route::get('/ajax', 'getCompanyAjax')->name('organization-management.company.ajax');
                 Route::post('/store', 'store')->name('organization-management.company.store');
                 Route::post('/updateCompany/{userId}', 'updateCompany')->name('organization-management.updateCompany.ajax');
+                Route::delete('/deleteCompany/{userId}', 'deleteCompany')->name('organization-management.deleteCompany.ajax');
             });
 
             Route::prefix('branch')->controller(BranchController::class)->group(function () {

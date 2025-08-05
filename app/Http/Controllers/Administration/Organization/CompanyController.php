@@ -119,4 +119,27 @@ class CompanyController extends Controller
 
         }
     }
+
+    public function deleteCompany($userId)
+    {
+        DB::beginTransaction();
+
+        try {
+            $this->companyService->deleteCompanyById($userId);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Company deleted successfully!'], 200);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            Log::error('Company deletion failed: ' . $e->getMessage());
+
+            return response()->json([
+                'message' => 'Company deletion failed.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
