@@ -59,9 +59,13 @@ class RoleService
 
     }
 
-    public function deleteRoleById($userId)
+    public function deleteRoleById($roleId)
     {
-        $role = Role::find($userId);
+        if (in_array($roleId, [1, 2])) {
+            throw new \Exception('This role cannot be deleted.');
+        }
+
+        $role = Role::find($roleId);
 
         if (!$role) {
             throw new \Exception('Role not found.');

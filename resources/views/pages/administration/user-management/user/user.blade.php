@@ -497,11 +497,26 @@
                                 });
                             },
                             error: function (xhr) {
+                                
+                               let message = 'Something went wrong!';
+
+                                if (xhr.responseJSON) {
+
+                                    if (xhr.responseJSON.message) {
+                                        message = xhr.responseJSON.message;
+                                    }
+
+                                    if (xhr.responseJSON.error) {
+                                        message += `\n\nError: ${xhr.responseJSON.error}`;
+                                    }
+                                }
+
                                 Swal.fire({
                                     icon: 'error',
-                                    title: 'Ralat!',
-                                    text: 'Tidak berjaya memadam pengguna.',
-                                    confirmButtonColor: '#d33'
+                                    title: 'Oops!',
+                                    text: message,
+                                    confirmButtonColor: '#d33',
+                                    confirmButtonText: 'Close'
                                 });
                             }
                         });

@@ -65,6 +65,10 @@ class UserService
 
     public function deleteUserById($userId)
     {
+        if (in_array($userId, [1])) {
+            throw new \Exception('This user cannot be deleted.');
+        }
+
         $user = User::find($userId);
 
         if (!$user) {
