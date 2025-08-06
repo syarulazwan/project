@@ -48,8 +48,7 @@ class OpenAIService
 
     public function rewriteToFriendly(string $text): string
     {
-        $prompt = "Please rewrite the following formal explanation into a friendly, cheerful conversation style suitable for a casual help assistant talking to a user (no emoji/emoticon, no quote or bold or anything) in Bahasa Malaysia. Just plain text. Use a light tone and simple language to make it easier to understand for someone new to the process. Keep it conversational like you're guiding a friend through it step-by-step. Make a text that can be speak less than 1 minute.
-
+        $prompt = "Please rewrite the following formal explanation into a friendly, cheerful conversation style suitable for a casual help assistant talking to a user (no emoji/emoticon, no quote or bold or anything). Just plain text. Use a light tone and simple language to make it easier to understand for someone new to the process. Keep it conversational like you're guiding a friend through it step-by-step. Make a text that can be speak less than 1 minute.
 
 Here is the text: " . $text;
 
