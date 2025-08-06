@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('general_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('log_type'); 
-            $table->string('model_type'); 
-            $table->unsignedBigInteger('model_id'); 
+            $table->string('log_type')->nullable(); 
+            $table->string('model_type')->nullable(); 
+            $table->unsignedBigInteger('model_id')->nullable();  
             $table->json('before')->nullable(); 
             $table->json('after')->nullable();  
             $table->unsignedBigInteger('user_id')->nullable(); 

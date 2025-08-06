@@ -78,6 +78,7 @@ class ListProjectController extends Controller
             $project = $this->projectService->CreateProject($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Project created successfully!'], 200);
 
@@ -106,6 +107,7 @@ class ListProjectController extends Controller
             $project = $this->projectService->UpdateProject($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Project update successfully!'], 200);
 
@@ -131,6 +133,7 @@ class ListProjectController extends Controller
             $this->projectService->deleteProjectById($userId);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Project deleted successfully!'], 200);
 
