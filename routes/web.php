@@ -208,12 +208,15 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
         Route::prefix('my-project')->controller(MyProjectController::class)->group(function () {
             Route::get('/', 'index')->name('project.my-project.index');
-            Route::get('/ajax', 'getUserAjax')->name('project.my-project.ajax');
+            Route::get('/ajax', 'getProjectAjax')->name('project.my-project.ajax');
         });
 
         Route::prefix('list-of-project')->controller(ListProjectController::class)->group(function () {
             Route::get('/', 'index')->name('project.list-project.index');
-            Route::get('/ajax', 'getUserAjax')->name('project.list-project.ajax');
+            Route::get('/ajax', 'getProjectAjax')->name('project.list-project.ajax');
+            Route::post('/store', 'store')->name('project.project.store');
+            Route::post('/update-project/{userId}', 'updateProject')->name('project.update-project.ajax');
+            Route::delete('/delete-project/{userId}', 'deleteProject')->name('project.delete-project.ajax');
         });
 
         Route::prefix('zara')->group(function () {
