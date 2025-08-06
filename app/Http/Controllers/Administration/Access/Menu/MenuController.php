@@ -111,6 +111,7 @@ class MenuController extends Controller
             $create = $this->menuService->CreateMenu($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Menu created successfully!'], 200);
 
@@ -142,6 +143,7 @@ class MenuController extends Controller
         } catch (\Exception $e) {
 
             DB::rollback();
+            flush_log();
 
             Log::error('Role creation failed: ' . $e->getMessage());
 
@@ -161,6 +163,7 @@ class MenuController extends Controller
             $this->menuService->deleteMenuById($userId);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Menu deleted successfully!'], 200);
 

@@ -71,6 +71,7 @@ class DesignationController extends Controller
             $designation = $this->designationService->CreateDesignation($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Designation created successfully!'], 200);
 
@@ -99,6 +100,7 @@ class DesignationController extends Controller
             $designation = $this->designationService->UpdateDesignation($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Designation created successfully!'], 200);
 
@@ -124,6 +126,7 @@ class DesignationController extends Controller
             $this->designationService->deleteDesignationById($userId);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Designation deleted successfully!'], 200);
 

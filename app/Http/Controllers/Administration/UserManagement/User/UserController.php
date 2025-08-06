@@ -121,6 +121,7 @@ class UserController extends Controller
             }
 
             DB::commit();
+            flush_log();
             return response()->json(['message' => 'Roles assigned successfully']);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -141,6 +142,7 @@ class UserController extends Controller
             $create = $this->userService->CreateUser($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'User created successfully!'], 200);
             
@@ -171,6 +173,7 @@ class UserController extends Controller
             $create = $this->userService->UpdateUser($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'User created successfully!'], 200);
             
@@ -197,6 +200,7 @@ class UserController extends Controller
             $this->userService->deleteUserById($userId);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'User deleted successfully!'], 200);
 

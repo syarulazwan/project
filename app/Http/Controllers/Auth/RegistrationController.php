@@ -27,6 +27,7 @@ class RegistrationController extends Controller
     public function store(RegistrationRequest $request)
     {
         $user = $this->registrationService->register($request->validated());
+        flush_log();
 
         if (!$user) {
             return redirect()->back()

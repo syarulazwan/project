@@ -71,6 +71,7 @@ class UnitController extends Controller
             $unit = $this->unitService->CreateUnit($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Unit created successfully!'], 200);
 
@@ -99,6 +100,7 @@ class UnitController extends Controller
             $unit = $this->unitService->UpdateUnit($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Unit created successfully!'], 200);
 
@@ -124,6 +126,7 @@ class UnitController extends Controller
             $this->unitService->deleteUnitById($unit);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Unit deleted successfully!'], 200);
 

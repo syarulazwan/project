@@ -101,6 +101,7 @@ class PermissionController extends Controller
             $create = $this->permissionService->UpdatePermission($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Role created successfully!'], 200);
             
@@ -130,6 +131,7 @@ class PermissionController extends Controller
             }
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'All permissions updated successfully.'], 200);
         } catch (\Exception $e) {

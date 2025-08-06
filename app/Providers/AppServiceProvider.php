@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Menu;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 
@@ -33,28 +33,31 @@ class AppServiceProvider extends ServiceProvider
         });
 
         DB::listen(function ($query) {
-        if (str_contains($query->sql, 'general_logs')) {
-            return;
-        }
+            if (str_contains($query->sql, 'general_logs')) {
+                return;
+            }
 
-        if (!preg_match('/^(insert|update|delete)/i', $query->sql)) {
-            return;
-        }
+            if (!preg_match('/^(insert|update|delete)/i', $query->sql)) {
+                return;
+            }
 
-        collect_log([
-            'log_type' => 'db-query',
-            'model_type' => null,
-            'model_id' => null,
-            'before' => null,
-            'after' => json_encode([
-                'sql' => $query->sql,
-                'bindings' => $query->bindings,
-                'time' => $query->time,
-            ]),
-            'user_id' => Auth::id(),
-            'ip_address' => Request::ip(),
-            'user_agent' => Request::userAgent(),
-        ]);
-    });
+            $logType = strtoupper(strtok($query->sql, ' '));
+
+            preg_match('/\b(?:into|update|from)\s+`?([\w\d_]+)`?/i', $query->sql, $matches);
+            $table = $matches[1] ?? null;
+
+            collect_log([
+                'log_type' => $logType,
+                'table' => $table,
+                'after' => json_encode([
+                    'sql' => $query->sql,
+                    'bindings' => $query->bindings,
+                    'time' => $query->time,
+                ]),
+                'user_id' => Auth::id(),
+                'ip_address' => Request::ip(),
+                'user_agent' => Request::userAgent(),
+            ]);
+        });
     }
 }

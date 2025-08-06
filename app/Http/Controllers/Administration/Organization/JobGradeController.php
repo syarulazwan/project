@@ -77,6 +77,7 @@ class JobGradeController extends Controller
             $jobGrade = $this->jobGradeService->CreateJobGrade($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Job Grade created successfully!'], 200);
 
@@ -105,6 +106,7 @@ class JobGradeController extends Controller
             $jobGrade = $this->jobGradeService->UpdateJobGrade($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Company created successfully!'], 200);
 
@@ -130,6 +132,7 @@ class JobGradeController extends Controller
             $this->jobGradeService->deleteJobGradeById($jobGradeID);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Job Grade deleted successfully!'], 200);
 

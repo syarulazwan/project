@@ -86,6 +86,7 @@ class BranchController extends Controller
         } catch (\Exception $e) {
 
             DB::rollBack();
+            flush_log();
 
             Log::error('Branch creation failed: ' . $e->getMessage());
 
@@ -108,6 +109,7 @@ class BranchController extends Controller
             $branch = $this->branchService->UpdateBranch($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Branch created successfully!'], 200);
 
@@ -133,6 +135,7 @@ class BranchController extends Controller
             $this->branchService->deleteBranchById($branchId);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Branch deleted successfully!'], 200);
 

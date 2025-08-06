@@ -75,6 +75,7 @@ class CompanyController extends Controller
             $company = $this->companyService->CreateCompany($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Company created successfully!'], 200);
 
@@ -103,6 +104,7 @@ class CompanyController extends Controller
             $company = $this->companyService->UpdateCompany($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Company created successfully!'], 200);
 
@@ -128,6 +130,7 @@ class CompanyController extends Controller
             $this->companyService->deleteCompanyById($userId);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Company deleted successfully!'], 200);
 

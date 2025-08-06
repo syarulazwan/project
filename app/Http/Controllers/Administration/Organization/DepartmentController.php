@@ -71,6 +71,7 @@ class DepartmentController extends Controller
             $department = $this->departmentService->CreateDepartment($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Department created successfully!'], 200);
 
@@ -99,6 +100,7 @@ class DepartmentController extends Controller
             $department = $this->departmentService->UpdateDepartment($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Department created successfully!'], 200);
 
@@ -124,6 +126,7 @@ class DepartmentController extends Controller
             $this->departmentService->deleteDepartmentById($userId);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Department deleted successfully!'], 200);
 

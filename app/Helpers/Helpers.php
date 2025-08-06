@@ -230,11 +230,7 @@ if (! function_exists('get_user_creator')) {
 if (! function_exists('collect_log')) {
     function collect_log(array $log)
     {
-        app()->singleton('log_collector', function () {
-            return [];
-        });
-
-        $logs = app('log_collector');
+        $logs = app()->bound('log_collector') ? app('log_collector') : [];
         $logs[] = $log;
         app()->instance('log_collector', $logs);
     }
@@ -243,7 +239,7 @@ if (! function_exists('collect_log')) {
 if (! function_exists('flush_log')) {
     function flush_log()
     {
-        $logs = app('log_collector') ?? [];
+        $logs = app()->bound('log_collector') ? app('log_collector') : [];
 
         foreach ($logs as $log) {
             \App\Models\GeneralLog::create($log);
@@ -252,6 +248,7 @@ if (! function_exists('flush_log')) {
         app()->forgetInstance('log_collector');
     }
 }
+
 
 
 

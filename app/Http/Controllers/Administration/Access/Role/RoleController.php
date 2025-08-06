@@ -75,6 +75,7 @@ class RoleController extends Controller
             $create = $this->roleService->CreateRole($data);
 
             DB::commit();
+            flush_log();
 
             return response()->json(['message' => 'Role created successfully!'], 200);
             
