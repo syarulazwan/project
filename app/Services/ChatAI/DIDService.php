@@ -24,13 +24,23 @@ class DIDService
             'config' => [
                 'fluent' => true,
                 'pad_audio' => 0.5,
+                'driver_expression' => [
+                    'expressions' => [
+                        'start_frame' => 0,
+                        'expression' => 'Happy',
+                        'intensity' => 1,
+                    ]
+                ],
+                'background' => 'original',
             ],
-            'source_url' => 'https://d-id-public-bucket.s3.us-west-2.amazonaws.com/alice.jpg',
+            // 'source_url' => 'https://create-images-results.d-id.com/auth0|6892b5263a9a4fc1bd7c083c/upl_O_TUXPKgnkUkStN-bmsMw/image.jpeg',
+            // 'source_url' => 'https://create-images-results.d-id.com/auth0|6892c7f9d2b5dc282a9cac3f/upl_ll9Y5FhPphyZ0mk2uXgXW/image.jpeg',
+            'source_url' => 'https://create-images-results.d-id.com/auth0|6892c7f9d2b5dc282a9cac3f/upl_SlUFPHzLA9yPQGegyEtGt/image.jpeg',
         ]);
 
         if ($response->successful()) {
-            $data = $response->json(); 
-            return $data['id'] ?? null; 
+            $data = $response->json();
+            return $data['id'] ?? null;
         }
 
         return null;
@@ -47,29 +57,12 @@ class DIDService
         ])->get("https://api.d-id.com/talks/$id");
 
         if ($response->successful()) {
-            $data = $response->json(); 
+            $data = $response->json();
             return $data['result_url'] ?? null;
         }
 
         return null;
     }
-
-    // public function getVideoUrl(string $id): ?string
-    // {
-    //     $apiKey = env('DID_API_KEY');
-
-    //     $response = Http::withHeaders([
-    //         'Authorization' => 'Basic ' . base64_encode($apiKey . ':'),
-    //         'Accept' => 'application/json',
-    //     ])->get("https://api.d-id.com/clips/$id");
-
-    //     if ($response->successful()) {
-    //         $data = $response->json();
-    //         return $data['result_url'] ?? null;
-    //     }
-
-    //     return null;
-    // }
 
     // public function generateVideo(string $text): ?string
     // {
@@ -84,25 +77,42 @@ class DIDService
     //             'input' => $text,
     //             'provider' => [
     //                 'type' => 'microsoft',
-    //                 'voice_id' => 'en-GB-AbbiNeural',
-    //                 'voice_config' => ['style' => 'Excited']
+    //                 'voice_id' => 'en-US-JennyNeural',
+    //                 'voice_config' => ['style' => 'Cheerful'] // Gaya suara ceria
     //             ],
     //             'ssml' => false,
     //         ],
-    //         'presenter_id' => 'amy-Aq6OmGZnMt',
-    //         'driver_id' => 'Vcq0R4a8F0', // Valid expressive driver
-    //         'background' => ["color" => "#c9c9c9"],
+    //         'presenter_id' => 'amy-Aq6OmGZnMt', // Presenter expressive (free)
+    //         'driver_id' => 'Vcq0R4a8F0', // Driver expressive (free)
+    //         'background' => ["color" => "#ffffff"], // Putih bersih
     //         'config' => [
-    //             'resolution' => '1080p', // Half-body framing
+    //             'resolution' => '1080p',
     //             'fluent' => true,
     //             'pad_audio' => 0.4,
     //         ],
     //     ]);
 
-
     //     if ($response->successful()) {
     //         $data = $response->json();
     //         return $data['id'] ?? null;
+    //     }
+
+    //     return null;
+    // }
+
+
+    // public function getVideoUrl(string $id): ?string
+    // {
+    //     $apiKey = env('DID_API_KEY');
+
+    //     $response = Http::withHeaders([
+    //         'Authorization' => 'Basic ' . base64_encode($apiKey . ':'),
+    //         'Accept' => 'application/json',
+    //     ])->get("https://api.d-id.com/clips/{$id}");
+
+    //     if ($response->successful()) {
+    //         $data = $response->json();
+    //         return $data['result_url'] ?? null;
     //     }
 
     //     return null;
