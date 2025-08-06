@@ -35,7 +35,7 @@ class DIDService
             ],
             // 'source_url' => 'https://create-images-results.d-id.com/auth0|6892b5263a9a4fc1bd7c083c/upl_O_TUXPKgnkUkStN-bmsMw/image.jpeg',
             // 'source_url' => 'https://create-images-results.d-id.com/auth0|6892c7f9d2b5dc282a9cac3f/upl_ll9Y5FhPphyZ0mk2uXgXW/image.jpeg',
-            'source_url' => 'https://create-images-results.d-id.com/auth0|6892cbd546680eaebe2e7a05/upl_D5_cJWSSowy7705HavUDP/image.jpeg',
+            'source_url' => 'https://create-images-results.d-id.com/auth0|6892ce05638a9c9a00edb2be/upl_IHnwCsT29ePcc8yVf0XHE/image.jpeg',
         ]);
 
         if ($response->successful()) {
