@@ -29,7 +29,6 @@ class DashboardController extends Controller
 
     //    dd(env('OPENAI_API_KEY'));
 
-        die();
         $data = [
             'profile' => Employee::count(),
             'request_access' => 0,
