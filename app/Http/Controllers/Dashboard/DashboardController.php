@@ -27,7 +27,7 @@ class DashboardController extends Controller
     {
 
 
-       dd(env('OPENAI_API_KEY'));
+    //    dd(env('OPENAI_API_KEY'));
 
         die();
         $data = [
