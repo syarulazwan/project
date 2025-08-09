@@ -202,7 +202,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
             Route::prefix('list-of-documents')->controller(ExistingAccessController::class)->group(function () {
                 Route::get('/', 'index')->name('existing-access.list-of-documents.index');
-                Route::get('/ajax', 'getMenuAjax')->name('existing-access.list-of-documents.ajax');
+                Route::get('/ajax', 'getUserRoleAjax')->name('existing-access.list-of-documents.ajax');
             });
 
         });

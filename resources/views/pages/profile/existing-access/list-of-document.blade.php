@@ -39,32 +39,16 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Filter Datatable
-                        </div>
-                    </div> --}}
-                    <div class="card-body">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Basic Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
                         <div class="table-responsive">
                             <table id="tablerequest" class="table table-bordered text-nowrap w-100">
                                 <thead>
                                     <tr>
-                                        <th>Bil</th>
-                                        <th>Name</th>
-                                        <th>Action</th>
+                                        <th>No</th>
+                                        <th>Name Role</th>
+                                        <th>Created Name</th>
+                                        <th>Created Time</th>
+                                        <th>Updated Time</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -82,49 +66,50 @@
 @push('scripts')
     <script>
 
-        // $(document).ready(function () {
+        $(document).ready(function () {
 
 
-        //    $('#tablemenu').DataTable({
-        //         //responsive: true,
-        //         paging: false,
-        //         searching: true, 
-        //         ordering: true, 
-        //         ajax: '{{ route("access-management.menu.ajax") }}',
-        //         columns: [
-        //             { data: 'no'},
-        //             { data: 'name'},
-        //             { data: 'code'},
-        //             { data: 'route'},
-        //             { data: 'url'},
-        //             { data: 'icon'},
-        //             { data: 'priority'},
-        //             { data: 'action'},
-        //         ],
-        //         columnDefs: [
-        //             {
-        //                 targets: 0,
-        //                 className: 'text-center',
-        //                 width: '5%' 
-        //             },
-        //              {
-        //                 targets: 5,
-        //                 className: 'text-center',
-        //             },
-        //             {
-        //                 targets: 6,
-        //                 className: 'text-center',
-        //             },
-        //             {
-        //                 targets: 7,
-        //                 className: 'text-center',
-        //                 width: '20%' 
-        //             }
-        //         ]
-        //     });
+           $('#tablerequest').DataTable({
+                //responsive: true,
+                paging: false,
+                searching: true, 
+                ordering: true, 
+                ajax: '{{ route("existing-access.list-of-documents.ajax") }}',
+                columns: [
+                    { data: 'no'},
+                    { data: 'role_name'},
+                    { data: 'created_id'},
+                    { data: 'created_at'},
+                    { data: 'updated_at'}
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        className: 'text-center',
+                        width: '5%' 
+                    },
+                    {
+                        targets: 1,
+                        className: 'text-center',
+                    },
+                     {
+                        targets: 2,
+                        className: 'text-center',
+                    },
+                    {
+                        targets: 3,
+                        className: 'text-center',
+                    },
+                    {
+                        targets: 4,
+                        className: 'text-center',
+                        width: '20%' 
+                    }
+                ]
+            });
 
 
-        // });
+        });
 
     </script>
     
