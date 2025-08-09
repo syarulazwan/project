@@ -213,7 +213,12 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
         Route::prefix('my-project')->controller(MyProjectController::class)->group(function () {
             Route::get('/', 'index')->name('project.my-project.index');
-            Route::get('/ajax', 'getProjectAjax')->name('project.my-project.ajax');
+            Route::get('/ajax', 'getMYProjectAjax')->name('project.my-project.ajax');
+
+            Route::get('/{id}', 'show')->name('project.my-project.show');
+            Route::get('/{id}/ajax-member', 'getProjectMemberAjax')->name('project.my-project.list-member.ajax');
+            Route::get('/{id}/ajax-location', 'getProjectLocationAjax')->name('project.my-project.list-location.ajax');
+      
         });
 
         Route::prefix('list-of-project')->controller(ListProjectController::class)->group(function () {

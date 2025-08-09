@@ -1,7 +1,7 @@
 @push('styles')
 
 <style>
-    #tablerequest thead th {
+    #tablemyproject thead th {
         text-align: center !important;
         vertical-align: middle !important;
         text-transform: uppercase;
@@ -36,31 +36,17 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Filter Datatable
-                        </div>
-                    </div> --}}
-                    <div class="card-body">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="card custom-card">
-                    {{-- <div class="card-header">
-                        <div class="card-title">
-                            Basic Datatable
-                        </div>
-                    </div> --}}
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="tablerequest" class="table table-bordered text-nowrap w-100">
+                            <table id="tablemyproject" class="table table-bordered text-nowrap w-100">
                                 <thead>
                                     <tr>
-                                        <th>Bil</th>
+                                        <th>No</th>
+                                        <th>Code</th>
                                         <th>Name</th>
+                                        <th>Status</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -79,49 +65,48 @@
 @push('scripts')
     <script>
 
-        // $(document).ready(function () {
+        $(document).ready(function () {
 
 
-        //    $('#tablemenu').DataTable({
-        //         //responsive: true,
-        //         paging: false,
-        //         searching: true, 
-        //         ordering: true, 
-        //         ajax: '{{ route("access-management.menu.ajax") }}',
-        //         columns: [
-        //             { data: 'no'},
-        //             { data: 'name'},
-        //             { data: 'code'},
-        //             { data: 'route'},
-        //             { data: 'url'},
-        //             { data: 'icon'},
-        //             { data: 'priority'},
-        //             { data: 'action'},
-        //         ],
-        //         columnDefs: [
-        //             {
-        //                 targets: 0,
-        //                 className: 'text-center',
-        //                 width: '5%' 
-        //             },
-        //              {
-        //                 targets: 5,
-        //                 className: 'text-center',
-        //             },
-        //             {
-        //                 targets: 6,
-        //                 className: 'text-center',
-        //             },
-        //             {
-        //                 targets: 7,
-        //                 className: 'text-center',
-        //                 width: '20%' 
-        //             }
-        //         ]
-        //     });
+           $('#tablemyproject').DataTable({
+                //responsive: true,
+                paging: false,
+                searching: true, 
+                ordering: true, 
+                ajax: '{{ route("project.my-project.ajax") }}',
+                columns: [
+                    { data: 'no' },
+                    { data: 'code' },
+                    { data: 'name' },
+                    { data: 'status' },
+                    { data: 'start_date' },
+                    { data: 'end_date' },
+                    { data: 'action' }
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        className: 'text-center',
+                        width: '5%' 
+                    },
+                     {
+                        targets: 4,
+                        className: 'text-center',
+                    },
+                    {
+                        targets: 5,
+                        className: 'text-center',
+                    },
+                    {
+                        targets: 6,
+                        className: 'text-center',
+                        width: '20%' 
+                    }
+                ]
+            });
 
 
-        // });
+        });
 
     </script>
     
