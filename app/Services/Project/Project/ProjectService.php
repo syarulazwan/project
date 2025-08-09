@@ -2,6 +2,8 @@
 
 namespace App\Services\Project\Project;
 use App\Models\Project;
+use App\Models\ProjectMember;
+use App\Models\ProjectLocation;
 use Illuminate\Support\Facades\Session;
 
 class ProjectService
@@ -63,4 +65,23 @@ class ProjectService
 
         return true;
     }
+
+    public function getSingleProject($id){
+
+         return Project::where('id', $id)->first();
+
+    }
+
+    public function getProjectMember($projectId){
+
+        return ProjectMember::where('project_id', $projectId)->get();
+        
+    }
+
+    public function getProjectLocation($projectId){
+
+        return ProjectLocation::where('project_id', $projectId)->get();
+
+    }
+
 }

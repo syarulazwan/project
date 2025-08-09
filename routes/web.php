@@ -222,6 +222,12 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::post('/store', 'store')->name('project.project.store');
             Route::post('/update-project/{userId}', 'updateProject')->name('project.update-project.ajax');
             Route::delete('/delete-project/{userId}', 'deleteProject')->name('project.delete-project.ajax');
+
+            Route::get('/{id}', 'show')->name('project.list-project.show');
+            Route::get('/{id}/ajax-member', 'getProjectMemberAjax')->name('project.list-member.ajax'); 
+            Route::get('/{id}/ajax-location', 'getProjectLocationAjax')->name('project.list-location.ajax'); 
+
+
         });
 
         Route::prefix('zara')->group(function () {

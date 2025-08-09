@@ -38,7 +38,16 @@ class ListProjectController extends Controller
                 'status' => $project->status ?? '-',
                 'start_date' => format_date($project->start_date),
                 'end_date' => format_date($project->end_date),
-                'action' => '   <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
+                'action' => '  
+                                <button class="btn btn-sm btn-info rounded-circle d-inline-flex justify-content-center align-items-center me-1"
+                                    style="width: 30px; height: 30px;"
+                                    title="View"
+                                    data-id="' . $project->id . '"
+                                    onclick="window.location.href=\'' . route('project.list-project.show', $project->id) . '\'">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+
+                                <button class="btn btn-sm btn-warning rounded-circle d-inline-flex justify-content-center align-items-center"
                                     style="width: 30px; height: 30px;" 
                                     title="Update"
                                     data-bs-toggle="modal" 
@@ -147,6 +156,65 @@ class ListProjectController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function show($id)
+    {
+
+        $data['project'] = $this->projectService->getSingleProject($id);
+
+        return view('pages/project/list-project/project', $data);
+
+    }
+
+    public function getProjectMemberAjax(Request $request){
+
+        $projectId = $request->input('project_id');
+
+        $projectMember = $this->projectService->getProjectMember($projectId);
+
+        $data = [];
+        $counter = 1;
+
+        foreach ($projectMember as $projectMember) {
+            $data[] = [
+                'no' => $counter++,
+                'user_id' => $projectMember->user_id ?? '-',
+                'role' => $projectMember->role ?? '-',
+                'joined_date' => format_date($projectMember->joined_date ?? '-'),
+            ];
+        }
+
+        return response()->json([
+            'data' => $data
+        ]);
+
+    }
+
+    public function getProjectLocationAjax(Request $request){
+
+        $projectId = $request->input('project_id');
+
+        $projectLocation = $this->projectService->getProjectLocation($projectId);
+
+        $data = [];
+        $counter = 1;
+
+        foreach ($projectLocation as $projectLocation) {
+            $data[] = [
+                'no' => $counter++,
+                'address' => $projectLocation->address ?? '-',
+                'city' => $projectLocation->city ?? '-',
+                'state' => $projectLocation->state ?? '-',
+                'passcode' => $projectLocation->passcode ?? '-',
+                'country' => $projectLocation->country ?? '-',
+            ];
+        }
+
+        return response()->json([
+            'data' => $data
+        ]);
+
     }
 
 
