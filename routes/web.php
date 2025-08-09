@@ -188,11 +188,12 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
                 Route::get('/ajax', 'getRequestAccessAjax')->name('profile.request-access-to-document.ajax');
                 Route::post('/store', 'store')->name('profile.request-access-to-document.request.store');
                 Route::delete('/delete-request-access/{userId}', 'deleteRequestAccess')->name('profile.delete-request-access.ajax');
+
+                Route::get('/ajax-approver', 'getRequestAccessAppoverAjax')->name('profile.request-access-to-document.approver.ajax');
             });
 
             Route::prefix('approver')->controller(RequestAccessApproverController::class)->group(function () {
                 Route::get('/', 'index')->name('profile.approver.index');
-                Route::get('/ajax', 'getUserAjax')->name('profile.approver.ajax');
             });
 
         });

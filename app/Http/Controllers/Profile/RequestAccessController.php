@@ -53,6 +53,32 @@ class RequestAccessController extends Controller
         ]);
     }
 
+    public function getRequestAccessAppoverAjax()
+    {
+        $accessService = $this->requestAccessService->GetRequestApproverAccess();
+
+        $data = [];
+        $counter = 1;
+
+        foreach ($accessService as $accessService) {
+            $data[] = [
+                'no' => $counter++,
+                'user_name' => $accessService->user_name ?? '-',
+                'request_type' => $accessService->request_type ?? '-',
+                'requested_role_name' => $accessService->requested_role_name ?? '-',
+                'status' => $accessService->status ?? '-',
+                'approved_by' => $accessService->approved_by ?? '-',
+                'approved_at' => format_date($accessService->approved_at ?? '-'),
+                'action' => '  
+                            '
+            ];
+        }
+
+        return response()->json([
+            'data' => $data
+        ]);
+    }
+
     public function store(Request $request)
     {
 

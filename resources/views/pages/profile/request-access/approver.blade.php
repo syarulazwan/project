@@ -62,8 +62,13 @@
                             <table id="tablerequest" class="table table-bordered text-nowrap w-100">
                                 <thead>
                                     <tr>
-                                        <th>Bil</th>
-                                        <th>Name</th>
+                                        <th>No</th>
+                                        <th>User Name</th>
+                                        <th>Request Type</th>
+                                        <th>Request Role Name</th>
+                                        <th>Status</th>
+                                        <th>Approved By</th>
+                                        <th>Approved Time</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -82,49 +87,49 @@
 @push('scripts')
     <script>
 
-        // $(document).ready(function () {
+        $(document).ready(function () {
 
 
-        //    $('#tablemenu').DataTable({
-        //         //responsive: true,
-        //         paging: false,
-        //         searching: true, 
-        //         ordering: true, 
-        //         ajax: '{{ route("access-management.menu.ajax") }}',
-        //         columns: [
-        //             { data: 'no'},
-        //             { data: 'name'},
-        //             { data: 'code'},
-        //             { data: 'route'},
-        //             { data: 'url'},
-        //             { data: 'icon'},
-        //             { data: 'priority'},
-        //             { data: 'action'},
-        //         ],
-        //         columnDefs: [
-        //             {
-        //                 targets: 0,
-        //                 className: 'text-center',
-        //                 width: '5%' 
-        //             },
-        //              {
-        //                 targets: 5,
-        //                 className: 'text-center',
-        //             },
-        //             {
-        //                 targets: 6,
-        //                 className: 'text-center',
-        //             },
-        //             {
-        //                 targets: 7,
-        //                 className: 'text-center',
-        //                 width: '20%' 
-        //             }
-        //         ]
-        //     });
+           $('#tablerequest').DataTable({
+
+                paging: false,
+                searching: true, 
+                ordering: true, 
+                ajax: '{{ route("profile.request-access-to-document.approver.ajax") }}',
+                columns: [
+                    { data: 'no'},
+                    { data: 'user_name'},
+                    { data: 'request_type'},
+                    { data: 'requested_role_name'},
+                    { data: 'status'},
+                    { data: 'approved_by'},
+                    { data: 'approved_at'},
+                    { data: 'action'},
+                ],
+                columnDefs: [
+                    {
+                        targets: 0,
+                        className: 'text-center',
+                        width: '5%' 
+                    },
+                     {
+                        targets: 5,
+                        className: 'text-center',
+                    },
+                    {
+                        targets: 6,
+                        className: 'text-center',
+                    },
+                    {
+                        targets: 7,
+                        className: 'text-center',
+                        width: '20%' 
+                    }
+                ]
+            });
 
 
-        // });
+        });
 
     </script>
     

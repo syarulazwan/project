@@ -18,6 +18,13 @@ class RequestAccessService
             ->get();
     }
 
+    public function GetRequestApproverAccess(){
+
+        return UserRoleRequest::select('user_role_requests.*', 'users.name as user_name', 'users.email')
+            ->join('users', 'user_role_requests.user_id', '=', 'users.id')
+            ->get();
+    }
+
     public function CreateRequestAccess($data)
     {
 
