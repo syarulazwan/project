@@ -98,6 +98,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
             Route::prefix('permission')->controller(PermissionController::class)->group(function () {
                 Route::get('/', 'index')->name('access-management.permission.index');
                 Route::get('/ajax', 'getPermissionAjax')->name('access-management.permission.ajax');
+                Route::get('/ajax-user', 'getPermissionUserAjax')->name('access-management.permission-user.ajax');
                 Route::post('/updatePermission', 'updatePermission')->name('access-management.updatePermission.ajax');
                 Route::post('/updatePermissionBulk', 'updatePermissionBulk')->name('access-management.updatePermissionBulk.ajax');
             });
@@ -184,7 +185,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::prefix('request-access-to-document')->group(function () {
             Route::prefix('user')->controller(RequestAccessController::class)->group(function () {
                 Route::get('/', 'index')->name('profile.request-access-to-document.index');
-                Route::get('/ajax', 'getUserAjax')->name('profile.request-access-to-document.ajax');
+                Route::get('/ajax', 'getRequestAccessAjax')->name('profile.request-access-to-document.ajax');
+                Route::post('/store', 'store')->name('profile.request-access-to-document.request.store');
+                Route::delete('/delete-request-access/{userId}', 'deleteRequestAccess')->name('profile.delete-request-access.ajax');
             });
 
             Route::prefix('approver')->controller(RequestAccessApproverController::class)->group(function () {

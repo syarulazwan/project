@@ -109,7 +109,7 @@
                     </div>
                 </a>
                 <ul class="main-header-dropdown dropdown-menu pt-0 overflow-hidden header-profile-dropdown dropdown-menu-end" aria-labelledby="mainHeaderProfile">
-                    <li><a class="dropdown-item d-flex align-items-center" href="profile.html"><i class="ti ti-user-circle fs-18 me-2 text-gray fw-normal"></i>My Profile</a></li>
+                    <li><a class="dropdown-item d-flex align-items-center" href="{{ route('profile.my-profile.index') }}"><i class="ti ti-user-circle fs-18 me-2 text-gray fw-normal"></i>My Profile</a></li>
                     <li> <hr class="dropdown-divider"> </li>
                     <li><a class="dropdown-item d-flex align-items-center" href="{{ route('page.logout') }}"><i class="ti ti-logout fs-18 me-2 text-gray fw-normal"></i>Logout</a></li>
                 </ul>

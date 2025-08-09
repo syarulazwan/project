@@ -190,7 +190,11 @@
                                             <h4 class="text-fixed-white mb-1">{{ $profile->full_name ?? '' }}</h4>
                                             <p class="mb-1 op-6 fs-15">
                                                 <i class="ri-briefcase-fill lh-1 align-middle me-2 d-inline-block"></i>
-                                                {{ optional(\App\Models\Designation::find($employee->designation_id))->name ?? '' }}
+                                               @if($employee && $employee->designation_id)
+                                                    {{ optional(\App\Models\Designation::find($employee->designation_id))->name ?? '' }}
+                                                @else
+                                                    <span>No designation available</span>
+                                                @endif
                                             </p>
                                             <div class="d-flex gap-3 align-items-center flex-wrap">
                                                 <p class="mb-0 op-6 fs-15">

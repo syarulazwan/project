@@ -82,6 +82,52 @@ class PermissionController extends Controller
         }
     }
 
+    public function getPermissionUserAjax(Request $request)
+    {
+        $roleId = $request->get('role_id');
+        $permissions = $this->permissionService->getPermissionsFilter($roleId);
+        $menuTree = $this->menuService->getMenuTree();
+        $grouped = [];
+        $this->groupedFlattenMenuTreeUser($menuTree, $grouped, $permissions, $roleId);
+
+        $data = [];
+        $counter = 1;
+        foreach ($grouped as $row) {
+            $row['no'] = $counter++;
+            $data[] = $row;
+        }
+
+        return response()->json(['data' => $data]);
+    }
+
+    private function groupedFlattenMenuTreeUser($tree, &$grouped, $permissions, $roleId, $level = 0)
+    {
+        foreach ($tree as $item) {
+            $menu = $item['menu'];
+            $menuId = $menu->id;
+            $key = $roleId . '-' . $menuId;
+            $perm = $permissions[$key] ?? null;
+
+            $grouped[] = [
+                'no' => 0,
+                'name_menu' => str_repeat('— ', $level) . $menu->name,
+                'is_menu' => '<input type="checkbox" ' . ($perm && $perm->is_menu ? 'checked' : '') . '>',
+                'read_all' => '<input type="checkbox" ' . ($perm && $perm->read_all ? 'checked' : '') . '>',
+                'read_single' => '<input type="checkbox" ' . ($perm && $perm->read_single ? 'checked' : '') . '>',
+                'add' => '<input type="checkbox" ' . ($perm && $perm->add ? 'checked' : '') . '>',
+                'edit' => '<input type="checkbox" ' . ($perm && $perm->edit ? 'checked' : '') . '>',
+                'delete' => '<input type="checkbox" ' . ($perm && $perm->delete ? 'checked' : '') . '>',
+                'id_menu' => $menu->id ?? '',
+
+            ];
+
+            if (!empty($item['children'])) {
+                uasort($item['children'], fn($a, $b) => $a['menu']->priority <=> $b['menu']->priority);
+                $this->groupedFlattenMenuTreeUser($item['children'], $grouped, $permissions, $roleId, $level + 1);
+            }
+        }
+    }
+
     public function updatePermission(Request $request){
 
         $data['role_id'] = $request->input('role_id');
