@@ -249,6 +249,50 @@ if (! function_exists('flush_log')) {
     }
 }
 
+if (! function_exists('get_companies')) {
+    function get_companies()
+    {
+        return \App\Models\Company::all();
+    }
+}
+
+if (! function_exists('get_branch')) {
+    function get_branch()
+    {
+        return \App\Models\Branch::all();
+    }
+}
+
+if (! function_exists('get_department')) {
+    function get_department()
+    {
+        return \App\Models\Department::all();
+    }
+}
+
+if (! function_exists('get_unit')) {
+    function get_unit()
+    {
+        return \App\Models\Unit::all();
+    }
+}
+
+if (! function_exists('get_job_grade')) {
+    function get_job_grade()
+    {
+        return \App\Models\JobGrade::all();
+    }
+}
+
+if (! function_exists('get_designation')) {
+    function get_designation()
+    {
+        return \App\Models\Designation::all();
+    }
+}
+
+
+
 
 
 

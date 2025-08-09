@@ -178,6 +178,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
         Route::prefix('my-profile')->controller(MyProfileController::class)->group(function () {
             Route::get('/', 'index')->name('profile.my-profile.index');
             Route::get('/ajax', 'getUserAjax')->name('profile.my-profile.ajax');
+            Route::post('/update-profile/{userId}', 'updateProfile')->name('project.update-profile.ajax');
         });
 
         Route::prefix('request-access-to-document')->group(function () {

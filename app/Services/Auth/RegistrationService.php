@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\Models\User;
+use App\Models\Profile;
 use App\Models\Employee;
 use App\Models\UserRole;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,7 @@ class RegistrationService
             'status' => 'ACTIVE',
         ]);
 
-        UserRole::create([
+        $userRole = UserRole::create([
             'user_id' => $user->id,
             'role_id' => 2,
             'created_id' => $user->id,
@@ -27,7 +28,7 @@ class RegistrationService
 
         $numberStaf = 'STAFF' . str_pad($user->id, 4, '0', STR_PAD_LEFT);
 
-        Employee::create([
+        $employee = Employee::create([
             'user_id' => $user->id,
             'company_id' => null, 
             'branch_id' => null,
@@ -41,6 +42,13 @@ class RegistrationService
             'employment_type' => null,
             'created_id' => $user->id,
         ]);
+
+        $profile = Profile::create([
+            'employee_id' => $employee->id,
+            'full_name' => $credentials['name'],
+        ]);
+
+
                 
         return $user;
     }

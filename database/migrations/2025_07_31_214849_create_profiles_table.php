@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('profiles', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('employee_id')->unique()->nullable();
-            $table->string('full_name');
+            $table->string('full_name')->nullable();;
             $table->string('ic_no')->nullable();
             $table->date('date_of_birth')->nullable();
             $table->enum('gender', ['male', 'female'])->nullable();

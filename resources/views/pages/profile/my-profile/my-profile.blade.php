@@ -187,12 +187,21 @@
                                             <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="" class="img-fluid rounded-circle p-2 bg-success bg-opacity-25 shadow">
                                         </div>
                                         <div>
-                                            <h4 class="text-fixed-white mb-1">Ashwin Seth </h4>
-                                            <p class="mb-1 op-6 fs-15"><i class="ri-briefcase-fill lh-1 align-middle me-2 d-inline-block"></i>Lead Product Designer</p>
+                                            <h4 class="text-fixed-white mb-1">{{ $profile->full_name ?? '' }}</h4>
+                                            <p class="mb-1 op-6 fs-15">
+                                                <i class="ri-briefcase-fill lh-1 align-middle me-2 d-inline-block"></i>
+                                                {{ optional(\App\Models\Designation::find($employee->designation_id))->name ?? '' }}
+                                            </p>
                                             <div class="d-flex gap-3 align-items-center flex-wrap">
-                                                <p class="mb-0 op-6 fs-15"><i class="ri-map-pin-line lh-1 align-middle me-2 d-inline-block"></i>settle, Usa</p>
+                                                <p class="mb-0 op-6 fs-15">
+                                                    <i class="ri-briefcase-line lh-1 align-middle me-2 d-inline-block"></i>
+                                                    {{ $employee->number_staf ?? '' }}
+                                                </p>
                                                 <span class="op-3">|</span>
-                                                <p class="mb-0 op-6 fs-15"><i class="ri-mail-line lh-1 align-middle me-2 d-inline-block"></i>ashwinseth.mail.com</p>
+                                                <p class="mb-0 op-6 fs-15">
+                                                    <i class="ri-mail-line lh-1 align-middle me-2 d-inline-block"></i>
+                                                    {{ $profile->email ?? '' }}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -213,42 +222,38 @@
                                 <li class="current" data-step="0"><span>1</span> Staff Information</li>
                                 <li data-step="1"><span>2</span> Company Information</li>
                                 <li data-step="2"><span>3</span> Branch</li>
-                                <li data-step="3"><span>4</span> Unit</li>
-                                <li data-step="3"><span>5</span> Department</li>
-                                <li data-step="3"><span>6</span> Position</li>
+                                <li data-step="3"><span>4</span> Department</li>
+                                <li data-step="3"><span>5</span> Unit</li>
+                                <li data-step="3"><span>6</span> Job Grade</li>
+                                <li data-step="3"><span>7</span> Designation</li>
                                 </ol>
                             </div>
                             <div class="wizard-form">
-                                <div class="step current">
-                                    <h4>Step 1: Staff Information</h4>
-                                    <input type="text" class="form-control mb-3" placeholder="Your Name" />
-                                    <input type="email" class="form-control" placeholder="Your Email" />
-                                </div>
-                                <div class="step">
-                                    <h4>Step 2: Company Information</h4>
-                                    <input type="text" class="form-control mb-3" placeholder="Street" />
-                                    <input type="text" class="form-control" placeholder="City" />
-                                </div>
-                                <div class="step">
-                                    <h4>Step 3: Branch</h4>
-                                    <input type="file" class="form-control mb-3" />
-                                </div>
-                                <div class="step">
-                                    <h4>Step 4: Unit</h4>
-                                    <input type="file" class="form-control mb-3" />
-                                </div>
-                                <div class="step">
-                                    <h4>Step 5: Department</h4>
-                                    <input type="file" class="form-control mb-3" />
-                                </div>
-                                <div class="step">
-                                    <h4>Step 6: Position</h4>
-                                    <input type="file" class="form-control mb-3" />
-                                </div>
-                                <div class="form-controls">
-                                    <button id="prevBtn" disabled>Previous</button>
-                                    <button id="nextBtn">Next</button>
-                                </div>
+                                    <div class="step current">
+                                        @include('pages.profile.my-profile.step.step-1-staff')
+                                    </div>
+                                    <div class="step">
+                                        @include('pages.profile.my-profile.step.step-2-company')
+                                    </div>
+                                    <div class="step">
+                                        @include('pages.profile.my-profile.step.step-3-branch')
+                                    </div>
+                                    <div class="step">
+                                        @include('pages.profile.my-profile.step.step-4-department')
+                                    </div>
+                                    <div class="step">
+                                        @include('pages.profile.my-profile.step.step-5-unit')
+                                    </div>
+                                    <div class="step">
+                                        @include('pages.profile.my-profile.step.step-6-job-grade')
+                                    </div>
+                                    <div class="step">
+                                        @include('pages.profile.my-profile.step.step-7-designation')
+                                    </div>
+                                    <div class="form-controls">
+                                        <button id="prevBtn" disabled>Previous</button>
+                                        <button id="nextBtn">Next</button>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -260,61 +265,141 @@
 @endsection
 
 @push('scripts')
+
     <script>
+        $(document).ready(function () {
+            
+            const getProfileUrl = "{{ route('project.update-profile.ajax', ['userId' => '__id__']) }}";
 
-        const steps = document.querySelectorAll('.step');
-        const sideSteps = document.querySelectorAll('.wizard-sidebar li');
-        const nextBtn = document.getElementById('nextBtn');
-        const prevBtn = document.getElementById('prevBtn');
+            const steps = document.querySelectorAll('.step');
+            const sideSteps = document.querySelectorAll('.wizard-sidebar li');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
 
-        let currentStep = 0;
+            let currentStep = 0;
 
-        function updateStep() {
-        steps.forEach((step, index) => {
-            step.classList.toggle('current', index === currentStep);
-        });
+            function updateStep() {
+                steps.forEach((step, index) => {
+                    step.classList.toggle('current', index === currentStep);
+                });
 
-        sideSteps.forEach((li, index) => {
-            li.classList.toggle('current', index === currentStep);
-        });
+                sideSteps.forEach((li, index) => {
+                    li.classList.toggle('current', index === currentStep);
+                });
 
-        prevBtn.disabled = currentStep === 0;
-        // nextBtn.textContent = currentStep === steps.length - 1 ? 'Finish' : 'Next';
-        if (currentStep === steps.length - 1) {
-            nextBtn.style.display = 'none';
-        } else {
-            nextBtn.style.display = 'inline-block'; 
-            nextBtn.textContent = 'Next';
-        }
+                prevBtn.disabled = currentStep === 0;
 
-        }
+                nextBtn.textContent = (currentStep === steps.length - 1) ? 'Finish' : 'Next';
+            }
 
-        nextBtn.addEventListener('click', () => {
-        if (currentStep < steps.length - 1) {
-            currentStep++;
+            nextBtn.addEventListener('click', () => {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    updateStep();
+                } else {
+
+                    submitWizard();
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateStep();
+                }
+            });
+
+
+            sideSteps.forEach((li, index) => {
+                li.addEventListener('click', () => {
+                    currentStep = index;
+                    updateStep();
+                });
+            });
+
             updateStep();
-        } else {
-            alert("Form completed!");
-        }
-        });
 
-        prevBtn.addEventListener('click', () => {
-        if (currentStep > 0) {
-            currentStep--;
-            updateStep();
-        }
-        });
+            function submitWizard() {
 
-        sideSteps.forEach((li, index) => {
-        li.addEventListener('click', () => {
-            currentStep = index;
-            updateStep();
-        });
-        });
+                let userId = {{ auth()->id() }};
+                let url = getProfileUrl.replace('__id__', userId);
 
-        updateStep();
+                let formSelectors = {
+                    staff: '#formStaff',
+                    company: '#formCompany',
+                    branch: '#formBranch',
+                    department: '#formDepartment',
+                    unit: '#formUnit',
+                    job_grade: '#formJobGrade',
+                    designation: '#formDesignation'
+                };
 
+                let formData = {};
+
+                for (let key in formSelectors) {
+                    formData[key] = {};
+                    $(formSelectors[key]).serializeArray().forEach(field => {
+                        formData[key][field.name] = field.value;
+                    });
+                }
+
+                // Token & ID
+                formData._token = '{{ csrf_token() }}';
+                formData.id = userId;
+
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success!',
+                            text: response.message,
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            $('#updateCompanyForm')[0].reset();
+                            $('#updateCompanyModal').modal('hide');
+                            $('#tablecompany').DataTable().ajax.reload(null, false);
+                            // location.reload();
+                        });
+                    },
+                    error: function(xhr) {
+                        if (xhr.status === 422) {
+                            let errors = xhr.responseJSON.errors;
+                            for (let field in errors) {
+                                let input = $('#updateCompanyForm').find(`[name="${field}"]`);
+                                input.addClass('is-invalid');
+                                input.after(`<div class="invalid-feedback">${errors[field][0]}</div>`);
+                            }
+                        } else {
+                            let message = 'Something went wrong!';
+                            if (xhr.responseJSON) {
+                                if (xhr.responseJSON.message) {
+                                    message = xhr.responseJSON.message;
+                                }
+                                if (xhr.responseJSON.error) {
+                                    message += `\n\nError: ${xhr.responseJSON.error}`;
+                                }
+                            }
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: message,
+                                confirmButtonColor: '#d33',
+                                confirmButtonText: 'Close'
+                            });
+                        }
+                    }
+                });
+            }
+
+        });
 
     </script>
-    
+
 @endpush
