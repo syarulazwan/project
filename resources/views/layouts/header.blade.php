@@ -6,9 +6,9 @@
                 <div class="horizontal-logo">
                     <a href="" class="header-logo">
                         <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="desktop-logo">
-                        <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="toggle-logo">
+                        <img src="{{ asset('assets/images/brand-logos/zara2.svg') }}" alt="logo" class="toggle-logo">
                         <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="desktop-white">
-                        <img src="{{ asset('assets/images/brand-logos/zara1.svg') }}" alt="logo" class="toggle-white">
+                        <img src="{{ asset('assets/images/brand-logos/zara2.svg') }}" alt="logo" class="toggle-white">
                     </a>
                 </div>
             </div>
