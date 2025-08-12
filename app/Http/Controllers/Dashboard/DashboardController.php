@@ -27,20 +27,9 @@ class DashboardController extends Controller
     {
 
 
-
-       $keys = [
-        'OPENAI_API_KEY',
-        'DID_API_KEY',
-        'DEEPSEEK_API_KEY'
-    ];
-
-    $envValues = [];
-
-    foreach ($keys as $key) {
-        $envValues[$key] = env($key);
-    }
-
-    dd($envValues);
+       //dd(env('OPENAI_API_KEY'));
+       dd(env('DID_API_KEY'));
+       //dd(env('DEEPSEEK_API_KEY'));
 
         $data = [
             'profile' => Employee::count(),
